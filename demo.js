@@ -13,6 +13,7 @@ var config = {
 		},
 		{
 			text: '4',
+			col: 2
 		}
 	],
 	prefix: 'grid',
@@ -26,7 +27,23 @@ function createGrid() {
 	$grid.attr('class', config.prefix + ' fluid');
 	$grid.html('');
 	config.cells.forEach(function(cell, index) {
-		$grid.append('<div class="cell">' + (cell.text || index) + '</div>');
+		var cls = ['cell'];
+		if (cell.col) {
+			cls.push('col-' + cell.col);
+		}
+		if (cell.row) {
+			cls.push('row-' + cell.row);
+		}
+		if (cell.endCol) {
+			cls.push('end-col-' + cell.endCol);
+		}
+		if (cell.endRow) {
+			cls.push('end-row-' + cell.endRow);
+		}
+
+
+
+		$grid.append('<div class="' + cls.join(' ') + '">' + (cell.text || index) + '</div>');
 	});
 }
 
