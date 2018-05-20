@@ -10,13 +10,19 @@ var cssRule = new _.Block({
 	toString: function () {
 		var el = document.createElement('div');
 		var props = this.clone();
+		delete props.selectors;
 		_.mix(el.style, props);
 		var css = el.getAttribute('style') || '';
-		// Add skipped browser specific properties like -ms-grid-row: 1
+		// Add skipped browser specific properties like -ms-grid-row: 1 and doubles like display: gird; display:-ms-grid
 		if (css) {
 			Object.keys(props).forEach(function(key, index) {
+				if (Array.isArray(props[key])) { // doubles
+					props[key].forEach(function(prop) {
+						css += key + ':' + prop + ';'
+					});
+				}
 				if (key[0] != '-') {return;}
-				if (css.indexOf(key+':') < 0) {
+				if (css.indexOf(key+':') < 0) { // browser prefixes
 					css += key + ':' + props[key] +';';
 				}
 			});
@@ -24,6 +30,7 @@ var cssRule = new _.Block({
 		return this.selectors.join(', ') + " {" + css + '}';
 	}
 });
+
 
 var pg = {
 
@@ -93,25 +100,23 @@ var pg = {
 	},
 	// Generate css grid template
 	grid: function (cols, rows) {
-		var css =
-			'display:grid;\
-display:-ms-grid;\
-';
-
+		var rule = cssRule.clone({
+			display: ['grid','-ms-grid'],
+		});
 		if (Array.isArray(cols) && cols.length) {
-			css += '\
-grid-template-columns: ' + cols.join(' ') + ';\
--ms-grid-columns:' + cols.join(' ') + ';\
-';
+			rule.mix({
+				gridTemplateColumns: cols.join(' '),
+				"-ms-grid-columns": cols.join(' ')
+			});
 		}
 
 		if (Array.isArray(rows) && rows.length) {
-			css += '\
-grid-template-rows: '+ rows.join(' ') + ';\
--ms-grid-rows: ' + rows.join(' ') + ';\
-';
+			rule.mix({
+				gridTemplateRows: rows.join(' '),
+				"-ms-grid-rows": rows.join(' ') 
+			});
 		}
-		return css;
+		return rule;
 	},
 
 	// Generate grid css based on config
@@ -119,10 +124,13 @@ grid-template-rows: '+ rows.join(' ') + ';\
 		var html = '';
 		var cls = config.prefix;
 
+		// Create signature
+		html += "/*|=============== " + config.name + " v" + config.version + " " + config.url + " */\r\n\r\n";
+
+
 		// Grid template
-		html += '.' + cls + ' {\
-' + this.grid(config.cols, config.rows) + '\
-}';
+		html += "/* Grid lines template */\r\n" + this.grid(config.cols, config.rows).mix({selectors: ['.'+cls]}).toString() + "\r\n";
+
 
 		// Auto placement
 		html += '/* Auto placement of grid cells based on the order */'  +"\r\n";
@@ -137,6 +145,15 @@ grid-template-rows: '+ rows.join(' ') + ';\
 			rule.selectors[0] = '.' + cls + ' > ' + rule.selectors[0];
 			html += rule.toString() + "\r\n";
 		});
+
+		// Order of layers
+		html += '/* Order of layers */' + "\r\n";
+		config.cells.forEach(function(cell, index) {
+			html += '.' + cls + ' > .order-' + (index + 1) + ' {z-index: ' + (index + 1) +';}' + "\r\n";
+		});
+
+		html += "\r\n/*					=================|*/";
+	
 
 		// Grid cell classes
 		return html;

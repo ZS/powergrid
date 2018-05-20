@@ -1,0 +1,16 @@
+.dialog {
+	position:absolute;
+	background: rgba(50,50,50,0.5);
+	padding:5px;
+	border:1px solid #000;
+	box-shadow:1px 1px 1px #000;
+	border-radius:5px;
+}
+
+.cell {
+	position:relative;
+}
+
+.dialog input, .dialog select, .dialog textarea {
+	background:transparent;
+}

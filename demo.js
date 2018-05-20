@@ -1,19 +1,38 @@
 var config = {
-	cols: ['auto', '1fr' ,'auto'],
-	rows: ['1fr', '1fr' ,'1fr'],
+	name: 'Power Grid',
+	version: '0.1.0',
+	url: 'https://github.com/bblocks/powergrid/',
+	cols: ['minmax(min-content, 1fr)', 'minmax(min-content, 1fr)' ,'minmax(min-content, 1fr)', 'minmax(min-content, 1fr)'],
+	rows: ['minmax(min-content, 1fr)', 'minmax(min-content, 1fr)' ,'minmax(min-content, 1fr)'],
 	cells: [
 		{
-			text: '1'
 		},
 		{
-			text: '2',
 		},
 		{
-			text: '3',
 		},
 		{
-			text: '4',
-			col: 2
+		},
+		{
+			col:1,
+			endCol:4
+		},
+		{
+		},
+		{
+			row:2,
+			endRow:3,
+			order:1
+		},
+		{
+		},
+		{
+		},
+		{
+		},
+		{
+		},
+		{
 		}
 	],
 	prefix: 'grid',
@@ -41,9 +60,11 @@ function createGrid() {
 			cls.push('end-row-' + cell.endRow);
 		}
 
+		if (cell.order) {
+			cls.push('order-' + cell.order);
+		}
 
-
-		$grid.append('<div class="' + cls.join(' ') + '">' + (cell.text || index) + '</div>');
+		$grid.append('<div class="' + cls.join(' ') + '">' + (encodeURIComponent(cell.text || index)) + '</div>');
 	});
 }
 
@@ -55,7 +76,35 @@ function createStyles() {
 	$style.html(css);
 }
 
+
+function cellDialog(element, event) {
+	var $dialog = $('.dialog');
+	var $cell = $(element);
+	function outsideClick() {
+		if ($dialog || $dialog.length) {
+			$dialog.hide({duration: 400, easing: 'swing'});
+		}
+		$(window).off('click', outsideClick);
+	}
+	
+	if (!$dialog.length) { 
+		$dialog = $('<div class="dialog" for="" style="display:none"><p><label>Row<select></select></div>');
+		$dialog.on('click', function(e) {
+			e.stopPropagation();
+		});
+	}
+	$dialog.appendTo(element);
+	$dialog.show({duration: 400, easing: 'swing', done: function() {
+		$(window).on('click', outsideClick);
+	}});
+}
+
 $(function() {
 	createGrid();
 	createStyles();
-})
+
+	$('.cell').on('click', function(event) {
+		cellDialog(this, event);
+	});
+
+});
