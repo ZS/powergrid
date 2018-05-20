@@ -1,0 +1,22 @@
+{
+  "name": "powergrid",
+  "version": "0.1.0",
+  "description": "Powerful grid system with CSS grid layout. Works in all modern browsers and IE11.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bBlocks/powergrid.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bBlocks/powergrid/issues"
+  },
+  "homepage": "https://github.com/bBlocks/powergrid#readme",
+  "devDependencies": {
+    "@bblocks/compose": "^0.1.2"
+  }
+}
