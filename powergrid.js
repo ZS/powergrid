@@ -11,10 +11,17 @@ var cssRule = new _.Block({
 		var el = document.createElement('div');
 		var props = this.clone();
 		_.mix(el.style, props);
-		if (props["-ms-grid-row"] && !el.style["-ms-grid-row"]) {
-			console.log('here', props, el.style);
+		var css = el.getAttribute('style') || '';
+		// Add skipped browser specific properties like -ms-grid-row: 1
+		if (css) {
+			Object.keys(props).forEach(function(key, index) {
+				if (key[0] != '-') {return;}
+				if (css.indexOf(key+':') < 0) {
+					css += key + ':' + props[key] +';';
+				}
+			});
 		}
-		return this.selectors.join(', ') + " {" + (el.getAttribute('style') || '') + '}';
+		return this.selectors.join(', ') + " {" + css + '}';
 	}
 });
 
@@ -59,12 +66,12 @@ var pg = {
 		var styles = [];
 		cols.forEach(function (col, index) {
 
-			styles.push(cssRule.clone(pg.gridCell(index + 1), {selectors: ['.col-' + (index + 1)]}));
-			styles.push(cssRule.clone(pg.gridCell(0,0,index + 1).mix({selectors: ['.end-col-' + (index + 1)]})));
+			styles.push(cssRule.clone(pg.gridCell(index + 1), {selectors: ['.col-' + (index + 1) + ':nth-child(n)']}));
+			styles.push(cssRule.clone(pg.gridCell(0,0,index + 1).mix({selectors: ['.end-col-' + (index + 1) + ':nth-child(n)']})));
 		});
 		rows.forEach(function (row, index) {
-			styles.push(cssRule.clone(pg.gridCell(0,index + 1),{selectors: ['.row-' + (index + 1)]}));
-			styles.push(cssRule.clone(pg.gridCell(0,0,0,index + 1),{selectors: ['.end-row-' + (index + 1)]}));
+			styles.push(cssRule.clone(pg.gridCell(0,index + 1),{selectors: ['.row-' + (index + 1) + ':nth-child(n)']}));
+			styles.push(cssRule.clone(pg.gridCell(0,0,0,index + 1),{selectors: ['.end-row-' + (index + 1) + ':nth-child(n)']}));
 		});	
 		return styles;
 	},
@@ -74,12 +81,12 @@ var pg = {
 		var styles = [];
 		cols.forEach(function (col, index) {
 			if (!index) { return; } // skip 1st column
-			styles.push(cssRule.clone(pg.gridCell(index + 1),{selectors: [':nth-child(' + cols.length + 'n+' + (index + 1)]}));
+			styles.push(cssRule.clone(pg.gridCell(index + 1),{selectors: [':nth-child(' + cols.length + 'n+' + (index + 1)+')']}));
 	 	});
 
 		rows.forEach(function (row, index) {
 			if (!index) { return; } // skip 1st row
-			styles.push(cssRule.clone(pg.gridCell(0, index + 1),{selectors: [':nth-child(n+' + (index * cols.length + 1)]}));
+			styles.push(cssRule.clone(pg.gridCell(0, index + 1),{selectors: [':nth-child(n+' + (index * cols.length + 1)+')']}));
 		});
 
 		return styles;
@@ -118,14 +125,14 @@ grid-template-rows: '+ rows.join(' ') + ';\
 }';
 
 		// Auto placement
-		html += '/* Auto placement of grid cells based on the order */'
+		html += '/* Auto placement of grid cells based on the order */'  +"\r\n";
 		this.gridAuto(config.cols, config.rows).forEach(function(rule) {
 			rule.selectors[0] = '.' + cls + ' > ' + rule.selectors[0];
 			html += rule.toString() + "\r\n";
 		});
 
 		// Explicit placement
-		html += '/* Explicit placement of grid cells */';
+		html += '/* Explicit placement of grid cells */' +"\r\n";
 		this.gridCells(config.cols, config.rows).forEach(function(rule) {
 			rule.selectors[0] = '.' + cls + ' > ' + rule.selectors[0];
 			html += rule.toString() + "\r\n";
