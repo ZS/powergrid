@@ -2,10 +2,11 @@ var config = {
 	name: 'Power Grid',
 	version: '0.1.0',
 	url: 'https://github.com/bblocks/powergrid/',
-	cols: ['minmax(min-content, 1fr)', 'minmax(min-content, 1fr)' ,'minmax(min-content, 1fr)', 'minmax(min-content, 1fr)'],
-	rows: ['minmax(min-content, 1fr)', 'minmax(min-content, 1fr)' ,'minmax(min-content, 1fr)'],
+	cols: ['minmax(max-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content)'],
+	rows: ['minmax(max-content,1fr)', 'minmax(max-content,1fr)', 'minmax(max-content,1fr)'],
 	cells: [
 		{
+			text:'1231231231'
 		},
 		{
 		},
@@ -15,13 +16,13 @@ var config = {
 		},
 		{
 			col:1,
-			endCol:4
+			colSpan:4
 		},
 		{
 		},
 		{
 			row:2,
-			endRow:3,
+			rowSpan:2,
 			order:1
 		},
 		{
@@ -36,9 +37,6 @@ var config = {
 		}
 	],
 	prefix: 'grid',
-	colPrefix: 'col',
-	rowPrefix: 'row',
-	dash: '-'
 };
 
 function createGrid() {
@@ -53,15 +51,23 @@ function createGrid() {
 		if (cell.row) {
 			cls.push('row-' + cell.row);
 		}
-		if (cell.endCol) {
-			cls.push('end-col-' + cell.endCol);
+		if (cell.colSpan) {
+			cls.push('col-span-' + cell.colSpan);
 		}
-		if (cell.endRow) {
-			cls.push('end-row-' + cell.endRow);
+		if (cell.rowSpan) {
+			cls.push('row-span-' + cell.rowSpan);
 		}
 
 		if (cell.order) {
 			cls.push('order-' + cell.order);
+		}
+
+		if (cell.align) {
+			cls.push('align-self-' + cell.align)
+		}
+
+		if (cell.justify) {
+			cls.push('justify-self-'+justify);
 		}
 
 		$grid.append('<div class="' + cls.join(' ') + '">' + (encodeURIComponent(cell.text || index)) + '</div>');

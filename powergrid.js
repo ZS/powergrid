@@ -34,7 +34,7 @@ var cssRule = new _.Block({
 
 var pg = {
 
-	gridCell: function (startCol, startRow, endCol, endRow) {
+	gridCell: function (startCol, startRow, colSpan, rowSpan, justify, align) {
 		var props = new _.Block();
 		if (startCol) {
 			props.mix({	
@@ -50,18 +50,33 @@ var pg = {
 			});
 		}
 
-		if (endCol) {
+		if (colSpan) {
 			props.mix({
-				gridColumnEnd:endCol + 1,
-				"-ms-grid-column-span": endCol 
+				gridColumnEnd: 'span ' + colSpan,
+				"-ms-grid-column-span": colSpan
 			});
 		}
 
-		if (endRow) {
+		if (rowSpan) {
 			props.mix({
-				gridRowEnd:endRow + 1,
-				"-ms-grid-row-span": endRow 
+				gridRowEnd: 'span ' + rowSpan,
+				"-ms-grid-row-span": rowSpan 
 			});
+		}
+
+		if (justify) {
+			props.mix({
+				justifySelf: justify,
+				"-ms-grid-column-align": justify
+			});
+		}
+
+		if (align) {
+			props.mix({
+				alignSelf: align,
+				"-ms-grid-row-align": align
+			});
+			
 		}
 
 
@@ -74,11 +89,15 @@ var pg = {
 		cols.forEach(function (col, index) {
 
 			styles.push(cssRule.clone(pg.gridCell(index + 1), {selectors: ['.col-' + (index + 1) + ':nth-child(n)']}));
-			styles.push(cssRule.clone(pg.gridCell(0,0,index + 1).mix({selectors: ['.end-col-' + (index + 1) + ':nth-child(n)']})));
+			if (index>0) {
+				styles.push(cssRule.clone(pg.gridCell(0,0,index + 1).mix({selectors: ['.col-span-' + (index + 1) + ':nth-child(n)']})));
+			}
 		});
 		rows.forEach(function (row, index) {
 			styles.push(cssRule.clone(pg.gridCell(0,index + 1),{selectors: ['.row-' + (index + 1) + ':nth-child(n)']}));
-			styles.push(cssRule.clone(pg.gridCell(0,0,0,index + 1),{selectors: ['.end-row-' + (index + 1) + ':nth-child(n)']}));
+			if (index>0) {
+				styles.push(cssRule.clone(pg.gridCell(0,0,0,index + 1),{selectors: ['.row-span-' + (index + 1) + ':nth-child(n)']}));
+			}
 		});	
 		return styles;
 	},
@@ -119,6 +138,7 @@ var pg = {
 		return rule;
 	},
 
+
 	// Generate grid css based on config
 	css: function (config) {
 		var html = '';
@@ -150,6 +170,20 @@ var pg = {
 		html += '/* Order of layers */' + "\r\n";
 		config.cells.forEach(function(cell, index) {
 			html += '.' + cls + ' > .order-' + (index + 1) + ' {z-index: ' + (index + 1) +';}' + "\r\n";
+
+		});
+
+		// Alignment
+		html += '/* Alignment */' + "\r\n";
+		var values = ['start', 'end', 'center', 'stretch'];
+		values.forEach(function(value, index) {
+			// Grid cells alignment
+			html += cssRule.clone(pg.gridCell(0,0,0,0,value,0)).mix({selectors: ['.justify-' + value + ' > * ']}).toString() + "\r\n";
+			html += cssRule.clone(pg.gridCell(0,0,0,0,0,value)).mix({selectors: ['.align-' + value + ' > * ']}).toString() + "\r\n";
+
+			// Overrides
+			html += cssRule.clone(pg.gridCell(0,0,0,0,0,value)).mix({selectors: ['.' + cls + ' > .align-' + value ]}).toString() + "\r\n";
+			html += cssRule.clone(pg.gridCell(0,0,0,0,value,0)).mix({selectors: ['.' + cls + ' > .justify-' + value]}).toString() + "\r\n";
 		});
 
 		html += "\r\n/*					=================|*/";
