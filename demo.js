@@ -105,7 +105,30 @@ function cellDialog(element, event) {
 	}});
 }
 
+/**
+ * Try to fetch the config from the URL query string.
+ */
+function fetchConfig() {
+	var searchStr = window.location.search;
+	var query = searchStr.split("=")[1];
+	try {
+		return JSON.parse(window.atob(query));
+	} catch (error) {
+		console.warn('Could not fetch the config based on the URL. Proceeding with default config.');
+		return null;
+	}
+}
+
+function updateUrl(config) {
+	var str = JSON.stringify(config);
+	location.search = "?q=" + window.btoa(str);
+}
+
 $(function() {
+
+	// Fetch the config from the URL. Fallback to default if URL config is invalid.
+	config = fetchConfig() || config;
+
 	createGrid();
 	createStyles();
 
