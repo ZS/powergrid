@@ -2,7 +2,7 @@ var config = {
 	name: 'Power Grid',
 	version: '0.1.0',
 	url: 'https://github.com/bblocks/powergrid/',
-	cols: ['minmax(max-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content)'],
+	cols: ['minmax(max-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)'],
 	rows: ['minmax(max-content,1fr)', 'minmax(max-content,1fr)', 'minmax(max-content,1fr)'],
 	cells: [
 		{
@@ -77,7 +77,7 @@ function createGrid() {
 function createStyles() {
 	var $style = $('#grid-css');
 	console.log($style);
-	var css = pg.css(config);
+	var css = pg.toCss(config);
 	console.log(css);
 	$style.html(css);
 }

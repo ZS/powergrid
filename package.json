@@ -2,9 +2,10 @@
   "name": "powergrid",
   "version": "0.1.0",
   "description": "Powerful grid system with CSS grid layout. Works in all modern browsers and IE11.",
-  "main": "powergrid.umd.js",
+  "main": "powergrid.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "umd": "./node_modules/.bin/babel powergrid.js --out-file powergrid.umd.js"
   },
   "repository": {
     "type": "git",
@@ -16,7 +17,13 @@
     "url": "https://github.com/bBlocks/powergrid/issues"
   },
   "homepage": "https://github.com/bBlocks/powergrid#readme",
-  "devDependencies": {
+  "dependencies": {
     "@bblocks/compose": "^0.1.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "to-css": "^1.2.1"
   }
 }
