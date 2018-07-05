@@ -2,7 +2,7 @@
   "name": "powergrid",
   "version": "0.1.0",
   "description": "Powerful grid system with CSS grid layout. Works in all modern browsers and IE11.",
-  "main": "index.js",
+  "main": "powergrid.umd.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
