@@ -124,16 +124,63 @@ function updateUrl(config) {
 	location.search = "?q=" + window.btoa(str);
 }
 
-$(function() {
+var closeModal = function(el){
+	$(el).closest(".modal").fadeOut();
+}
 
-	// Fetch the config from the URL. Fallback to default if URL config is invalid.
-	config = fetchConfig() || config;
+var showEditJSON = function(){
+	$("#jsonContainer").fadeIn();
+	
+	// create the editor	
+	var options = {};
 
+	if(typeof editor == 'undefined'){
+		editor = new JSONEditor($("#jsonContainer .modal-content .modal-body")[0], options);
+	}	
+	
+	editor.set(config);
+}
+
+var saveEditedJSON = function(){
+	$("#jsonContainer").fadeOut();
+
+	config=editor.get();
+	
+	initGridUI();
+}
+
+var initGridUI = function(){
 	createGrid();
 	createStyles();
 
 	$('.cell').on('click', function(event) {
 		cellDialog(this, event);
 	});
+}
 
+$(function() {	
+	initGridUI();
+
+	var slider = $("#menu-bar").slideReveal({
+		// width: 100,
+		push: false,
+		position: "right",
+		// speed: 600,
+		trigger: $("#menu-bar .handle"),
+		// autoEscape: false,
+		shown: function(obj){
+		  //obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-right"></span>');
+		  obj.find(".handle").html('&#10095;');
+		  obj.addClass("left-shadow-overlay");
+		},
+		hidden: function(obj){
+		  //obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-left"></span>');
+		  obj.find(".handle").html('&#10094;');
+		  obj.removeClass("left-shadow-overlay");
+		}
+	});
+
+	$("#menu-bar a").on("click",function(){
+		slider.slideReveal("hide");
+	});
 });
