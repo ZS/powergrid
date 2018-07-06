@@ -17,3 +17,95 @@
 	background:transparent;
 }
 
+#menu-bar{
+	background-color: #BDBDBD;
+	color: #fff;
+	z-index: 1002;
+}
+
+.left-shadow-overlay{
+	box-shadow: 10px 0 15px 10px #585858;
+}
+
+#menu-bar h3{
+	background-color: #2E2E2E;
+	font-size: 1.9em;
+	padding: 20px;
+	margin: 0;
+	font-weight: 300;
+}
+
+#menu-bar a{
+	border-bottom: 1px solid #D8D8D8;
+	padding: 1em;
+	display: block;
+	color: #424242;
+	font-size: 1.4em;
+	font-weight: 300;
+	text-decoration: none;
+}
+
+#menu-bar a:hover{
+	background-color: #D8D8D8;
+}
+
+#menu-bar .handle{
+	background-color: #2E2E2E;
+	left: -40px;
+	padding: 10px; 8px;
+	position: absolute;
+	top: 0px;
+	width: 20px;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+}
+
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1000; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+	background-color: #fefefe;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	margin: 1.7em auto;
+}
+
+/* The Close Button */
+.modal-content .close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+	position: absolute;
+	top: 50%;
+	right: 0;
+	margin-top: -16px;
+}
+
+.modal-content .close:hover,
+.modal-content .close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.modal-body{
+	margin-bottom:1em;
+}
+
+.modal-header{
+	position: relative;
+}
