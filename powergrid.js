@@ -1,93 +1,44 @@
 'use strict';
-var compose = require('@bblocks/compose');
-var toCss = require('to-css');
-var _ = Object.assign(_ || {}, compose);
-
-// Credits: https://github.com/lazycoffee/lc-camel-to-hyphen
-function camelToHyphen(text){
-    return text.replace(/^[A-Z]/, match=>match.toLowerCase())
-    .replace(/[A-Z]/g, match=>'-' + match.toLowerCase());
-}
-
-// Credits: https://stackoverflow.com/questions/11233498/json-stringify-without-quotes-on-properties
-function stringify(obj_from_json){
-    if(typeof obj_from_json !== "object" || Array.isArray(obj_from_json)){
-        // not an object, stringify using native function
-        return JSON.stringify(obj_from_json);
-    }
-    // Implements recursive object serialization according to JSON spec
-    // but without quotes around the keys.
-    let props = Object
-        .keys(obj_from_json)
-        .map(key => `${key}:${stringify(obj_from_json[key])}`)
-        .join(",");
-    return `{${props}}`;
-}
-
-var cssRule = new _.Block({
-	selectors:null,
-	toString: function () {
-		var props = this.clone();
-		delete props.toString;
-		Object.keys(props).forEach(function(name) {
-			var newName = camelToHyphen(name);
-			props[newName] = props[name];
-			delete props[name];
-		});
-		var css = stringify(props).replace(/\_\_:/ig,'');
-		if (!this.selectors) {return css;}
-		if (Array.isArray(this.selectors)) {return this.selectors.join(',') + ' ' + css;}
-		return this.selectors + ' ' + css;
-	}
-});
-
-function rulesToString(arr) {		
-	return arr.reduce(function(accumulator, currentValue) {
-		return accumulator + currentValue.toString() + "/r/n";
-	},'');
-};
-
-
 
 function gridCell(startCol, startRow, colSpan, rowSpan, justify, align) {
-	var props = new _.Block();
+	var props = {};
 	if (startCol) {
-		props.mix({	
+		props = Object.assign(props, {	
 			gridColumnStart: startCol,
 			"-ms-grid-column": startCol
 		})
 	}
 
 	if (startRow) {
-		props.mix({
+		props = Object.assign(props, {
 			gridRowStart:startRow,
 			"-ms-grid-row": startRow 
 		});
 	}
 
 	if (colSpan) {
-		props.mix({
+		props = Object.assign(props, {
 			gridColumnEnd: 'span ' + colSpan,
 			"-ms-grid-column-span": colSpan
 		});
 	}
 
 	if (rowSpan) {
-		props.mix({
+		props = Object.assign(props, {
 			gridRowEnd: 'span ' + rowSpan,
 			"-ms-grid-row-span": rowSpan 
 		});
 	}
 
 	if (justify) {
-		props.mix({
+		props = Object.assign(props, {
 			justifySelf: justify,
 			"-ms-grid-column-align": justify
 		});
 	}
 
 	if (align) {
-		props.mix({
+		props = Object.assign(props, {
 			alignSelf: align,
 			"-ms-grid-row-align": align
 		});
@@ -96,116 +47,152 @@ function gridCell(startCol, startRow, colSpan, rowSpan, justify, align) {
 	return props;
 };
 
-function gridCells(cols, rows) {
+/**
+ * Converts object to CSS strings. Credits: https://github.com/desirable-objects/json-to-css
+ * @param {object} style - Object like {h1: {color: '#F1F1F1';}}
+ * @returns {string} - CSS 
+ */
+function objToCss(json) {	
+	if (!json) {return '';}
+	if (typeof json != 'object') {return '';}
+	var output = "";
+	var indent = '  ';
+	try {
+		for (var selector in json) {
+			if (json.hasOwnProperty(selector)) {
+				output += selector + " {\r\n";
+				for (var style in json[selector]) {
+					if (json[selector].hasOwnProperty(style)) {
+
+						output += indent + camelToHyphen(style.replace(/\_\_/ig,'')) + ': ' + json[selector][style] + ";\r\n";
+					}
+				}
+				output += "}\r\n";
+			}
+		}
+	} catch (e) {
+		return "Not a valid JSON..!";
+	}
+	return output;
+}
+
+function camelToHyphen(text){
+    return text.replace(/^[A-Z]/, function(match) {return match.toLowerCase();})
+    .replace(/[A-Z]/g, function(match) {return '-' + match.toLowerCase();});
+}
+
+function arrayToCss(styles) {
+	return styles.reduce(function(accumulator, currentValue) {
+		return accumulator + objToCss(currentValue) + "\r\n";
+	},'');
+}
+
+function gridCells(cols, rows, prefix) {
 	var styles = [];
 	cols.forEach(function (col, index) {
-
-		styles.push(cssRule.clone(gridCell(index + 1), {selectors: ['.col-' + (index + 1) + ':nth-child(n)']}));
+		var style = {};
+		style['.' + prefix + ' > .col-' + (index + 1) + ':nth-child(n)'] = gridCell(index + 1);		
 		if (index>0) {
-			styles.push(cssRule.clone(gridCell(0,0,index + 1).mix({selectors: ['.col-span-' + (index + 1) + ':nth-child(n)']})));
+			style['.' + prefix + ' > .col-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0,0,index + 1);
 		}
+		styles.push(style);
 	});
 	rows.forEach(function (row, index) {
-		styles.push(cssRule.clone(gridCell(0,index + 1),{selectors: ['.row-' + (index + 1) + ':nth-child(n)']}));
+		var style = {};
+		style['.' + prefix + ' > .row-' + (index + 1) + ':nth-child(n)'] = gridCell(0,index + 1);
 		if (index>0) {
-			styles.push(cssRule.clone(gridCell(0,0,0,index + 1),{selectors: ['.row-span-' + (index + 1) + ':nth-child(n)']}));
+			style['.' + prefix + ' > .row-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0,0,0,index + 1);
 		}
+		styles.push(style);
 	});	
 	return styles;
 };
 
 
-function gridAuto(cols, rows) {
+function gridAuto(cols, rows, prefix) {
 	var styles = [];
 	cols.forEach(function (col, index) {
-		if (!index) { return; } // skip 1st column
-		styles.push(cssRule.clone(gridCell(index + 1),{selectors: [':nth-child(' + cols.length + 'n+' + (index + 1)+')']}));
+		var style = {};
+		style['.' + prefix + ' > :nth-child(' + cols.length + 'n+' + (index + 1)+')'] = gridCell(index + 1);
+		styles.push(style);
 	});
 
 	rows.forEach(function (row, index) {
-		if (!index) { return; } // skip 1st row
-		styles.push(cssRule.clone(gridCell(0, index + 1),{selectors: [':nth-child(n+' + (index * cols.length + 1)+')']}));
+		var style = {};
+		style['.' +prefix + ' > :nth-child(n+' + (index * cols.length + 1)+')'] = gridCell(0, index + 1);
+		styles.push(style);
 	});
-	var css = '';
-	style.forEach(function(rule) {
-		css += rules.toString();
-	})		
+	return styles;
 };
 
-// Generate css grid template
-function grid(cols, rows) {
-	var rule = cssRule.clone({
-		display: 'grid',
-		'display__:': '-ms-grid' // Workaround
+
+function cellAlign(prefix) {
+	var values = ['start', 'end', 'center', 'stretch'];
+	var styles = [];
+ 	values.forEach(function(value, index) {
+		var style = {}
+		style['.justify-' + value + ' > * '] = gridCell(0,0,0,0,value,0);
+		style['.align-' + value + ' > * '] = gridCell(0,0,0,0,0,value);
+		style['.' + prefix + ' > .align-' + value] = gridCell(0,0,0,0,0,value);
+		style['.' + prefix + ' > .justify-' + value] = gridCell(0,0,0,0,value,0);
+		styles.push(style);
 	});
+	return styles;
+}
+
+
+// Generate css grid template
+function grid(cols, rows, prefix) {
+	var style = {};
+
+	style['display'] =  'grid';
+	style['display__'] = '-ms-grid';
+
 	if (Array.isArray(cols) && cols.length) {
-		rule.mix({
-			gridTemplateColumns: cols.join(' '),
-			"-ms-grid-columns": cols.join(' ')
-		});
+		style['gridTemplateColumns'] = cols.join(' ');
+		style['-ms-grid-columns'] =  cols.join(' ');
 	}
 
 	if (Array.isArray(rows) && rows.length) {
-		rule.mix({
-			gridTemplateRows: rows.join(' '),
-			"-ms-grid-rows": rows.join(' ') 
-		});
+		style['gridTemplateRows'] =  rows.join(' ');
+		style['-ms-grid-rows'] =  rows.join(' ');
 	}
-	return rule;
+	var obj = {};
+	obj['.'+prefix] = style;
+	return obj;
 };
 
-// Generate grid css based on config
-function css(config) {
-	var html = '';
-	var cls = config.prefix;
-
-	console.log('???', rulesToString([cssRule.clone({color:'red'})]), cssRule.clone({color:'red'}));
-	// Template
-	return `|=============== ${config.name} v${config.version} ${config.url} 
-/* Grid lines template */
-${'.'+cls} ${grid(config.cols, config.rows).toString()}
-`;
-
-// /* Auto placement of grid cells based on the order /
-// ${gridAuto(config.cols, config.rows, config.prefix);
-
-// 	// Explicit placement
-// 	html += '/* Explicit placement of grid cells */' +"\r\n";
-// 	gridCells(config.cols, config.rows).forEach(function(rule) {
-// 		rule.selectors[0] = '.' + cls + ' > ' + rule.selectors[0];
-// 		html += rule.toString() + "\r\n";
-// 	});
-
-// 	// Order of layers
-// 	html += '/* Order of layers */' + "\r\n";
-// 	config.cells.forEach(function(cell, index) {
-// 		html += '.' + cls + ' > .order-' + (index + 1) + ' {z-index: ' + (index + 1) +';}' + "\r\n";
-
-// 	});
-
-// 	// Alignment
-// 	html += '/* Alignment */' + "\r\n";
-// 	var values = ['start', 'end', 'center', 'stretch'];
-// 	values.forEach(function(value, index) {
-// 		// Grid cells alignment
-// 		html += cssRule.clone(gridCell(0,0,0,0,value,0)).mix({selectors: ['.justify-' + value + ' > * ']}).toString() + "\r\n";
-// 		html += cssRule.clone(gridCell(0,0,0,0,0,value)).mix({selectors: ['.align-' + value + ' > * ']}).toString() + "\r\n";
-
-// 		// Overrides
-// 		html += cssRule.clone(gridCell(0,0,0,0,0,value)).mix({selectors: ['.' + cls + ' > .align-' + value ]}).toString() + "\r\n";
-// 		html += cssRule.clone(gridCell(0,0,0,0,value,0)).mix({selectors: ['.' + cls + ' > .justify-' + value]}).toString() + "\r\n";
-// 	});
-
-// 	html += "\r\n/*					=================|*/";
-
-// 	// Grid cell classes
-// 	return html;
+function cellOrder(cells, prefix) {
+	return cells.reduce(function(accumulator, currentValue, currentIndexOptional) {
+		return accumulator + '.' + prefix + ' > .order-' + (currentIndexOptional + 1) + ' {z-index: ' + (currentIndexOptional + 1) +';}' + "\r\n"
+	}, '');
 }
 
-module.exports = {
-	gridCell: gridCell, 
-	toCss: css, 
-	gridCells: gridCells,
-	grid: grid, 
-	gridAuto: gridAuto
+// Generate grid css based on config
+function toCss(config) {
+	// CSS Template
+	return `/********** ${config.name} v${config.version} ${config.url} **************/
+/* Grid lines template */
+${objToCss(grid(config.cols, config.rows, config.prefix))}
+
+/* Auto placement of grid cells based on the order */
+${arrayToCss(gridAuto(config.cols, config.rows, config.prefix))}
+
+/* Explicit placement of grid cells */
+${arrayToCss(gridCells(config.cols, config.rows, config.prefix))}
+
+/* Order of layers */
+${cellOrder(config.cells, config.prefix)}
+
+/* Alignment */
+${arrayToCss(cellAlign(config.prefix))}
+`;
+}
+
+export {
+	gridCell, 
+	toCss, 
+	gridCells,
+	grid, 
+	 gridAuto
 };
