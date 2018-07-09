@@ -3,6 +3,7 @@
 <head>
 	<title>Powergrid</title>
 	<script src="https://cdn.jsdelivr.net/npm/@bblocks/compose@0.1.1/compose.umd.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
 	<style id="common">
 		/* General styles */
 		body, html {
@@ -67,6 +68,7 @@
 	<link rel="stylesheet" href="demo.css"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.18.0/jsoneditor.min.css" />	
 	<script src="powergrid.umd.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 	<style id="grid-css"></style>
 </head>
 <body>
@@ -86,6 +88,46 @@
 		</div>	
 	</div>
 	
+	<div id="sourceContainer" class="modal">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>Source</h3>
+				<span class="close" onclick="closeModal(this)">&times;</span>
+			</div>
+			<div class="modal-body">
+				<div class="power-grid-tab">
+					<button class="tablinks" onclick="openSourceContent(event, 'htmlContainer')" id="defaultOpenTab">HTML</button>
+					<button class="tablinks" onclick="openSourceContent(event, 'cssContainer')">CSS</button>
+				</div>
+				  
+				<div id="htmlContainer" class="power-grid-tabcontent">
+					<div class="power-grid-tooltip copyBtn" >
+							<button onclick='copyContent("html")' onmouseout='tooltipOutFunc("html")'>
+								<span class="power-grid-tooltiptext" id="myTooltipHtml">Copy HTML to clipboard</span>Copy
+							</button>
+					</div>
+				
+				<code for="htmlEg" id="showHTML" class="html hljs"></code>
+				</div>
+				
+				<div id="cssContainer" class="power-grid-tabcontent">
+
+						<div class="power-grid-tooltip copyBtn" >
+								<button onclick='copyContent("css")' onmouseout='tooltipOutFunc("css")'>
+									<span class="power-grid-tooltiptext" id="myTooltipCss">Copy CSS to clipboard</span>Copy
+								</button>
+						</div>
+				<code for="grid-css" class="html hljs" ></code>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button onclick="closeModal(this)">Close</button>
+			</div>
+		</div>	
+	</div>
+
+
 	<div id="grid" class="grid fluid">
 		<div class="cell">1</div>
 		<div class="cell">2</div>
@@ -107,6 +149,12 @@
 		</h3>
 		<a onclick="showEditJSONModal()" href="javascript:void(0)">Configure Grid</a>
 		<a href="javascript:void(0)">View Source</a>				
+		<a onclick="showEditJSON()" href="javascript:void(0)">Edit JSON</a>
+		<a href="javascript:void(0)" id="open-source-code">View Source</a>				
+	</div>
+
+	<div id="htmlEg">
+
 	</div>
 	<script
 	src="https://code.jquery.com/jquery-3.3.1.min.js"
