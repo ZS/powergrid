@@ -186,7 +186,7 @@ var pg = {
 			html += cssRule.clone(pg.gridCell(0,0,0,0,value,0)).mix({selectors: ['.' + cls + ' > .justify-' + value]}).toString() + "\r\n";
 		});
 
-		html += "\r\n/*					=================|*/";
+		html += "\r\n/*=================|*/";
 	
 
 		// Grid cell classes
