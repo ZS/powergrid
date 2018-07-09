@@ -1,5 +1,15 @@
 'use strict';
 
+/**
+ * Creates an object with CSS properties of the grid cell. 
+ * @param {number} startCol 
+ * @param {number} startRow 
+ * @param {number} colSpan 
+ * @param {number} rowSpan 
+ * @param {string} justify 
+ * @param {string} align
+ * @return {object}
+ */
 function gridCell(startCol, startRow, colSpan, rowSpan, justify, align) {
 	var props = {};
 	if (startCol) {
@@ -50,7 +60,7 @@ function gridCell(startCol, startRow, colSpan, rowSpan, justify, align) {
 /**
  * Converts object to CSS strings. Credits: https://github.com/desirable-objects/json-to-css
  * @param {object} style - Object like {h1: {color: '#F1F1F1';}}
- * @returns {string} - CSS 
+ * @return {string} - CSS 
  */
 function objToCss(json) {	
 	if (!json) {return '';}
@@ -75,18 +85,33 @@ function objToCss(json) {
 	}
 	return output;
 }
-
+/**
+ * Converts a lower camel case to hyphen separated string
+ * @param {string} text 
+ * @return {string}
+ */
 function camelToHyphen(text){
     return text.replace(/^[A-Z]/, function(match) {return match.toLowerCase();})
     .replace(/[A-Z]/g, function(match) {return '-' + match.toLowerCase();});
 }
 
+/**
+ * Generates a string with CSS styles from an array of CSS rules 
+ * @param {array} styles - Array of objects representing CSS styles
+ */
 function arrayToCss(styles) {
 	return styles.reduce(function(accumulator, currentValue) {
 		return accumulator + objToCss(currentValue) + "\r\n";
 	},'');
 }
 
+/**
+ * Creates an array of CSS rules for grid lines
+ * @param {array} cols 
+ * @param {array} rows 
+ * @param {string} prefix 
+ * @return {array}
+ */
 function gridCells(cols, rows, prefix) {
 	var styles = [];
 	cols.forEach(function (col, index) {
@@ -109,6 +134,13 @@ function gridCells(cols, rows, prefix) {
 };
 
 
+/**
+ * Auto place cells based on the order in the container
+ * @param {array} cols 
+ * @param {array} rows 
+ * @param {string} prefix 
+ * @return {array}
+ */
 function gridAuto(cols, rows, prefix) {
 	var styles = [];
 	cols.forEach(function (col, index) {
@@ -125,7 +157,11 @@ function gridAuto(cols, rows, prefix) {
 	return styles;
 };
 
-
+/**
+ * Create a rules to align cells in a grid
+ * @param {string} prefix 
+ * @return {array}
+ */
 function cellAlign(prefix) {
 	var values = ['start', 'end', 'center', 'stretch'];
 	var styles = [];
@@ -141,7 +177,13 @@ function cellAlign(prefix) {
 }
 
 
-// Generate css grid template
+/**
+ * Define a grid
+ * @param {array} cols 
+ * @param {array} rows 
+ * @param {string} prefix 
+ * @return {object} 
+ */
 function grid(cols, rows, prefix) {
 	var style = {};
 
@@ -162,13 +204,23 @@ function grid(cols, rows, prefix) {
 	return obj;
 };
 
+/**
+ * Create styles to set z-index order of grid cells based on their order 
+ * @param {array} cells 
+ * @param {string} prefix 
+ * @return {string}
+ */
 function cellOrder(cells, prefix) {
 	return cells.reduce(function(accumulator, currentValue, currentIndexOptional) {
 		return accumulator + '.' + prefix + ' > .order-' + (currentIndexOptional + 1) + ' {z-index: ' + (currentIndexOptional + 1) +';}' + "\r\n"
 	}, '');
 }
 
-// Generate grid css based on config
+/**
+ * Create styles for a grid
+ * @param {object} config 
+ * @return {string}
+ */
 function toCss(config) {
 	// CSS Template
 	return `/********** ${config.name} v${config.version} ${config.url} **************/
@@ -194,5 +246,5 @@ export {
 	toCss, 
 	gridCells,
 	grid, 
-	 gridAuto
+	gridAuto
 };
