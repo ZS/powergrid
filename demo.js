@@ -2,7 +2,7 @@ var config = {
 	name: 'Power Grid',
 	version: '0.1.0',
 	url: 'https://github.com/bblocks/powergrid/',
-	cols: ['minmax(max-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content)'],
+	cols: ['minmax(max-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)'],
 	rows: ['minmax(max-content,1fr)', 'minmax(max-content,1fr)', 'minmax(max-content,1fr)'],
 	cells: [
 		{
@@ -128,14 +128,15 @@ var closeModal = function(el){
 	$(el).closest(".modal").fadeOut();
 }
 
-var showEditJSON = function(){
+var showEditJSONModal = function(){
 	$("#jsonContainer").fadeIn();
 	
 	// create the editor	
 	var options = {};
+	var container = $("#jsonContainer .modal-content .modal-body");
 
-	if(typeof editor == 'undefined'){
-		editor = new JSONEditor($("#jsonContainer .modal-content .modal-body")[0], options);
+	if(typeof editor == 'undefined' && container.length){
+		editor = new JSONEditor(container[0], options);
 	}	
 	
 	editor.set(config);
@@ -144,23 +145,25 @@ var showEditJSON = function(){
 var saveEditedJSON = function(){
 	$("#jsonContainer").fadeOut();
 
-	config=editor.get();
-	
-	initGridUI();
+	if(editor){
+		config=editor.get();
+		buildGrid();
+	}	
 }
 
-var initGridUI = function(){
+var buildGrid = function(){
 	createGrid();
 	createStyles();
 
-	$('.cell').on('click', function(event) {
-		cellDialog(this, event);
-	});
+	// $('.cell').on('click', function(event) {
+	// 	cellDialog(this, event);
+	// });
 }
 
 $(function() {	
-	initGridUI();
+	buildGrid();
 
+	//Initialize configuration panel
 	var slider = $("#menu-bar").slideReveal({
 		// width: 100,
 		push: false,

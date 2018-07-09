@@ -72,17 +72,16 @@
 <body>
 	
 	<div id="jsonContainer" class="modal">
-		<!-- Modal content -->
 		<div class="modal-content">
 			<div class="modal-header">
 				<h3>Edit JSON </h3>
 				<span class="close" onclick="closeModal(this)">&times;</span>
 			</div>
 			<div class="modal-body">
-				
+				<!-- JSON editor goes here -->
 			</div>
 			<div class="modal-footer">
-				<button onclick="saveEditedJSON()">OK</button>
+				<button class="button" onclick="saveEditedJSON()">OK</button>
 			</div>
 		</div>	
 	</div>
@@ -104,10 +103,10 @@
 	<div id="menu-bar" class="left-shadow-overlay">
 		<div class="handle">&#10094;</div>
 		<h3>Configuration<br>
-			<small><span class="glyphicon glyphicon-info-sign"></span> Press <kbd>ESC</kbd> to close</small>
+			<small><!--<span class="glyphicon glyphicon-info-sign"></span>-->Press <kbd>ESC</kbd> to close</small>
 		</h3>
-		<a onclick="showEditJSON()" href="javascript:void(0)">Edit JSON</a>
-		<a href="javascript:void(0)">View HTML / CSS</a>				
+		<a onclick="showEditJSONModal()" href="javascript:void(0)">Configure Grid</a>
+		<a href="javascript:void(0)">View Source</a>				
 	</div>
 	<script
 	src="https://code.jquery.com/jquery-3.3.1.min.js"
