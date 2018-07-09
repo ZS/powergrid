@@ -38,8 +38,9 @@ var config = {
 	],
 	prefix: 'grid',
 };
-var htmlText = '';
+var htmlText;
 function createGrid() {
+	htmlText = '';
 	var $grid = $('#grid');
 	$grid.attr('class', config.prefix + ' fluid');
 	$grid.html('');
@@ -152,8 +153,7 @@ $(function() {
 	$('#open-source-code').on('click',function(){
 		getHTML();
 		$("#sourceContainer").fadeIn();
-		document.getElementById("defaultOpen").click();
-
+		document.getElementById("defaultOpenTab").click();
 	});
 
 	var slider = $("#menu-bar").slideReveal({
