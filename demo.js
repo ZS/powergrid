@@ -128,14 +128,15 @@ var closeModal = function(el){
 	$(el).closest(".modal").fadeOut();
 }
 
-var showEditJSON = function(){
+var showEditJSONModal = function(){
 	$("#jsonContainer").fadeIn();
 	
 	// create the editor	
 	var options = {};
+	var container = $("#jsonContainer .modal-content .modal-body");
 
-	if(typeof editor == 'undefined'){
-		editor = new JSONEditor($("#jsonContainer .modal-content .modal-body")[0], options);
+	if(typeof editor == 'undefined' && container.length){
+		editor = new JSONEditor(container[0], options);
 	}	
 	
 	editor.set(config);
@@ -144,29 +145,25 @@ var showEditJSON = function(){
 var saveEditedJSON = function(){
 	$("#jsonContainer").fadeOut();
 
-	config=editor.get();
-	
-	initGridUI();
+	if(editor){
+		config=editor.get();
+		buildGrid();
+	}	
 }
 
-var initGridUI = function(){
-	// Fetch the config from the URL. Fallback to default if URL config is invalid.
-	config = fetchConfig() || config;
-
+var buildGrid = function(){
 	createGrid();
 	createStyles();
 
-	$('.cell').on('click', function(event) {
-		cellDialog(this, event);
-	});
-}	
+	// $('.cell').on('click', function(event) {
+	// 	cellDialog(this, event);
+	// });
+}
 
+$(function() {	
+	buildGrid();
 
-$(function() {
-
-	
-	initGridUI();
-
+	//Initialize configuration panel
 	var slider = $("#menu-bar").slideReveal({
 		// width: 100,
 		push: false,
