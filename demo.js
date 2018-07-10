@@ -177,7 +177,6 @@ var buildGrid = function(){
 
 $(function() {	
 	config = fetchConfig() || config;
-	updateUrl(config);
 	buildGrid();
 	
 	$('#open-source-code').on('click',function(){
@@ -208,6 +207,10 @@ $(function() {
 	$("#menu-bar a").on("click",function(){
 		slider.slideReveal("hide");
 	});
+
+	window.onpopstate = function(event) {
+		window.location.reload();
+	};
 });
 
 
