@@ -134,7 +134,7 @@ function fetchConfig() {
 
 function updateUrl(config) {
 	var str = JSON.stringify(config);
-	location.search = "?q=" + window.btoa(str);
+	window.history.pushState({},document.head.title,"?q=" + window.btoa(str));
 }
 
 var closeModal = function(el){
@@ -160,6 +160,7 @@ var saveEditedJSON = function(){
 
 	if(editor){
 		config=editor.get();
+		updateUrl(config);
 		buildGrid();
 	}	
 }
@@ -175,7 +176,10 @@ var buildGrid = function(){
 }
 
 $(function() {	
+	config = fetchConfig() || config;
+	updateUrl(config);
 	buildGrid();
+	
 	$('#open-source-code').on('click',function(){
 		getHTML();
 		$("#sourceContainer").fadeIn();
