@@ -127,6 +127,18 @@
 	background-color: #000;
 }
 
+.copy-btn{
+	background: orange;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+}
+.copy-btn:hover{
+	background: #ed8b00
+}
 /* Style the tab */
 .power-grid-tab {
     overflow: hidden;

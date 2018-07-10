@@ -175,7 +175,11 @@ var buildGrid = function(){
 
 $(function() {	
 	buildGrid();
-
+	$('#open-source-code').on('click',function(){
+		getHTML();
+		$("#sourceContainer").fadeIn();
+		document.getElementById("defaultOpenTab").click();
+	});
 	//Initialize configuration panel
 	var slider = $("#menu-bar").slideReveal({
 		// width: 100,
