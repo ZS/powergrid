@@ -38,8 +38,9 @@ var config = {
 	],
 	prefix: 'grid',
 };
-
+var htmlText;
 function createGrid() {
+	htmlText = '';
 	var $grid = $('#grid');
 	$grid.attr('class', config.prefix + ' fluid');
 	$grid.html('');
@@ -71,17 +72,23 @@ function createGrid() {
 		}
 
 		$grid.append('<div class="' + cls.join(' ') + '">' + (encodeURIComponent(cell.text || index)) + '</div>');
+		htmlText += "    "+'<div class="' + cls.join(' ') + '">' + (encodeURIComponent(cell.text || index)) + '</div>'+ "\r\n";		
 	});
 }
 
 function createStyles() {
 	var $style = $('#grid-css');
-	console.log($style);
-	var css = pg.css(config);
-	console.log(css);
+	var css = indentCSS(pg.css(config));
 	$style.html(css);
 }
 
+function indentCSS(source){
+	source = source.replace(/}/gi,'}\n');
+	source= source.replace(/{/gi, "{\n    ");
+	source= source.replace(/;(?!})/gi, ";\n    ");
+	source= source.replace(/;(?=})/gi, ";\n");
+	return source;
+}
 
 function cellDialog(element, event) {
 	var $dialog = $('.dialog');
@@ -168,7 +175,11 @@ var buildGrid = function(){
 
 $(function() {	
 	buildGrid();
-
+	$('#open-source-code').on('click',function(){
+		getHTML();
+		$("#sourceContainer").fadeIn();
+		document.getElementById("defaultOpenTab").click();
+	});
 	//Initialize configuration panel
 	var slider = $("#menu-bar").slideReveal({
 		// width: 100,
@@ -193,3 +204,97 @@ $(function() {
 		slider.slideReveal("hide");
 	});
 });
+
+
+
+var htmlExample="";
+function getHTML(){
+	$('#showCSS').html(pg.css(config));	
+	htmlExample = '<!---<div id="grid" class="'+config.prefix+'">\r\n'+htmlText+'</div>//-->';
+	$('#htmlEg').html(htmlExample);
+	highlight();
+}
+
+function copyContent(source){
+	var textarea=document.createElement('textarea');
+		
+	if(source == "html"){
+		textarea.value= '<div id="grid" class="'+config.prefix+' fluid">\r\n'+htmlText+'</div>';
+		var tooltip = document.querySelector("#myTooltipHtml");
+ 		tooltip.innerHTML = "Copied HTML" ;
+	}
+	if(source == "css"){
+		textarea.value = indentCSS(pg.css(config));
+		var tooltip = document.querySelector("#myTooltipCss");
+ 		tooltip.innerHTML = "Copied CSS" ;
+	}
+	$('body').append(textarea);
+	textarea.style.height = 0;
+	textarea.style.width = 0;
+	textarea.style.opacity = 0;
+	textarea.select();
+	document.execCommand("copy");
+	textarea.remove();
+}
+
+function highlight () {
+	if (!hljs) {console.warn('Highlight JS library is missing');return;}		
+	$('code[for]').each(function () {
+		// Get source code
+		var sourceId = $(this).attr('for');
+		var $source = $('#' + sourceId);
+		if (!$source.length) { return; }
+		var html = $source.html();
+		// Fix links
+		html = replaceAll(html, ['<!---','//-->', '//--&gt;'], ['','','']);
+		console.log(html);		
+		var results = hljs.highlight('html', html);
+		if (results.value) {
+			var code = results.value;
+			this.innerHTML = '<pre>' + code + '</pre>';
+		}
+	})
+}
+
+ function replaceAll (string, search, replacement) {
+	var newString = string;
+	if (!$.isArray(search)) {
+		search = [search];
+	}
+	if (!$.isArray(replacement)) {
+		replacement = [replacement];
+	}
+
+	for (var i = 0; i < search.length; i++) {
+		newString = newString.replace(search[i], replacement[i]);
+	}
+
+	return newString;
+}
+
+
+function openSourceContent(evt, sourceName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("power-grid-tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(sourceName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+
+function tooltipOutFunc(src) {
+	if(src == "html"){
+		var tooltip = document.querySelector("#myTooltipHtml");
+ 		tooltip.innerHTML = "Copy HTML to clipboard" ;
+	}
+	else if(src == "css"){
+		var tooltip = document.querySelector("#myTooltipCss");
+ 		tooltip.innerHTML = "Copy CSS to clipboard" ;
+	}
+  }
