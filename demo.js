@@ -2,7 +2,7 @@ var config = {
 	name: 'Power Grid',
 	version: '0.1.0',
 	url: 'https://github.com/bblocks/powergrid/',
-	cols: ['minmax(max-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content)'],
+	cols: ['minmax(max-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)'],
 	rows: ['minmax(max-content,1fr)', 'minmax(max-content,1fr)', 'minmax(max-content,1fr)'],
 	cells: [
 		{
@@ -112,18 +112,44 @@ function cellDialog(element, event) {
 	}});
 }
 
+var getCurrentLocation = {
+    getSearchStr: function () {
+        return window.location.search;
+    }
+};
+
+/**
+ * Try to fetch the config from the URL query string.
+ */
+function fetchConfig() {
+	var searchStr = getCurrentLocation.getSearchStr();
+	var query = searchStr.split("=")[1];
+	try {
+		return JSON.parse(window.atob(query));
+	} catch (error) {
+		console.warn('Could not fetch the config based on the URL. Proceeding with default config.');
+		return null;
+	}
+}
+
+function updateUrl(config) {
+	var str = JSON.stringify(config);
+	location.search = "?q=" + window.btoa(str);
+}
+
 var closeModal = function(el){
 	$(el).closest(".modal").fadeOut();
 }
 
-var showEditJSON = function(){
+var showEditJSONModal = function(){
 	$("#jsonContainer").fadeIn();
 	
 	// create the editor	
 	var options = {};
+	var container = $("#jsonContainer .modal-content .modal-body");
 
-	if(typeof editor == 'undefined'){
-		editor = new JSONEditor($("#jsonContainer .modal-content .modal-body")[0], options);
+	if(typeof editor == 'undefined' && container.length){
+		editor = new JSONEditor(container[0], options);
 	}	
 	
 	editor.set(config);
@@ -132,30 +158,25 @@ var showEditJSON = function(){
 var saveEditedJSON = function(){
 	$("#jsonContainer").fadeOut();
 
-	config=editor.get();
-	
-	initGridUI();
+	if(editor){
+		config=editor.get();
+		buildGrid();
+	}	
 }
 
-var initGridUI = function(){
+var buildGrid = function(){
 	createGrid();
 	createStyles();
 
-	$('.cell').on('click', function(event) {
-		cellDialog(this, event);
-	});
-
+	// $('.cell').on('click', function(event) {
+	// 	cellDialog(this, event);
+	// });
 }
 
 $(function() {	
-	initGridUI();
+	buildGrid();
 
-	$('#open-source-code').on('click',function(){
-		getHTML();
-		$("#sourceContainer").fadeIn();
-		document.getElementById("defaultOpenTab").click();
-	});
-
+	//Initialize configuration panel
 	var slider = $("#menu-bar").slideReveal({
 		// width: 100,
 		push: false,
