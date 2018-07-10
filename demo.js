@@ -78,7 +78,7 @@ function createGrid() {
 
 function createStyles() {
 	var $style = $('#grid-css');
-	var css = indentCSS(pg.css(config));
+	var css = powergrid.toCss(config);
 	$style.html(css);
 }
 
@@ -168,6 +168,7 @@ var buildGrid = function(){
 	createGrid();
 	createStyles();
 
+
 	// $('.cell').on('click', function(event) {
 	// 	cellDialog(this, event);
 	// });
@@ -209,7 +210,7 @@ $(function() {
 
 var htmlExample="";
 function getHTML(){
-	$('#showCSS').html(pg.css(config));	
+	$('#showCSS').html(powergrid.toCss(config));	
 	htmlExample = '<!---<div id="grid" class="'+config.prefix+'">\r\n'+htmlText+'</div>//-->';
 	$('#htmlEg').html(htmlExample);
 	highlight();
@@ -224,7 +225,7 @@ function copyContent(source){
  		tooltip.innerHTML = "Copied HTML" ;
 	}
 	if(source == "css"){
-		textarea.value = indentCSS(pg.css(config));
+		textarea.value = indentCSS(powergrid.toCss(config));
 		var tooltip = document.querySelector("#myTooltipCss");
  		tooltip.innerHTML = "Copied CSS" ;
 	}
