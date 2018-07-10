@@ -1,68 +1,83 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Powergrid</title>
 	<script src="https://cdn.jsdelivr.net/npm/@bblocks/compose@0.1.1/compose.umd.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
 	<style id="common">
 		/* General styles */
-		body, html {
-			padding:0;
-			margin:0;
-			height:100%;
-			min-height:100%;
-			background: rgba(50,50,50,0.5);
+
+		body,
+		html {
+			padding: 0;
+			margin: 0;
+			height: 100%;
+			min-height: 100%;
+			background: rgba(50, 50, 50, 0.5);
 			font-family: Roboto, Arial, Helvetica, sans-serif;
 		}
+
 		.fluid {
-			width:100%;
-			height:100%;
+			width: 100%;
+			height: 100%;
 		}
+
 		.grid {
 			background: transparent;
 		}
+
 		.cell {
 			background: white;
-			padding:10px;
-			border:1px solid #c0c0c0;
+			padding: 10px;
+			border: 1px solid #c0c0c0;
 			box-shadow: 1px 1px 1px #000;
 			border-radius: 10px;
 			color: #000;
 			text-shadow: 1px 1px #c0c0c0;
-			margin:5px;
+			margin: 5px;
 		}
+
 		/* Decorate cells for better identification */
+
 		.cell:nth-child(n+1) {
-			background: rgba(0,255,0,0.5);
-			border:1px solid green;
+			background: rgba(0, 255, 0, 0.5);
+			border: 1px solid green;
 		}
+
 		.cell:nth-child(2n) {
-			background: rgba(0,255, 255,0.5);
-			border:1px solid lightblue;
+			background: rgba(0, 255, 255, 0.5);
+			border: 1px solid lightblue;
 		}
+
 		.cell:nth-child(3n) {
-			background: rgba(0,0,255,0.5);
-			border:1px solid blue;
+			background: rgba(0, 0, 255, 0.5);
+			border: 1px solid blue;
 		}
+
 		.cell:nth-child(4n) {
-			background: rgba(255,0,255,0.5);
-			border:1px solid purple;
+			background: rgba(255, 0, 255, 0.5);
+			border: 1px solid purple;
 		}
+
 		.cell:nth-child(5n) {
-			background: rgba(255,0,0,0.5);
-			border:1px solid red;
+			background: rgba(255, 0, 0, 0.5);
+			border: 1px solid red;
 		}
+
 		.cell:nth-child(6n) {
-			background: rgba(255,127,0,0.5);
+			background: rgba(255, 127, 0, 0.5);
 			border: 1px solid orange;
 		}
+
 		.cell:nth-child(7n) {
-			background: rgba(255,255,0,0.5);
+			background: rgba(255, 255, 0, 0.5);
 			border: 1px solid yellow;
 		}
+
 		.cell:nth-child(8n) {
-			background: rgba(0,255,0,0.5);
-			border:1px solid green;
+			background: rgba(0, 255, 0, 0.5);
+			border: 1px solid green;
 		}
 	</style>
 	<link rel="stylesheet" href="demo.css"/>
@@ -71,8 +86,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 	<style id="grid-css"></style>
 </head>
+
 <body>
-	
+
 	<div id="jsonContainer" class="modal">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -85,7 +101,7 @@
 			<div class="modal-footer">
 				<button class="button" onclick="saveEditedJSON()">OK</button>
 			</div>
-		</div>	
+		</div>
 	</div>
 	
 	<div id="sourceContainer" class="modal">
@@ -100,31 +116,31 @@
 					<button class="tablinks" onclick="openSourceContent(event, 'htmlContainer')" id="defaultOpenTab">HTML</button>
 					<button class="tablinks" onclick="openSourceContent(event, 'cssContainer')">CSS</button>
 				</div>
-				  
+
 				<div id="htmlContainer" class="power-grid-tabcontent">
-					<div class="power-grid-tooltip copyBtn" >
-							<button onclick='copyContent("html")' onmouseout='tooltipOutFunc("html")'>
-								<span class="power-grid-tooltiptext" id="myTooltipHtml">Copy HTML to clipboard</span>Copy
-							</button>
+					<div class="power-grid-tooltip copyBtn">
+						<button onclick='copyContent("html")' class="btn-action" onmouseout='tooltipOutFunc("html")'>
+							<span class="power-grid-tooltiptext" id="myTooltipHtml">Copy HTML to clipboard</span>Copy
+						</button>
 					</div>
-				
-				<code for="htmlEg" id="showHTML" class="html hljs"></code>
+
+					<code for="htmlEg" id="showHTML" class="html hljs"></code>
 				</div>
-				
+
 				<div id="cssContainer" class="power-grid-tabcontent">
 
-						<div class="power-grid-tooltip copyBtn" >
-								<button onclick='copyContent("css")' onmouseout='tooltipOutFunc("css")'>
-									<span class="power-grid-tooltiptext" id="myTooltipCss">Copy CSS to clipboard</span>Copy
-								</button>
-						</div>
-				<code for="grid-css" class="html hljs" ></code>
+					<div class="power-grid-tooltip copyBtn">
+						<button onclick='copyContent("css")' class="btn-action" onmouseout='tooltipOutFunc("css")'>
+							<span class="power-grid-tooltiptext" id="myTooltipCss">Copy CSS to clipboard</span>Copy
+						</button>
+					</div>
+					<code for="grid-css" class="html hljs"></code>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button onclick="closeModal(this)">Close</button>
+				<button onclick="closeModal(this)" class="button">Close</button>
 			</div>
-		</div>	
+		</div>
 	</div>
 
 
@@ -144,24 +160,24 @@
 	</div>
 	<div id="menu-bar" class="left-shadow-overlay">
 		<div class="handle">&#10094;</div>
-		<h3>Configuration<br>
-			<small><!--<span class="glyphicon glyphicon-info-sign"></span>-->Press <kbd>ESC</kbd> to close</small>
+		<h3>Configuration
+			<br>
+			<small>
+				<!--<span class="glyphicon glyphicon-info-sign"></span>-->Press
+				<kbd>ESC</kbd> to close</small>
 		</h3>
 		<a onclick="showEditJSONModal()" href="javascript:void(0)">Configure Grid</a>
-		<a href="javascript:void(0)">View Source</a>				
-		<a onclick="showEditJSON()" href="javascript:void(0)">Edit JSON</a>
-		<a href="javascript:void(0)" id="open-source-code">View Source</a>				
+		<a href="javascript:void(0)" id="open-source-code">View Source</a>
 	</div>
 
 	<div id="htmlEg">
 
 	</div>
-	<script
-	src="https://code.jquery.com/jquery-3.3.1.min.js"
-	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	 crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.18.0/jsoneditor-minimalist.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/slideReveal/1.1.2/jquery.slidereveal.min.js"></script>	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/slideReveal/1.1.2/jquery.slidereveal.min.js"></script>
 	<script src="demo.js"></script>
 </body>
-</html>	
+
+</html>
