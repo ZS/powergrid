@@ -65,7 +65,7 @@
 .modal {
 	display: none; /* Hidden by default */
 	position: fixed;
-	z-index: 1000;
+	z-index: 2000;
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -114,7 +114,7 @@
     background-color: #2E2E2E; /* Green */
     border: none;
     color: white;
-    padding: 12px 24px;
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -143,6 +143,7 @@
 .power-grid-tab {
     overflow: hidden;
     border: 1px solid #ccc;
+    border-bottom: none;
     background-color: #f1f1f1;
 }
 
@@ -153,8 +154,7 @@
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
+    padding: 14px 16px;    
     font-size: 17px;
 }
 
@@ -218,4 +218,13 @@
 .power-grid-tooltip:hover .power-grid-tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+div.jsoneditor-menu{
+	background-color: orange;
+	border-bottom: solid 1px orange;
+}
+
+div.jsoneditor{
+	border: solid 1px orange;
 }
