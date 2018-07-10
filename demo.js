@@ -2,7 +2,7 @@ var config = {
 	name: 'Power Grid',
 	version: '0.1.0',
 	url: 'https://github.com/bblocks/powergrid/',
-	cols: ['minmax(max-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content)'],
+	cols: ['minmax(max-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)'],
 	rows: ['minmax(max-content,1fr)', 'minmax(max-content,1fr)', 'minmax(max-content,1fr)'],
 	cells: [
 		{
@@ -130,16 +130,66 @@ function updateUrl(config) {
 	location.search = "?q=" + window.btoa(str);
 }
 
-$(function() {
+var closeModal = function(el){
+	$(el).closest(".modal").fadeOut();
+}
 
-	// Fetch the config from the URL. Fallback to default if URL config is invalid.
-	config = fetchConfig() || config;
+var showEditJSONModal = function(){
+	$("#jsonContainer").fadeIn();
+	
+	// create the editor	
+	var options = {};
+	var container = $("#jsonContainer .modal-content .modal-body");
 
+	if(typeof editor == 'undefined' && container.length){
+		editor = new JSONEditor(container[0], options);
+	}	
+	
+	editor.set(config);
+}
+
+var saveEditedJSON = function(){
+	$("#jsonContainer").fadeOut();
+
+	if(editor){
+		config=editor.get();
+		buildGrid();
+	}	
+}
+
+var buildGrid = function(){
 	createGrid();
 	createStyles();
 
-	$('.cell').on('click', function(event) {
-		cellDialog(this, event);
+	// $('.cell').on('click', function(event) {
+	// 	cellDialog(this, event);
+	// });
+}
+
+$(function() {	
+	buildGrid();
+
+	//Initialize configuration panel
+	var slider = $("#menu-bar").slideReveal({
+		// width: 100,
+		push: false,
+		position: "right",
+		// speed: 600,
+		trigger: $("#menu-bar .handle"),
+		// autoEscape: false,
+		shown: function(obj){
+		  //obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-right"></span>');
+		  obj.find(".handle").html('&#10095;');
+		  obj.addClass("left-shadow-overlay");
+		},
+		hidden: function(obj){
+		  //obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-left"></span>');
+		  obj.find(".handle").html('&#10094;');
+		  obj.removeClass("left-shadow-overlay");
+		}
 	});
 
+	$("#menu-bar a").on("click",function(){
+		slider.slideReveal("hide");
+	});
 });

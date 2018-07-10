@@ -11,6 +11,7 @@
 			height:100%;
 			min-height:100%;
 			background: rgba(50,50,50,0.5);
+			font-family: Roboto, Arial, Helvetica, sans-serif;
 		}
 		.fluid {
 			width:100%;
@@ -64,10 +65,27 @@
 		}
 	</style>
 	<link rel="stylesheet" href="demo.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.18.0/jsoneditor.min.css" />	
 	<script src="powergrid.js"></script>
 	<style id="grid-css"></style>
 </head>
 <body>
+	
+	<div id="jsonContainer" class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>Edit JSON </h3>
+				<span class="close" onclick="closeModal(this)">&times;</span>
+			</div>
+			<div class="modal-body">
+				<!-- JSON editor goes here -->
+			</div>
+			<div class="modal-footer">
+				<button class="button" onclick="saveEditedJSON()">OK</button>
+			</div>
+		</div>	
+	</div>
+	
 	<div id="grid" class="grid fluid">
 		<div class="cell">1</div>
 		<div class="cell">2</div>
@@ -82,10 +100,20 @@
 	<div id="menu">
 
 	</div>
+	<div id="menu-bar" class="left-shadow-overlay">
+		<div class="handle">&#10094;</div>
+		<h3>Configuration<br>
+			<small><!--<span class="glyphicon glyphicon-info-sign"></span>-->Press <kbd>ESC</kbd> to close</small>
+		</h3>
+		<a onclick="showEditJSONModal()" href="javascript:void(0)">Configure Grid</a>
+		<a href="javascript:void(0)">View Source</a>				
+	</div>
 	<script
 	src="https://code.jquery.com/jquery-3.3.1.min.js"
 	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.18.0/jsoneditor-minimalist.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/slideReveal/1.1.2/jquery.slidereveal.min.js"></script>	
 	<script src="demo.js"></script>
 </body>
 </html>	
