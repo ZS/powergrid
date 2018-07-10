@@ -167,7 +167,7 @@ var saveEditedJSON = function(){
 var buildGrid = function(){
 	createGrid();
 	createStyles();
-}
+
 
 	// $('.cell').on('click', function(event) {
 	// 	cellDialog(this, event);
