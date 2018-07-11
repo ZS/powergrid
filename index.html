@@ -7,7 +7,6 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.18.0/jsoneditor.min.css" />
 	<style id="common">
 		/* General styles */
-
 		body,
 		html {
 			padding: 0;
@@ -23,11 +22,12 @@
 			height: 100%;
 		}
 
-		.grid {
+		/* Decorate cells for better identification */
+		#grid {
 			background: transparent;
 		}
 
-		.cell {
+		#grid>div {
 			background: white;
 			padding: 10px;
 			border: 1px solid #c0c0c0;
@@ -37,45 +37,43 @@
 			text-shadow: 1px 1px #c0c0c0;
 			margin: 5px;
 		}
-
-		/* Decorate cells for better identification */
-
-		.cell:nth-child(n+1) {
+		
+		#grid>div:nth-child(n+1) {
 			background: rgba(0, 255, 0, 0.5);
 			border: 1px solid green;
 		}
 
-		.cell:nth-child(2n) {
+		#grid>div:nth-child(2n) {
 			background: rgba(0, 255, 255, 0.5);
 			border: 1px solid lightblue;
 		}
 
-		.cell:nth-child(3n) {
+		#grid>div:nth-child(3n) {
 			background: rgba(0, 0, 255, 0.5);
 			border: 1px solid blue;
 		}
 
-		.cell:nth-child(4n) {
+		#grid>div:nth-child(4n) {
 			background: rgba(255, 0, 255, 0.5);
 			border: 1px solid purple;
 		}
 
-		.cell:nth-child(5n) {
+		#grid>div:nth-child(5n) {
 			background: rgba(255, 0, 0, 0.5);
 			border: 1px solid red;
 		}
 
-		.cell:nth-child(6n) {
+		#grid>div:nth-child(6n) {
 			background: rgba(255, 127, 0, 0.5);
 			border: 1px solid orange;
 		}
 
-		.cell:nth-child(7n) {
+		#grid>div:nth-child(7n) {
 			background: rgba(255, 255, 0, 0.5);
 			border: 1px solid yellow;
 		}
 
-		.cell:nth-child(8n) {
+		#grid>div:nth-child(8n) {
 			background: rgba(0, 255, 0, 0.5);
 			border: 1px solid green;
 		}

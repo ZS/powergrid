@@ -4,7 +4,7 @@
   "description": "Powerful grid system with CSS grid layout. Works in all modern browsers and IE11.",
   "main": "powergrid.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jasmine",
     "umd": "./node_modules/.bin/babel powergrid.js --out-file powergrid.umd.js"
   },
   "repository": {
@@ -24,6 +24,7 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "babel-preset-env": "^1.7.0",
+    "jasmine": "^3.1.0",
     "jasmine-core": "^3.1.0"
   }
 }

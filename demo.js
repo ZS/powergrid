@@ -36,39 +36,39 @@ var config = {
 		{
 		}
 	],
-	prefix: 'grid',
+	prefix: 'pg-',
 };
 var htmlText;
 function createGrid() {
 	htmlText = '';
 	var $grid = $('#grid');
-	$grid.attr('class', config.prefix + ' fluid');
+	$grid.attr('class', config.prefix + 'grid fluid');
 	$grid.html('');
 	config.cells.forEach(function(cell, index) {
-		var cls = ['cell'];
+		var cls = [ config.prefix + 'cell'];
 		if (cell.col) {
-			cls.push('col-' + cell.col);
+			cls.push(config.prefix + 'col-' + cell.col);
 		}
 		if (cell.row) {
-			cls.push('row-' + cell.row);
+			cls.push(config.prefix + 'row-' + cell.row);
 		}
 		if (cell.colSpan) {
-			cls.push('col-span-' + cell.colSpan);
+			cls.push(config.prefix + 'col-span-' + cell.colSpan);
 		}
 		if (cell.rowSpan) {
-			cls.push('row-span-' + cell.rowSpan);
+			cls.push(config.prefix + 'row-span-' + cell.rowSpan);
 		}
 
 		if (cell.order) {
-			cls.push('order-' + cell.order);
+			cls.push(config.prefix + 'order-' + cell.order);
 		}
 
 		if (cell.align) {
-			cls.push('align-self-' + cell.align)
+			cls.push(config.prefix + 'align-self-' + cell.align)
 		}
 
 		if (cell.justify) {
-			cls.push('justify-self-'+justify);
+			cls.push(config.prefix + 'justify-self-'+justify);
 		}
 
 		$grid.append('<div class="' + cls.join(' ') + '">' + (encodeURIComponent(cell.text || index)) + '</div>');

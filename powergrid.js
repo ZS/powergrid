@@ -81,7 +81,7 @@ function objToCss(json) {
 			}
 		}
 	} catch (e) {
-		return "Not a valid JSON..!";
+		throw "Not a valid JSON..!";
 	}
 	return output;
 }
@@ -116,17 +116,17 @@ function gridCells(cols, rows, prefix) {
 	var styles = [];
 	cols.forEach(function (col, index) {
 		var style = {};
-		style['.' + prefix + ' > .col-' + (index + 1) + ':nth-child(n)'] = gridCell(index + 1);		
+		style['.' + prefix + 'grid > .' + prefix + 'col-' + (index + 1) + ':nth-child(n)'] = gridCell(index + 1);		
 		if (index>0) {
-			style['.' + prefix + ' > .col-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0,0,index + 1);
+			style['.' + prefix + 'grid > .' + prefix + 'col-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0,0,index + 1);
 		}
 		styles.push(style);
 	});
 	rows.forEach(function (row, index) {
 		var style = {};
-		style['.' + prefix + ' > .row-' + (index + 1) + ':nth-child(n)'] = gridCell(0,index + 1);
+		style['.' + prefix + 'grid > .' + prefix + 'row-' + (index + 1) + ':nth-child(n)'] = gridCell(0,index + 1);
 		if (index>0) {
-			style['.' + prefix + ' > .row-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0,0,0,index + 1);
+			style['.' + prefix + 'grid > .' + prefix + 'row-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0,0,0,index + 1);
 		}
 		styles.push(style);
 	});	
@@ -145,13 +145,13 @@ function gridAuto(cols, rows, prefix) {
 	var styles = [];
 	cols.forEach(function (col, index) {
 		var style = {};
-		style['.' + prefix + ' > :nth-child(' + cols.length + 'n+' + (index + 1)+')'] = gridCell(index + 1);
+		style['.' + prefix + 'grid > :nth-child(' + cols.length + 'n+' + (index + 1)+')'] = gridCell(index + 1);
 		styles.push(style);
 	});
 
 	rows.forEach(function (row, index) {
 		var style = {};
-		style['.' +prefix + ' > :nth-child(n+' + (index * cols.length + 1)+')'] = gridCell(0, index + 1);
+		style['.' +prefix + 'grid > :nth-child(n+' + (index * cols.length + 1)+')'] = gridCell(0, index + 1);
 		styles.push(style);
 	});
 	return styles;
@@ -166,11 +166,11 @@ function cellAlign(prefix) {
 	var values = ['start', 'end', 'center', 'stretch'];
 	var styles = [];
  	values.forEach(function(value, index) {
-		var style = {}
-		style['.justify-' + value + ' > * '] = gridCell(0,0,0,0,value,0);
-		style['.align-' + value + ' > * '] = gridCell(0,0,0,0,0,value);
-		style['.' + prefix + ' > .align-' + value] = gridCell(0,0,0,0,0,value);
-		style['.' + prefix + ' > .justify-' + value] = gridCell(0,0,0,0,value,0);
+		var style = {};
+		style['.'+prefix+'justify-' + value + ' > * '] = gridCell(0,0,0,0,value,0);
+		style['.'+prefix+'align-' + value + ' > * '] = gridCell(0,0,0,0,0,value);
+		style['.'+prefix+'grid > .'+prefix+'align-' + value] = gridCell(0,0,0,0,0,value);
+		style['.' + prefix + 'grid > .'+prefix+'justify-' + value] = gridCell(0,0,0,0,value,0);
 		styles.push(style);
 	});
 	return styles;
@@ -200,7 +200,7 @@ function grid(cols, rows, prefix) {
 		style['-ms-grid-rows'] =  rows.join(' ');
 	}
 	var obj = {};
-	obj['.'+prefix] = style;
+	obj['.' + prefix + 'grid'] = style;
 	return obj;
 };
 
@@ -212,7 +212,7 @@ function grid(cols, rows, prefix) {
  */
 function cellOrder(cells, prefix) {
 	return cells.reduce(function(accumulator, currentValue, currentIndexOptional) {
-		return accumulator + '.' + prefix + ' > .order-' + (currentIndexOptional + 1) + ' {z-index: ' + (currentIndexOptional + 1) +';}' + "\r\n"
+		return accumulator + '.' + prefix + 'grid > .' + prefix + 'order-' + (currentIndexOptional + 1) + ' {z-index: ' + (currentIndexOptional + 1) +';}' + "\r\n"
 	}, '');
 }
 
@@ -242,8 +242,11 @@ ${arrayToCss(cellAlign(config.prefix))}
 }
 
 export {
+	objToCss,
+	arrayToCss,
 	gridCell, 
-	toCss, 
+	toCss,
+	cellAlign, 
 	gridCells,
 	grid, 
 	gridAuto
