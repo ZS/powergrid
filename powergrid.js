@@ -13,7 +13,7 @@
 function gridCell(startCol, startRow, colSpan, rowSpan, justify, align) {
 	var props = {};
 	if (startCol) {
-		props = Object.assign(props, {	
+		props = Object.assign(props, {
 			gridColumnStart: startCol,
 			"-ms-grid-column": startCol
 		})
@@ -21,8 +21,8 @@ function gridCell(startCol, startRow, colSpan, rowSpan, justify, align) {
 
 	if (startRow) {
 		props = Object.assign(props, {
-			gridRowStart:startRow,
-			"-ms-grid-row": startRow 
+			gridRowStart: startRow,
+			"-ms-grid-row": startRow
 		});
 	}
 
@@ -36,7 +36,7 @@ function gridCell(startCol, startRow, colSpan, rowSpan, justify, align) {
 	if (rowSpan) {
 		props = Object.assign(props, {
 			gridRowEnd: 'span ' + rowSpan,
-			"-ms-grid-row-span": rowSpan 
+			"-ms-grid-row-span": rowSpan
 		});
 	}
 
@@ -52,7 +52,7 @@ function gridCell(startCol, startRow, colSpan, rowSpan, justify, align) {
 			alignSelf: align,
 			"-ms-grid-row-align": align
 		});
-		
+
 	}
 	return props;
 };
@@ -62,9 +62,9 @@ function gridCell(startCol, startRow, colSpan, rowSpan, justify, align) {
  * @param {object} style - Object like {h1: {color: '#F1F1F1';}}
  * @return {string} - CSS 
  */
-function objToCss(json) {	
-	if (!json) {return '';}
-	if (typeof json != 'object') {return '';}
+function objToCss(json) {
+	if (!json) { return ''; }
+	if (typeof json != 'object') { return ''; }
 	var output = "";
 	var indent = '  ';
 	try {
@@ -74,7 +74,7 @@ function objToCss(json) {
 				for (var style in json[selector]) {
 					if (json[selector].hasOwnProperty(style)) {
 
-						output += indent + camelToHyphen(style.replace(/\_\_/ig,'')) + ': ' + json[selector][style] + ";\r\n";
+						output += indent + camelToHyphen(style.replace(/\_\_/ig, '')) + ': ' + json[selector][style] + ";\r\n";
 					}
 				}
 				output += "}\r\n";
@@ -90,9 +90,9 @@ function objToCss(json) {
  * @param {string} text 
  * @return {string}
  */
-function camelToHyphen(text){
-    return text.replace(/^[A-Z]/, function(match) {return match.toLowerCase();})
-    .replace(/[A-Z]/g, function(match) {return '-' + match.toLowerCase();});
+function camelToHyphen(text) {
+	return text.replace(/^[A-Z]/, function (match) { return match.toLowerCase(); })
+		.replace(/[A-Z]/g, function (match) { return '-' + match.toLowerCase(); });
 }
 
 /**
@@ -100,9 +100,9 @@ function camelToHyphen(text){
  * @param {array} styles - Array of objects representing CSS styles
  */
 function arrayToCss(styles) {
-	return styles.reduce(function(accumulator, currentValue) {
+	return styles.reduce(function (accumulator, currentValue) {
 		return accumulator + objToCss(currentValue) + "\r\n";
-	},'');
+	}, '');
 }
 
 /**
@@ -116,20 +116,20 @@ function gridCells(cols, rows, prefix) {
 	var styles = [];
 	cols.forEach(function (col, index) {
 		var style = {};
-		style['.' + prefix + 'grid > .' + prefix + 'col-' + (index + 1) + ':nth-child(n)'] = gridCell(index + 1);		
-		if (index>0) {
-			style['.' + prefix + 'grid > .' + prefix + 'col-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0,0,index + 1);
+		style['.' + prefix + 'grid > .' + prefix + 'col-' + (index + 1) + ':nth-child(n)'] = gridCell(index + 1);
+		if (index > 0) {
+			style['.' + prefix + 'grid > .' + prefix + 'col-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0, 0, index + 1);
 		}
 		styles.push(style);
 	});
 	rows.forEach(function (row, index) {
 		var style = {};
-		style['.' + prefix + 'grid > .' + prefix + 'row-' + (index + 1) + ':nth-child(n)'] = gridCell(0,index + 1);
-		if (index>0) {
-			style['.' + prefix + 'grid > .' + prefix + 'row-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0,0,0,index + 1);
+		style['.' + prefix + 'grid > .' + prefix + 'row-' + (index + 1) + ':nth-child(n)'] = gridCell(0, index + 1);
+		if (index > 0) {
+			style['.' + prefix + 'grid > .' + prefix + 'row-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0, 0, 0, index + 1);
 		}
 		styles.push(style);
-	});	
+	});
 	return styles;
 };
 
@@ -145,13 +145,13 @@ function gridAuto(cols, rows, prefix) {
 	var styles = [];
 	cols.forEach(function (col, index) {
 		var style = {};
-		style['.' + prefix + 'grid > :nth-child(' + cols.length + 'n+' + (index + 1)+')'] = gridCell(index + 1);
+		style['.' + prefix + 'grid > :nth-child(' + cols.length + 'n+' + (index + 1) + ')'] = gridCell(index + 1);
 		styles.push(style);
 	});
 
 	rows.forEach(function (row, index) {
 		var style = {};
-		style['.' +prefix + 'grid > :nth-child(n+' + (index * cols.length + 1)+')'] = gridCell(0, index + 1);
+		style['.' + prefix + 'grid > :nth-child(n+' + (index * cols.length + 1) + ')'] = gridCell(0, index + 1);
 		styles.push(style);
 	});
 	return styles;
@@ -165,12 +165,12 @@ function gridAuto(cols, rows, prefix) {
 function cellAlign(prefix) {
 	var values = ['start', 'end', 'center', 'stretch'];
 	var styles = [];
- 	values.forEach(function(value, index) {
+	values.forEach(function (value, index) {
 		var style = {};
-		style['.'+prefix+'justify-' + value + ' > * '] = gridCell(0,0,0,0,value,0);
-		style['.'+prefix+'align-' + value + ' > * '] = gridCell(0,0,0,0,0,value);
-		style['.'+prefix+'grid > .'+prefix+'align-' + value] = gridCell(0,0,0,0,0,value);
-		style['.' + prefix + 'grid > .'+prefix+'justify-' + value] = gridCell(0,0,0,0,value,0);
+		style['.' + prefix + 'justify-' + value + ' > * '] = gridCell(0, 0, 0, 0, value, 0);
+		style['.' + prefix + 'align-' + value + ' > * '] = gridCell(0, 0, 0, 0, 0, value);
+		style['.' + prefix + 'grid > .' + prefix + 'align-' + value] = gridCell(0, 0, 0, 0, 0, value);
+		style['.' + prefix + 'grid > .' + prefix + 'justify-' + value] = gridCell(0, 0, 0, 0, value, 0);
 		styles.push(style);
 	});
 	return styles;
@@ -187,17 +187,17 @@ function cellAlign(prefix) {
 function grid(cols, rows, prefix) {
 	var style = {};
 
-	style['display'] =  'grid';
+	style['display'] = 'grid';
 	style['display__'] = '-ms-grid';
 
 	if (Array.isArray(cols) && cols.length) {
 		style['gridTemplateColumns'] = cols.join(' ');
-		style['-ms-grid-columns'] =  cols.join(' ');
+		style['-ms-grid-columns'] = cols.join(' ');
 	}
 
 	if (Array.isArray(rows) && rows.length) {
-		style['gridTemplateRows'] =  rows.join(' ');
-		style['-ms-grid-rows'] =  rows.join(' ');
+		style['gridTemplateRows'] = rows.join(' ');
+		style['-ms-grid-rows'] = rows.join(' ');
 	}
 	var obj = {};
 	obj['.' + prefix + 'grid'] = style;
@@ -211,8 +211,8 @@ function grid(cols, rows, prefix) {
  * @return {string}
  */
 function cellOrder(cells, prefix) {
-	return cells.reduce(function(accumulator, currentValue, currentIndexOptional) {
-		return accumulator + '.' + prefix + 'grid > .' + prefix + 'order-' + (currentIndexOptional + 1) + ' {z-index: ' + (currentIndexOptional + 1) +';}' + "\r\n"
+	return cells.reduce(function (accumulator, currentValue, currentIndexOptional) {
+		return accumulator + '.' + prefix + 'grid > .' + prefix + 'order-' + (currentIndexOptional + 1) + ' {z-index: ' + (currentIndexOptional + 1) + ';}' + "\r\n"
 	}, '');
 }
 
@@ -244,10 +244,10 @@ ${arrayToCss(cellAlign(config.prefix))}
 export {
 	objToCss,
 	arrayToCss,
-	gridCell, 
+	gridCell,
 	toCss,
-	cellAlign, 
+	cellAlign,
 	gridCells,
-	grid, 
+	grid,
 	gridAuto
 };

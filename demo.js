@@ -6,7 +6,7 @@ var config = {
 	rows: ['minmax(max-content,1fr)', 'minmax(max-content,1fr)', 'minmax(max-content,1fr)'],
 	cells: [
 		{
-			text:'1231231231'
+			text: '1231231231'
 		},
 		{
 		},
@@ -15,15 +15,15 @@ var config = {
 		{
 		},
 		{
-			col:1,
-			colSpan:4
+			col: 1,
+			colSpan: 4
 		},
 		{
 		},
 		{
-			row:2,
-			rowSpan:2,
-			order:1
+			row: 2,
+			rowSpan: 2,
+			order: 1
 		},
 		{
 		},
@@ -44,8 +44,8 @@ function createGrid() {
 	var $grid = $('#grid');
 	$grid.attr('class', config.prefix + 'grid fluid');
 	$grid.html('');
-	config.cells.forEach(function(cell, index) {
-		var cls = [ config.prefix + 'cell'];
+	config.cells.forEach(function (cell, index) {
+		var cls = [];
 		if (cell.col) {
 			cls.push(config.prefix + 'col-' + cell.col);
 		}
@@ -68,11 +68,12 @@ function createGrid() {
 		}
 
 		if (cell.justify) {
-			cls.push(config.prefix + 'justify-self-'+justify);
+			cls.push(config.prefix + 'justify-self-' + justify);
 		}
+		var cls = cls.join(' ').trim();
 
-		$grid.append('<div class="' + cls.join(' ') + '">' + (encodeURIComponent(cell.text || index)) + '</div>');
-		htmlText += "    "+'<div class="' + cls.join(' ') + '">' + (encodeURIComponent(cell.text || index)) + '</div>'+ "\r\n";		
+		$grid.append('<div' + (cls ? ' class="' + cls + '"' : '') + '>' + (encodeURIComponent(cell.text || index)) + '</div>');
+		htmlText += "    " + '<div' + (cls ? ' class="' + cls + '"' : '') + '>' + (encodeURIComponent(cell.text || index)) + '</div>' + "\r\n";
 	});
 }
 
@@ -82,11 +83,11 @@ function createStyles() {
 	$style.html(css);
 }
 
-function indentCSS(source){
-	source = source.replace(/}/gi,'}\n');
-	source= source.replace(/{/gi, "{\n    ");
-	source= source.replace(/;(?!})/gi, ";\n    ");
-	source= source.replace(/;(?=})/gi, ";\n");
+function indentCSS(source) {
+	source = source.replace(/}/gi, '}\n');
+	source = source.replace(/{/gi, "{\n    ");
+	source = source.replace(/;(?!})/gi, ";\n    ");
+	source = source.replace(/;(?=})/gi, ";\n");
 	return source;
 }
 
@@ -95,27 +96,29 @@ function cellDialog(element, event) {
 	var $cell = $(element);
 	function outsideClick() {
 		if ($dialog || $dialog.length) {
-			$dialog.hide({duration: 400, easing: 'swing'});
+			$dialog.hide({ duration: 400, easing: 'swing' });
 		}
 		$(window).off('click', outsideClick);
 	}
-	
-	if (!$dialog.length) { 
+
+	if (!$dialog.length) {
 		$dialog = $('<div class="dialog" for="" style="display:none"><p><label>Row<select></select></div>');
-		$dialog.on('click', function(e) {
+		$dialog.on('click', function (e) {
 			e.stopPropagation();
 		});
 	}
 	$dialog.appendTo(element);
-	$dialog.show({duration: 400, easing: 'swing', done: function() {
-		$(window).on('click', outsideClick);
-	}});
+	$dialog.show({
+		duration: 400, easing: 'swing', done: function () {
+			$(window).on('click', outsideClick);
+		}
+	});
 }
 
 var getCurrentLocation = {
-    getSearchStr: function () {
-        return window.location.search;
-    }
+	getSearchStr: function () {
+		return window.location.search;
+	}
 };
 
 /**
@@ -134,38 +137,38 @@ function fetchConfig() {
 
 function updateUrl(config) {
 	var str = JSON.stringify(config);
-	window.history.pushState({},document.head.title,"?q=" + window.btoa(str));
+	window.history.pushState({}, document.head.title, "?q=" + window.btoa(str));
 }
 
-var closeModal = function(el){
+var closeModal = function (el) {
 	$(el).closest(".modal").fadeOut();
 }
 
-var showEditJSONModal = function(){
+var showEditJSONModal = function () {
 	$("#jsonContainer").fadeIn();
-	
+
 	// create the editor	
 	var options = {};
 	var container = $("#jsonContainer .modal-content .modal-body");
 
-	if(typeof editor == 'undefined' && container.length){
+	if (typeof editor == 'undefined' && container.length) {
 		editor = new JSONEditor(container[0], options);
-	}	
-	
+	}
+
 	editor.set(config);
 }
 
-var saveEditedJSON = function(){
+var saveEditedJSON = function () {
 	$("#jsonContainer").fadeOut();
 
-	if(editor){
-		config=editor.get();
+	if (editor) {
+		config = editor.get();
 		updateUrl(config);
 		buildGrid();
-	}	
+	}
 }
 
-var buildGrid = function(){
+var buildGrid = function () {
 	createGrid();
 	createStyles();
 
@@ -175,11 +178,11 @@ var buildGrid = function(){
 	// });
 }
 
-$(function() {	
+$(function () {
 	config = fetchConfig() || config;
 	buildGrid();
-	
-	$('#open-source-code').on('click',function(){
+
+	$('#open-source-code').on('click', function () {
 		getHTML();
 		$("#sourceContainer").fadeIn();
 		document.getElementById("defaultOpenTab").click();
@@ -192,49 +195,49 @@ $(function() {
 		// speed: 600,
 		trigger: $("#menu-bar .handle"),
 		// autoEscape: false,
-		shown: function(obj){
-		  //obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-right"></span>');
-		  obj.find(".handle").html('&#10095;');
-		  obj.addClass("left-shadow-overlay");
+		shown: function (obj) {
+			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-right"></span>');
+			obj.find(".handle").html('&#10095;');
+			obj.addClass("left-shadow-overlay");
 		},
-		hidden: function(obj){
-		  //obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-left"></span>');
-		  obj.find(".handle").html('&#10094;');
-		  obj.removeClass("left-shadow-overlay");
+		hidden: function (obj) {
+			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-left"></span>');
+			obj.find(".handle").html('&#10094;');
+			obj.removeClass("left-shadow-overlay");
 		}
 	});
 
-	$("#menu-bar a").on("click",function(){
+	$("#menu-bar a").on("click", function () {
 		slider.slideReveal("hide");
 	});
 
-	window.onpopstate = function(event) {
+	window.onpopstate = function (event) {
 		window.location.reload();
 	};
 });
 
 
 
-var htmlExample="";
-function getHTML(){
-	$('#showCSS').html(powergrid.toCss(config));	
-	htmlExample = '<!---<div id="grid" class="'+config.prefix+'">\r\n'+htmlText+'</div>//-->';
+var htmlExample = "";
+function getHTML() {
+	$('#showCSS').html(powergrid.toCss(config));
+	htmlExample = '<!---<div class="' + config.prefix + '">\r\n' + htmlText + '</div>//-->';
 	$('#htmlEg').html(htmlExample);
 	highlight();
 }
 
-function copyContent(source){
-	var textarea=document.createElement('textarea');
-		
-	if(source == "html"){
-		textarea.value= '<div id="grid" class="'+config.prefix+' fluid">\r\n'+htmlText+'</div>';
+function copyContent(source) {
+	var textarea = document.createElement('textarea');
+
+	if (source == "html") {
+		textarea.value = '<div class="' + config.prefix + ' fluid">\r\n' + htmlText + '</div>';
 		var tooltip = document.querySelector("#myTooltipHtml");
- 		tooltip.innerHTML = "Copied HTML" ;
+		tooltip.innerHTML = "Copied HTML";
 	}
-	if(source == "css"){
+	if (source == "css") {
 		textarea.value = indentCSS(powergrid.toCss(config));
 		var tooltip = document.querySelector("#myTooltipCss");
- 		tooltip.innerHTML = "Copied CSS" ;
+		tooltip.innerHTML = "Copied CSS";
 	}
 	$('body').append(textarea);
 	textarea.style.height = 0;
@@ -245,8 +248,8 @@ function copyContent(source){
 	textarea.remove();
 }
 
-function highlight () {
-	if (!hljs) {console.warn('Highlight JS library is missing');return;}		
+function highlight() {
+	if (!hljs) { console.warn('Highlight JS library is missing'); return; }
 	$('code[for]').each(function () {
 		// Get source code
 		var sourceId = $(this).attr('for');
@@ -254,8 +257,8 @@ function highlight () {
 		if (!$source.length) { return; }
 		var html = $source.html();
 		// Fix links
-		html = replaceAll(html, ['<!---','//-->', '//--&gt;'], ['','','']);
-		console.log(html);		
+		html = replaceAll(html, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
+		console.log(html);
 		var results = hljs.highlight('html', html);
 		if (results.value) {
 			var code = results.value;
@@ -264,7 +267,7 @@ function highlight () {
 	})
 }
 
- function replaceAll (string, search, replacement) {
+function replaceAll(string, search, replacement) {
 	var newString = string;
 	if (!$.isArray(search)) {
 		search = [search];
@@ -282,27 +285,27 @@ function highlight () {
 
 
 function openSourceContent(evt, sourceName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("power-grid-tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(sourceName).style.display = "block";
-    evt.currentTarget.className += " active";
+	var i, tabcontent, tablinks;
+	tabcontent = document.getElementsByClassName("power-grid-tabcontent");
+	for (i = 0; i < tabcontent.length; i++) {
+		tabcontent[i].style.display = "none";
+	}
+	tablinks = document.getElementsByClassName("tablinks");
+	for (i = 0; i < tablinks.length; i++) {
+		tablinks[i].className = tablinks[i].className.replace(" active", "");
+	}
+	document.getElementById(sourceName).style.display = "block";
+	evt.currentTarget.className += " active";
 }
 
 
 function tooltipOutFunc(src) {
-	if(src == "html"){
+	if (src == "html") {
 		var tooltip = document.querySelector("#myTooltipHtml");
- 		tooltip.innerHTML = "Copy HTML to clipboard" ;
+		tooltip.innerHTML = "Copy HTML to clipboard";
 	}
-	else if(src == "css"){
+	else if (src == "css") {
 		var tooltip = document.querySelector("#myTooltipCss");
- 		tooltip.innerHTML = "Copy CSS to clipboard" ;
+		tooltip.innerHTML = "Copy CSS to clipboard";
 	}
-  }
+}
