@@ -1,37 +1,26 @@
-## Welcome to GitHub Pages
+# Power Grid
+Power grid is an easy to use yet a powerful tool to readily build a cross-platform CSS Grid system.  
 
-You can use the [editor on GitHub](https://github.com/bBlocks/powergrid/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+### How to install
+  - Clone the repository using `git clone https://github.com/ZS/powergrid.git` command or [download zip](https://github.com/ZS/powergrid/archive/master.zip).
+  - Run `npm install` command after downloading/cloning the repository.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Usage:
+  - Open index.html in the browser.
+  - See the Grid built using default configuration.
+  - You can build your own customized Grid by clicking "Configure Grid" option on the configuration panel.
+  - View the source code (HTML and CSS) of the built Grid from "View Source" option on the configuration panel and you can also copy it.
 
-### Markdown
+### Test
+  - Open in browser test/index.html.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Issues and bug reporting 
+Please feel free to add a bug / feature request / suggestions to the [issue tracker](https://github.com/ZS/powergrid/issues). 
 
-```markdown
-Syntax highlighted code block
+### References
+Please check our [branch](https://github.com/ZS/powergrid) to get upcoming versions and features.
 
-# Header 1
-## Header 2
-### Header 3
+Also check [change.log](https://github.com/ZS/powergrid/wiki/Changelog) for more detailed information about new features, bug fixes and releases.
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/bBlocks/powergrid/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### Licence
+MIT https://github.com/ZS/powergrid/blob/master/LICENSE
