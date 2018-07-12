@@ -148,7 +148,11 @@ var showEditJSONModal = function () {
 	$("#jsonContainer").fadeIn();
 
 	// create the editor	
-	var options = {};
+	var options = {
+		mode: 'code',
+		modes: ['code', 'tree']
+	};
+
 	var container = $("#jsonContainer .modal-content .modal-body");
 
 	if (typeof editor == 'undefined' && container.length) {
