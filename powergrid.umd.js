@@ -108,7 +108,7 @@
 				}
 			}
 		} catch (e) {
-			return "Not a valid JSON..!";
+			throw "Not a valid JSON..!";
 		}
 		return output;
 	}
@@ -146,17 +146,17 @@
 		var styles = [];
 		cols.forEach(function (col, index) {
 			var style = {};
-			style['.' + prefix + ' > .col-' + (index + 1) + ':nth-child(n)'] = gridCell(index + 1);
+			style['.' + prefix + 'grid > .' + prefix + 'col-' + (index + 1) + ':nth-child(n)'] = gridCell(index + 1);
 			if (index > 0) {
-				style['.' + prefix + ' > .col-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0, 0, index + 1);
+				style['.' + prefix + 'grid > .' + prefix + 'col-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0, 0, index + 1);
 			}
 			styles.push(style);
 		});
 		rows.forEach(function (row, index) {
 			var style = {};
-			style['.' + prefix + ' > .row-' + (index + 1) + ':nth-child(n)'] = gridCell(0, index + 1);
+			style['.' + prefix + 'grid > .' + prefix + 'row-' + (index + 1) + ':nth-child(n)'] = gridCell(0, index + 1);
 			if (index > 0) {
-				style['.' + prefix + ' > .row-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0, 0, 0, index + 1);
+				style['.' + prefix + 'grid > .' + prefix + 'row-span-' + (index + 1) + ':nth-child(n)'] = gridCell(0, 0, 0, index + 1);
 			}
 			styles.push(style);
 		});
@@ -174,13 +174,13 @@
 		var styles = [];
 		cols.forEach(function (col, index) {
 			var style = {};
-			style['.' + prefix + ' > :nth-child(' + cols.length + 'n+' + (index + 1) + ')'] = gridCell(index + 1);
+			style['.' + prefix + 'grid > :nth-child(' + cols.length + 'n+' + (index + 1) + ')'] = gridCell(index + 1);
 			styles.push(style);
 		});
 
 		rows.forEach(function (row, index) {
 			var style = {};
-			style['.' + prefix + ' > :nth-child(n+' + (index * cols.length + 1) + ')'] = gridCell(0, index + 1);
+			style['.' + prefix + 'grid > :nth-child(n+' + (index * cols.length + 1) + ')'] = gridCell(0, index + 1);
 			styles.push(style);
 		});
 		return styles;
@@ -196,10 +196,10 @@
 		var styles = [];
 		values.forEach(function (value, index) {
 			var style = {};
-			style['.justify-' + value + ' > * '] = gridCell(0, 0, 0, 0, value, 0);
-			style['.align-' + value + ' > * '] = gridCell(0, 0, 0, 0, 0, value);
-			style['.' + prefix + ' > .align-' + value] = gridCell(0, 0, 0, 0, 0, value);
-			style['.' + prefix + ' > .justify-' + value] = gridCell(0, 0, 0, 0, value, 0);
+			style['.' + prefix + 'justify-' + value + ' > * '] = gridCell(0, 0, 0, 0, value, 0);
+			style['.' + prefix + 'align-' + value + ' > * '] = gridCell(0, 0, 0, 0, 0, value);
+			style['.' + prefix + 'grid > .' + prefix + 'align-' + value] = gridCell(0, 0, 0, 0, 0, value);
+			style['.' + prefix + 'grid > .' + prefix + 'justify-' + value] = gridCell(0, 0, 0, 0, value, 0);
 			styles.push(style);
 		});
 		return styles;
@@ -228,7 +228,7 @@
 			style['-ms-grid-rows'] = rows.join(' ');
 		}
 		var obj = {};
-		obj['.' + prefix] = style;
+		obj['.' + prefix + 'grid'] = style;
 		return obj;
 	};
 
@@ -240,7 +240,7 @@
   */
 	function cellOrder(cells, prefix) {
 		return cells.reduce(function (accumulator, currentValue, currentIndexOptional) {
-			return accumulator + '.' + prefix + ' > .order-' + (currentIndexOptional + 1) + ' {z-index: ' + (currentIndexOptional + 1) + ';}' + "\r\n";
+			return accumulator + '.' + prefix + 'grid > .' + prefix + 'order-' + (currentIndexOptional + 1) + ' {z-index: ' + (currentIndexOptional + 1) + ';}' + "\r\n";
 		}, '');
 	}
 
@@ -254,8 +254,11 @@
 		return "/********** " + config.name + " v" + config.version + " " + config.url + " **************/\n/* Grid lines template */\n" + objToCss(grid(config.cols, config.rows, config.prefix)) + "\n\n/* Auto placement of grid cells based on the order */\n" + arrayToCss(gridAuto(config.cols, config.rows, config.prefix)) + "\n\n/* Explicit placement of grid cells */\n" + arrayToCss(gridCells(config.cols, config.rows, config.prefix)) + "\n\n/* Order of layers */\n" + cellOrder(config.cells, config.prefix) + "\n\n/* Alignment */\n" + arrayToCss(cellAlign(config.prefix)) + "\n";
 	}
 
+	exports.objToCss = objToCss;
+	exports.arrayToCss = arrayToCss;
 	exports.gridCell = gridCell;
 	exports.toCss = toCss;
+	exports.cellAlign = cellAlign;
 	exports.gridCells = gridCells;
 	exports.grid = grid;
 	exports.gridAuto = gridAuto;
