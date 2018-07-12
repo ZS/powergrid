@@ -1,5 +1,7 @@
 # Powergrid
 
+![screen](screens/shot1.PNG)
+
 ### About
 CSS Grid layout is the latest and most powerful known layout system available in CSS. It can handle both rows and columns that's why also known as 2-dimensional sytem. It has solved many problems that we have come across or tried to hack them around using properties like positioning, floats, inline-block, etc while creating a layout. 
 
