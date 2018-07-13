@@ -1,7 +1,7 @@
 var config = {
 	name: 'Power Grid',
 	version: '0.1.0',
-	url: 'https://github.com/bblocks/powergrid/',
+	url: 'https://github.com/ZS/powergrid/',
 	cols: ['minmax(max-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)'],
 	rows: ['minmax(max-content,1fr)', 'minmax(max-content,1fr)', 'minmax(max-content,1fr)'],
 	cells: [

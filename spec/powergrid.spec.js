@@ -4,7 +4,7 @@ var powergrid = require('../powergrid.umd');
 var config = {
 	name: 'Power Grid',
 	version: '0.1.0',
-	url: 'https://github.com/bblocks/powergrid/',
+	url: 'https://github.com/ZS/powergrid/',
 	cols: ['minmax(max-content,1fr)', '1fr', '100px', '100vw'],
 	rows: ['minmax(max-content,1fr)', 'minmax(max-content,1fr)', 'minmax(max-content,1fr)'],
 	cells: [
