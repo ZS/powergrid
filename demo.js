@@ -68,7 +68,7 @@ function createGrid() {
 		}
 
 		if (cell.justify) {
-			cls.push(config.prefix + 'justify-self-' + justify);
+			cls.push(config.prefix + 'justify-self-' + cell.justify);
 		}
 		var cls = cls.join(' ').trim();
 
