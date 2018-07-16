@@ -110,6 +110,7 @@
 				<div class="power-grid-tab">
 					<button class="tablinks" onclick="openSourceContent(event, 'htmlContainer')" id="defaultOpenTab">HTML</button>
 					<button class="tablinks" onclick="openSourceContent(event, 'cssContainer')">CSS</button>
+					<button class="tablinks" onclick="openSourceContent(event, 'fullSourceContainer')">Full Source</button>
 				</div>
 
 				<div id="htmlContainer" class="power-grid-tabcontent">
@@ -119,7 +120,7 @@
 						</button>
 					</div>
 
-					<code for="grid" id="showHTML" class="html hljs"></code>
+					<code for="htmlEg" id="showHTML" class="hljs"></code>
 				</div>
 
 				<div id="cssContainer" class="power-grid-tabcontent">
@@ -129,8 +130,18 @@
 							<span class="power-grid-tooltiptext" id="myTooltipCss">Copy CSS to clipboard</span>Copy
 						</button>
 					</div>
-					<code for="grid-css" class="html hljs"></code>
+					<code for="grid-css" class="hljs"></code>
 				</div>
+
+				<div id="fullSourceContainer" class="power-grid-tabcontent">
+					<div class="power-grid-tooltip copyBtn">
+						<button onclick='copyContent("full-source")' class="btn-action" onmouseout='tooltipOutFunc("full-source")'>
+							<span class="power-grid-tooltiptext" id="myTooltipFullSource">Copy Source to clipboard</span>Copy
+						</button>
+					</div>
+					<code for="full-source" class="hljs"></code>
+				</div>
+
 			</div>
 			<div class="modal-footer">
 				<button onclick="closeModal(this)" class="button">Close</button>
@@ -149,6 +160,9 @@
 		<div>7</div>
 		<div>8</div>
 		<div>9</div>
+	</div>
+	<div id="full-source">
+
 	</div>
 	
 	<div id="menu-bar" class="left-shadow-overlay">
