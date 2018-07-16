@@ -4,7 +4,7 @@
 <head>
 	<title>Powergrid</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.18.0/jsoneditor.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.css" />
 	<style id="common">
 		/* General styles */
 		body,
@@ -110,6 +110,7 @@
 				<div class="power-grid-tab">
 					<button class="tablinks" onclick="openSourceContent(event, 'htmlContainer')" id="defaultOpenTab">HTML</button>
 					<button class="tablinks" onclick="openSourceContent(event, 'cssContainer')">CSS</button>
+					<button class="tablinks" onclick="openSourceContent(event, 'fullSourceContainer')">Full Source</button>
 				</div>
 
 				<div id="htmlContainer" class="power-grid-tabcontent">
@@ -119,7 +120,7 @@
 						</button>
 					</div>
 
-					<code for="grid" id="showHTML" class="html hljs"></code>
+					<code for="htmlEg" id="showHTML" class="hljs"></code>
 				</div>
 
 				<div id="cssContainer" class="power-grid-tabcontent">
@@ -129,8 +130,18 @@
 							<span class="power-grid-tooltiptext" id="myTooltipCss">Copy CSS to clipboard</span>Copy
 						</button>
 					</div>
-					<code for="grid-css" class="html hljs"></code>
+					<code for="grid-css" class="hljs"></code>
 				</div>
+
+				<div id="fullSourceContainer" class="power-grid-tabcontent">
+					<div class="power-grid-tooltip copyBtn">
+						<button onclick='copyContent("full-source")' class="btn-action" onmouseout='tooltipOutFunc("full-source")'>
+							<span class="power-grid-tooltiptext" id="myTooltipFullSource">Copy Source to clipboard</span>Copy
+						</button>
+					</div>
+					<code for="full-source" class="hljs"></code>
+				</div>
+
 			</div>
 			<div class="modal-footer">
 				<button onclick="closeModal(this)" class="button">Close</button>
@@ -150,9 +161,10 @@
 		<div>8</div>
 		<div>9</div>
 	</div>
-	<div id="menu">
+	<div id="full-source">
 
 	</div>
+	
 	<div id="menu-bar" class="left-shadow-overlay">
 		<div class="handle">&#10094;</div>
 		<h3>Configuration
@@ -171,7 +183,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	 crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@bblocks/compose@0.1.1/compose.umd.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.18.0/jsoneditor-minimalist.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slideReveal/1.1.2/jquery.slidereveal.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 	<script src="powergrid.umd.js"></script>	

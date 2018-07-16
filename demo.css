@@ -228,3 +228,7 @@ div.jsoneditor-menu{
 div.jsoneditor{
 	border: solid 1px orange;
 }
+
+div.ace-jsoneditor{
+	min-height: 50vh;
+}

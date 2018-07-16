@@ -84,9 +84,10 @@ function createStyles() {
 }
 
 function indentCSS(source) {
+	source = source.replace(/\*\//gi, '*/\n');
 	source = source.replace(/}/gi, '}\n');
-	source = source.replace(/{/gi, "{\n    ");
-	source = source.replace(/;(?!})/gi, ";\n    ");
+	source = source.replace(/{/gi, "{\n  ");
+	source = source.replace(/;(?!})/gi, ";\n  ");
 	source = source.replace(/;(?=})/gi, ";\n");
 	return source;
 }
@@ -148,7 +149,11 @@ var showEditJSONModal = function () {
 	$("#jsonContainer").fadeIn();
 
 	// create the editor	
-	var options = {};
+	var options = {
+		mode: 'code',
+		modes: ['code', 'tree']
+	};
+
 	var container = $("#jsonContainer .modal-content .modal-body");
 
 	if (typeof editor == 'undefined' && container.length) {
@@ -184,6 +189,8 @@ $(function () {
 
 	$('#open-source-code').on('click', function () {
 		getHTML();
+		getFullSource();
+		highlight();
 		$("#sourceContainer").fadeIn();
 		document.getElementById("defaultOpenTab").click();
 	});
@@ -221,9 +228,17 @@ $(function () {
 var htmlExample = "";
 function getHTML() {
 	$('#showCSS').html(powergrid.toCss(config));
-	htmlExample = '<!---<div class="' + config.prefix + '">\r\n' + htmlText + '</div>//-->';
+	htmlExample = '<!---<div class="' + config.prefix + 'grid">\r\n' + htmlText + '</div>//-->';
 	$('#htmlEg').html(htmlExample);
-	highlight();
+}
+
+var fullSource ="";
+function getFullSource(){
+	var demoStyle = document.querySelector('#common').innerHTML;
+	demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g,''));
+	var gridStyle =powergrid.toCss(config);
+	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n'+demoStyle+'</style>\r\n<style id="grid-css">\r\n'+gridStyle+'</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + config.prefix + 'grid fluid">\r\n' + htmlText + '</div> \r\n</body>//-->'
+	$('#full-source').html(fullSource);
 }
 
 function copyContent(source) {
@@ -234,10 +249,15 @@ function copyContent(source) {
 		var tooltip = document.querySelector("#myTooltipHtml");
 		tooltip.innerHTML = "Copied HTML";
 	}
-	if (source == "css") {
+	else if (source == "css") {
 		textarea.value = indentCSS(powergrid.toCss(config));
 		var tooltip = document.querySelector("#myTooltipCss");
 		tooltip.innerHTML = "Copied CSS";
+	}
+	else if(source == "full-source"){
+		textarea.value=  replaceAll(fullSource, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
+		var tooltip = document.querySelector("#myTooltipFullSource");
+		tooltip.innerHTML = "Copied Source";
 	}
 	$('body').append(textarea);
 	textarea.style.height = 0;
@@ -258,12 +278,10 @@ function highlight() {
 		var html = $source.html();
 		// Fix links
 		html = replaceAll(html, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
-		console.log(html);
-		var results = hljs.highlight('html', html);
-		if (results.value) {
-			var code = results.value;
-			this.innerHTML = '<pre>' + code + '</pre>';
-		}
+		this.innerHTML = '<pre></pre>';
+		var preTag =this.querySelector('pre');
+		preTag.innerText = html;
+		hljs.highlightBlock(this);
 	})
 }
 
@@ -307,5 +325,9 @@ function tooltipOutFunc(src) {
 	else if (src == "css") {
 		var tooltip = document.querySelector("#myTooltipCss");
 		tooltip.innerHTML = "Copy CSS to clipboard";
+	}
+	else if (src == "full-source") {
+		var tooltip = document.querySelector("#myTooltipFullSource");
+		tooltip.innerHTML = "Copy Source to clipboard";
 	}
 }
