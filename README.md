@@ -29,7 +29,7 @@ Please feel free to add a bug / feature request / suggestions to the [issue trac
 ### References
 Please check our [branch](https://github.com/ZS/powergrid) to get upcoming versions and features.
 
-Also check [change.log](https://github.com/ZS/powergrid/wiki/Changelog) for more detailed information about new features, bug fixes and releases.
+Also check [change.log](https://github.com/ZS/powergrid/blob/master/CHANGELOG.md) for more detailed information about new features, bug fixes and releases.
 
 ### Licence
 MIT https://github.com/ZS/powergrid/blob/master/LICENSE
