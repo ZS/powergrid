@@ -5,9 +5,9 @@
 ### About
 CSS Grid layout is the latest and most powerful known layout system available in CSS. It can handle both rows and columns that's why also known as 2-dimensional sytem. It has solved many problems that we have come across or tried to hack them around using properties like positioning, floats, inline-block, etc while creating a layout. 
 
-As its a new system, it could be difficult for the newbies and also for those who are not much into CSS to create layout using CSS Grid. So we require something that helps us understand about CSS Grid and also to create a layout using it. So we Powergrid as a solution to these problems.     
+As its a new system, it could be difficult for the newbies and also for those who are not much into CSS to create layout using CSS Grid. So we require something that helps us understand about CSS Grid and also to create a layout using it. So we have Powergrid as a solution to these problems.     
 
-Powergrid is an easy to use yet a powerful tool to readily build a cross-browswer CSS Grid system. It provides a simple interface where we can create our own grid without thinking much about browser compatibility. We can also learn about CSS Grid while playing around with this tool as it also provides the source code of the built Grid.   
+Powergrid is an easy to use yet a powerful tool to readily build a cross-browser CSS Grid system. It provides a simple interface where we can create our own grid without thinking much about browser compatibility. We can also learn about CSS Grid while playing around with this tool as it also provides the source code of the built Grid.   
 
 
 ### How to install
