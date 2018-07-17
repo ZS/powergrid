@@ -1,4 +1,6 @@
 # Powergrid
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 ![screen](screens/shot1.PNG)
 
@@ -31,5 +33,3 @@ Please check our [branch](https://github.com/ZS/powergrid) to get upcoming versi
 
 Also check [change.log](https://github.com/ZS/powergrid/blob/master/CHANGELOG.md) for more detailed information about new features, bug fixes and releases.
 
-### Licence
-MIT https://github.com/ZS/powergrid/blob/master/LICENSE
