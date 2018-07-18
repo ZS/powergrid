@@ -1,10 +1,10 @@
 # CSS grid layout in production
 
-## What???
+## What?
 
-## HOW??
+## How?
 
-## Why???
+## Why?
 
 ## Holy grail layout
 
