@@ -135,7 +135,7 @@ function gridCells(cols, rows, prefix) {
 
 
 /**
- * Auto place cells based on the order in the container
+ * Auto place grid items based on the order in the container
  * @param {array} cols 
  * @param {array} rows 
  * @param {string} prefix 
@@ -227,7 +227,7 @@ function toCss(config) {
 /* Grid lines template */
 ${objToCss(grid(config.cols, config.rows, config.prefix))}
 
-/* Auto placement of grid cells based on the order */
+/* Auto placement of grid items based on the order */
 ${arrayToCss(gridAuto(config.cols, config.rows, config.prefix))}
 
 /* Explicit placement of grid cells */
