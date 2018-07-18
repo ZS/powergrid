@@ -1,6 +1,6 @@
 # Changelog
 
-## [v0.1](https://github.com/zs/powergrid/compare/a4564a21ce48789309b1df4d7f3246f51b15e1fe...d81d37bf2e83b374b8f3a275340d84ff21728e07) (2018-16-07)
+## [v0.1](https://github.com/ZS/powergrid/compare/v0.1...master) (2018-16-07)
 - First Release. 
 - Powergrid is an easy to use yet a powerful tool that helps you to readily build cross-browser CSS Grid system. 
 
