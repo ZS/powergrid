@@ -198,8 +198,8 @@
 			var style = {};
 			style['.' + prefix + 'justify-' + value + ' > * '] = gridCell(0, 0, 0, 0, value, 0);
 			style['.' + prefix + 'align-' + value + ' > * '] = gridCell(0, 0, 0, 0, 0, value);
-			style['.' + prefix + 'grid > .' + prefix + 'align-' + value] = gridCell(0, 0, 0, 0, 0, value);
-			style['.' + prefix + 'grid > .' + prefix + 'justify-' + value] = gridCell(0, 0, 0, 0, value, 0);
+			style['.' + prefix + 'grid > .' + prefix + 'align-self-' + value] = gridCell(0, 0, 0, 0, 0, value);
+			style['.' + prefix + 'grid > .' + prefix + 'justify-self-' + value] = gridCell(0, 0, 0, 0, value, 0);
 			styles.push(style);
 		});
 		return styles;

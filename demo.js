@@ -4,6 +4,8 @@ var config = {
 	url: 'https://github.com/ZS/powergrid/',
 	cols: ['minmax(max-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)'],
 	rows: ['minmax(max-content,1fr)', 'minmax(max-content,1fr)', 'minmax(max-content,1fr)'],
+	align: 'stretch',
+	justify: 'stretch',
 	cells: [
 		{
 			text: '1231231231'
@@ -11,6 +13,8 @@ var config = {
 		{
 		},
 		{
+			align: 'end',
+			justify: 'end'
 		},
 		{
 		},
@@ -28,12 +32,16 @@ var config = {
 		{
 		},
 		{
+			align: 'center',
+			justify: 'center'
 		},
 		{
 		},
 		{
 		},
 		{
+			align: 'start',
+			justify: 'start'
 		}
 	],
 	prefix: 'pg-',
@@ -43,6 +51,15 @@ function createGrid() {
 	htmlText = '';
 	var $grid = $('#grid');
 	$grid.attr('class', config.prefix + 'grid fluid');
+	
+	if (config.align) {
+		$grid.addClass(config.prefix + 'align-' + config.align);
+	}
+
+	if (config.justify) {
+		$grid.addClass(config.prefix + 'justify-' + config.justify);
+	}
+
 	$grid.html('');
 	config.cells.forEach(function (cell, index) {
 		var cls = [];

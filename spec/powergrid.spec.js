@@ -7,6 +7,8 @@ var config = {
 	url: 'https://github.com/ZS/powergrid/',
 	cols: ['minmax(max-content,1fr)', '1fr', '100px', '100vw'],
 	rows: ['minmax(max-content,1fr)', 'minmax(max-content,1fr)', 'minmax(max-content,1fr)'],
+	align: 'center',
+	justify: 'end',
 	cells: [
 		{
 			text: '1231231231'
@@ -22,6 +24,8 @@ var config = {
 			colSpan: 4
 		},
 		{
+			align: 'center',
+			justify: 'end'
 		},
 		{
 			row: 2,
@@ -74,9 +78,25 @@ describe('powegrid', function () {
 		var arr = powergrid.cellAlign(config.prefix);
 		expect(arr.length).toBe(4); // start, end, center, stretch
 		var css = powergrid.arrayToCss(arr);
-		expect(css.indexOf('justify-end')).toBeGreaterThanOrEqual(0);
+		expect(css.indexOf(config.prefix+'justify-end')).toBeGreaterThanOrEqual(0);
+		expect(css.indexOf('align-end')).toBeGreaterThanOrEqual(0);
+		expect(css.indexOf('align-self-end')).toBeGreaterThanOrEqual(0);
+		expect(css.indexOf('justify-self-end')).toBeGreaterThanOrEqual(0);
+		
+		expect(css.indexOf('justify-self-start')).toBeGreaterThanOrEqual(0);
+		expect(css.indexOf('align-self-start')).toBeGreaterThanOrEqual(0);
+		expect(css.indexOf('justify-start')).toBeGreaterThanOrEqual(0);
 		expect(css.indexOf('align-start')).toBeGreaterThanOrEqual(0);
-		// TODO: check more values
+
+		expect(css.indexOf('justify-self-stretch')).toBeGreaterThanOrEqual(0);
+		expect(css.indexOf('align-self-stretch')).toBeGreaterThanOrEqual(0);
+		expect(css.indexOf('justify-stretch')).toBeGreaterThanOrEqual(0);
+		expect(css.indexOf('align-stretch')).toBeGreaterThanOrEqual(0);
+
+		expect(css.indexOf('justify-self-center')).toBeGreaterThanOrEqual(0);
+		expect(css.indexOf('align-self-center')).toBeGreaterThanOrEqual(0);
+		expect(css.indexOf('justify-center')).toBeGreaterThanOrEqual(0);
+		expect(css.indexOf(config.prefix+'align-center')).toBeGreaterThanOrEqual(0);		
 	});
 
 	it('can auto place cells', function () {
