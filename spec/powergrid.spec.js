@@ -50,7 +50,7 @@ describe('powergrid', function () {
 	it('can position grid cells', function () {
 		expect(typeof powergrid.gridCell).toBe('function');
 		var props = powergrid.gridCell(1);
-		expect(props.gridColumnStart).toBe(0);
+		expect(props.gridColumnStart).toBe(1);
 		expect(props['-ms-grid-column']).toBe(1);
 		//TODO: add more cases
 	});
