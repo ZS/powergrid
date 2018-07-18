@@ -46,7 +46,7 @@ var config = {
 	prefix: 'grid',
 };
 
-describe('powegrid', function () {
+describe('powergrid', function () {
 	it('can position grid cells', function () {
 		expect(typeof powergrid.gridCell).toBe('function');
 		var props = powergrid.gridCell(1);
