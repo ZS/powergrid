@@ -1,5 +1,6 @@
 # Powergrid
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.com/ZS/powergrid.svg?branch=master)](https://travis-ci.com/ZS/powergrid)
 
 
 ![screen](screens/shot1.PNG)
