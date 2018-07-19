@@ -216,7 +216,14 @@ function showWarnings(){
 	$(".alerts-container").html("");
 
 	// Auto placement warning
-	createAlert("Auto-placement of grid cells is not supported on IE11. Use explicit placement for spanning cells beyond specified columns. See <a target='_blank' href='https://github.com/ZS/powergrid/issues/9'>details</a>");
+	for(var i=0;i<config.cells.length;i++){
+		if(config.cells[i].colSpan>config.cols.length){
+			createAlert("Auto-placement of grid cells is not supported on IE11. Hence, Powergrid restricts spanning of cells beyond configured number of columns. See <a target='_blank' href='https://github.com/ZS/powergrid/issues/9'>details</a>");
+			break;
+		}
+	}
+
+	//TODO:Additional warning scenarios can be added here.
 }
 
 var htmlExample = "";
