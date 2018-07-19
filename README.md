@@ -24,7 +24,7 @@ Powergrid is an easy to use yet a powerful tool to readily build a cross-browser
   - View the source code (HTML and CSS) of the built Grid from "View Source" option on the configuration panel and you can also copy it.
 
 ### Test
-  - Open in browser test/index.html.
+  - Run command `npm test` on terminal.
 
 ### Issues and bug reporting 
 Please feel free to add a bug / feature request / suggestions to the [issue tracker](https://github.com/ZS/powergrid/issues). 
@@ -32,5 +32,5 @@ Please feel free to add a bug / feature request / suggestions to the [issue trac
 ### References
 Please check our [branch](https://github.com/ZS/powergrid) to get upcoming versions and features.
 
-Also check [change.log](https://github.com/ZS/powergrid/blob/master/CHANGELOG.md) for more detailed information about new features, bug fixes and releases.
+Also check [changelog](https://github.com/ZS/powergrid/blob/master/CHANGELOG.md) for more detailed information about new features, bug fixes and releases.
 
