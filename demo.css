@@ -238,13 +238,12 @@ div.ace-jsoneditor{
 	display: -ms-grid;
 	grid-template-columns: minmax(max-content,1fr) minmax(min-content,1fr);
 	-ms-grid-columns: minmax(max-content,1fr) minmax(min-content,1fr);
-	grid-template-rows: minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr);
-	-ms-grid-rows: minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr);
+	grid-template-rows: minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr);
+	-ms-grid-rows: minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr);
   }
   .cell-form-grid > :nth-child(n){
 	  margin-bottom: 10px;
   }
-  
   .cell-form-grid > :nth-child(2n+1) {
 	grid-column-start: 1;
 	-ms-grid-column: 1;
@@ -284,3 +283,15 @@ div.ace-jsoneditor{
 	grid-row-start: 6;
 	-ms-grid-row: 6;
   }
+  
+  .cell-form-grid > :nth-child(n+13) {
+	grid-row-start: 7;
+	-ms-grid-row: 7;
+  }
+  
+  .cell-form-grid > :nth-child(n+15) {
+	grid-row-start: 8;
+	-ms-grid-row: 8;
+  }
+  
+  

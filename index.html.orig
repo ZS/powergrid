@@ -108,38 +108,18 @@
 			</div>
 			<div class="modal-body">
 				<div class="cell-form-grid">
-					<div>Text:</div>
+					<div>Text</div>
 					<div><input type="text" id="cell-text"/></div>
-					<div>Cloumn Start:</div>
+					<div>Cloumn Start</div>
 					<div><input type="number" min="0" id="cell-col"/></div>
-					<div>Cloumn Span:</div>
+					<div>Cloumn Span</div>
 					<div><input type="number" min="0" id="cell-col-span"/></div>
-					<div>Row Start:</div>
+					<div>Row Start</div>
 					<div><input type="number" min="0" id="cell-row"/></div>
-					<div>Row Span:</div>
+					<div>Row Span</div>
 					<div><input type="number" min="0" id="cell-row-span"/></div>	
-					<div>Order:</div>
-					<div><input type="number" min="0" id="cell-order"/></div>
-					<div>Align:</div>
-					<div>
-						<select id="cell-align">
-								<option value="">--Select--</option>
-								<option value="stretch">Stretch</option>
-								<option value="start">Start</option>
-								<option value="center">Center</option>
-								<option value="end">End</option>
-						</select>
-					</div>
-					<div>Justify:</div>
-					<div>
-							<select id="cell-justify">
-									<option value="">--Select--</option>
-									<option value="stretch">Stretch</option>
-									<option value="start">Start</option>
-									<option value="center">Center</option>
-									<option value="end">End</option>
-							</select>
-					</div>				
+					<div>Order</div>
+					<div><input type="number" min="0" id="cell-order"/></div>				
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -179,7 +159,11 @@
 							<span class="power-grid-tooltiptext" id="myTooltipCss">Copy CSS to clipboard</span>Copy
 						</button>
 					</div>
+<<<<<<< HEAD
 					<code for="grid-css" class="hljs css"></code>
+=======
+					<code for="grid-css" class="hljs html"></code>
+>>>>>>> Adding UI congiguration of grid cell
 				</div>
 
 				<div id="fullSourceContainer" class="power-grid-tabcontent">

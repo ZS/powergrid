@@ -230,6 +230,19 @@ var buildGrid = function () {
 		else{
 			$("#cell-order").val('');
 		}
+		if(config.cells[cellIndex].align){
+			$("#cell-align").val(config.cells[cellIndex].align);
+		}
+		else{
+			$("#cell-align").val('');
+			
+		}
+		if(config.cells[cellIndex].justify){
+			$("#cell-justify").val(config.cells[cellIndex].justify);
+		}
+		else{
+			$("#cell-justify").val('');
+		}
 		$("#cell-text").val(this.innerHTML);
 		$("#cellContainer").fadeIn();
 	});
@@ -242,13 +255,33 @@ function saveCellOptions(){
 	var rowStart = $('#cell-row').val();
 	var rowSpan = $('#cell-row-span').val();
 	var cellOrder = $('#cell-order').val();
+	var cellAlign = $('#cell-align').val();
+	var cellJustify = $('#cell-justify').val();
 
 	config.cells[cellIndex].text = cellText;
-	config.cells[cellIndex].col = colStart;
-	config.cells[cellIndex].colSpan = colSpan;
-	config.cells[cellIndex].row = rowStart;
-	config.cells[cellIndex].rowSpan = rowSpan;
-	config.cells[cellIndex].order = cellOrder;
+	
+	if(!(!config.cells[cellIndex].col && (colStart == '' || !colStart))){
+		config.cells[cellIndex].col = colStart;
+	}
+	if(!(!config.cells[cellIndex].row && (rowStart == '' || !rowStart))){
+		config.cells[cellIndex].row = rowStart;
+	}
+	if(!(!config.cells[cellIndex].colSpan && (colSpan == '' || !colSpan))){
+		config.cells[cellIndex].colSpan = colSpan;
+	}
+	if(!(!config.cells[cellIndex].rowSpan && (rowSpan == '' || !rowSpan))){
+		config.cells[cellIndex].rowSpan = rowSpan;
+	}
+	if(!(!config.cells[cellIndex].order && (cellOrder == '' || !cellOrder))){
+		config.cells[cellIndex].order = cellOrder;
+	}
+	if(!(!config.cells[cellIndex].align && (cellAlign == '' || !cellAlign))){
+		config.cells[cellIndex].align = cellAlign;
+	}
+	if(!(!config.cells[cellIndex].justify && (cellJustify == '' || !cellJustify))){
+		config.cells[cellIndex].justify = cellJustify;
+	}
+	updateUrl(config);
 	buildGrid();
 	$('#cellContainer').fadeOut();
 }
