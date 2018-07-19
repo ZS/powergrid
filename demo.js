@@ -159,7 +159,7 @@ function updateUrl(config) {
 }
 
 var closeModal = function (el) {
-	$(el).closest(".modal").fadeOut();
+	$(el).closest(".pg-modal").fadeOut();
 }
 
 var showEditJSONModal = function () {
@@ -171,7 +171,7 @@ var showEditJSONModal = function () {
 		modes: ['code', 'tree']
 	};
 
-	var container = $("#jsonContainer .modal-content .modal-body");
+	var container = $("#jsonContainer .pg-modal-content .pg-modal-body");
 
 	if (typeof editor == 'undefined' && container.length) {
 		editor = new JSONEditor(container[0], options);
@@ -193,54 +193,31 @@ var saveEditedJSON = function () {
 var buildGrid = function () {
 	createGrid();
 	createStyles();
-
+	showWarnings();
 
 	// $('.cell').on('click', function(event) {
 	// 	cellDialog(this, event);
 	// });
 }
 
-$(function () {
-	config = fetchConfig() || config;
-	buildGrid();
+function createAlert(html,$container){
+	if(!$container){
+		$container = $(".alerts-container");
+	}
 
-	$('#open-source-code').on('click', function () {
-		getHTML();
-		getFullSource();
-		highlight();
-		$("#sourceContainer").fadeIn();
-		document.getElementById("defaultOpenTab").click();
-	});
-	//Initialize configuration panel
-	var slider = $("#menu-bar").slideReveal({
-		// width: 100,
-		push: false,
-		position: "right",
-		// speed: 600,
-		trigger: $("#menu-bar .handle"),
-		// autoEscape: false,
-		shown: function (obj) {
-			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-right"></span>');
-			obj.find(".handle").html('&#10095;');
-			obj.addClass("left-shadow-overlay");
-		},
-		hidden: function (obj) {
-			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-left"></span>');
-			obj.find(".handle").html('&#10094;');
-			obj.removeClass("left-shadow-overlay");
-		}
-	});
+	var $alert=$($("template#alert-template").html());
 
-	$("#menu-bar a").on("click", function () {
-		slider.slideReveal("hide");
-	});
+	$alert.find(".message").html(html);
 
-	window.onpopstate = function (event) {
-		window.location.reload();
-	};
-});
+	$container.append($alert);
+}
 
+function showWarnings(){
+	$(".alerts-container").html("");
 
+	// Auto placement warning
+	createAlert("Auto-placement of grid cells is not supported on IE11. Use explicit placement for spanning cells beyond specified columns. See <a target='_blank' href='https://github.com/ZS/powergrid/issues/9'>details</a>");
+}
 
 var htmlExample = "";
 function getHTML() {
@@ -295,7 +272,7 @@ function highlight() {
 		var html = $source.html();
 		// Fix links
 		html = replaceAll(html, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
-		this.innerHTML = '<pre></pre>';
+		this.innerHTML = '<pre class="hljs"></pre>';
 		var preTag =this.querySelector('pre');
 		preTag.innerText = html;
 		hljs.highlightBlock(this);
@@ -348,3 +325,43 @@ function tooltipOutFunc(src) {
 		tooltip.innerHTML = "Copy Source to clipboard";
 	}
 }
+
+$(function () {
+	config = fetchConfig() || config;
+	buildGrid();
+
+	$('#open-source-code').on('click', function () {
+		getHTML();
+		getFullSource();
+		highlight();
+		$("#sourceContainer").fadeIn();
+		document.getElementById("defaultOpenTab").click();
+	});
+	//Initialize configuration panel
+	var slider = $("#menu-bar").slideReveal({
+		// width: 100,
+		push: false,
+		position: "right",
+		// speed: 600,
+		trigger: $("#menu-bar .handle"),
+		// autoEscape: false,
+		shown: function (obj) {
+			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-right"></span>');
+			obj.find(".handle").html('&#10095;');
+			obj.addClass("left-shadow-overlay");
+		},
+		hidden: function (obj) {
+			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-left"></span>');
+			obj.find(".handle").html('&#10094;');
+			obj.removeClass("left-shadow-overlay");
+		}
+	});
+
+	$("#menu-bar a").on("click", function () {
+		slider.slideReveal("hide");
+	});
+
+	window.onpopstate = function (event) {
+		window.location.reload();
+	};
+});
