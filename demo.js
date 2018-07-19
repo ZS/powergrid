@@ -189,15 +189,68 @@ var saveEditedJSON = function () {
 		buildGrid();
 	}
 }
-
+var cellIndex;
 var buildGrid = function () {
 	createGrid();
 	createStyles();
 
+	$('#grid > div ').on('click', function(event) {
+		cellIndex = 0;
+		var self = this;
+		while( (self = self.previousSibling) != null ){
+			cellIndex++;
+		}
+		if(config.cells[cellIndex].col){
+			$("#cell-col").val(config.cells[cellIndex].col);
+		}
+		else{
+			$("#cell-col").val('');
+		}
+		if(config.cells[cellIndex].colSpan){
+			$("#cell-col-span").val(config.cells[cellIndex].colSpan);
+		}
+		else{
+			$("#cell-col-span").val('');
+		}
+		if(config.cells[cellIndex].row){
+			$("#cell-row").val(config.cells[cellIndex].row);
+		}
+		else{
+			$("#cell-row").val('');
+		}
+		if(config.cells[cellIndex].rowSpan){
+			$("#cell-row-span").val(config.cells[cellIndex].rowSpan);
+		}
+		else{
+			$("#cell-row-span").val('');
+		}
+		if(config.cells[cellIndex].order){
+			$("#cell-order").val(config.cells[cellIndex].order);
+		}
+		else{
+			$("#cell-order").val('');
+		}
+		$("#cell-text").val(this.innerHTML);
+		$("#cellContainer").fadeIn();
+	});
+}
 
-	// $('.cell').on('click', function(event) {
-	// 	cellDialog(this, event);
-	// });
+function saveCellOptions(){
+	var cellText = $('#cell-text').val();
+	var colStart = $('#cell-col').val();
+	var colSpan = $('#cell-col-span').val();
+	var rowStart = $('#cell-row').val();
+	var rowSpan = $('#cell-row-span').val();
+	var cellOrder = $('#cell-order').val();
+
+	config.cells[cellIndex].text = cellText;
+	config.cells[cellIndex].col = colStart;
+	config.cells[cellIndex].colSpan = colSpan;
+	config.cells[cellIndex].row = rowStart;
+	config.cells[cellIndex].rowSpan = rowSpan;
+	config.cells[cellIndex].order = cellOrder;
+	buildGrid();
+	$('#cellContainer').fadeOut();
 }
 
 $(function () {

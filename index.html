@@ -36,6 +36,7 @@
 			color: #000;
 			text-shadow: 1px 1px #c0c0c0;
 			margin: 5px;
+			cursor: pointer;
 		}
 		
 		#grid>div:nth-child(n+1) {
@@ -95,6 +96,34 @@
 			</div>
 			<div class="modal-footer">
 				<button class="button" onclick="saveEditedJSON()">OK</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="cellContainer" class="modal">
+		<div class="modal-content" style="width:35%">
+			<div class="modal-header">
+				<h3>Configure Cell</h3>
+				<span class="close" onclick="closeModal(this)">&times;</span>
+			</div>
+			<div class="modal-body">
+				<div class="cell-form-grid">
+					<div>Text</div>
+					<div><input type="text" id="cell-text"/></div>
+					<div>Cloumn Start</div>
+					<div><input type="number" min="0" id="cell-col"/></div>
+					<div>Cloumn Span</div>
+					<div><input type="number" min="0" id="cell-col-span"/></div>
+					<div>Row Start</div>
+					<div><input type="number" min="0" id="cell-row"/></div>
+					<div>Row Span</div>
+					<div><input type="number" min="0" id="cell-row-span"/></div>	
+					<div>Order</div>
+					<div><input type="number" min="0" id="cell-order"/></div>				
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="button" onclick="saveCellOptions()">OK</button>
 			</div>
 		</div>
 	</div>
