@@ -79,30 +79,33 @@
 			background: rgba(0, 255, 0, 0.5);
 			border: 1px solid green;
 		}
+		#grid>div:nth-child(n).selected-grid{
+			border: 2px dashed black;
+		}
 	</style>
-	<link rel="stylesheet" href="demo.css"/>	
+	<link rel="stylesheet" href="demo.css" />
 	<style id="grid-css"></style>
 </head>
 
 <body>
 
-	<div id="jsonContainer" class="pg-modal">
-		<div class="pg-modal-content">
-			<div class="pg-modal-header">
+	<div id="jsonContainer" class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
 				<h3>Configure Grid </h3>
 				<span class="close" onclick="closeModal(this)">&times;</span>
 			</div>
-			<div class="pg-modal-body">
+			<div class="modal-body">
 				<!-- JSON editor goes here -->
 			</div>
-			<div class="pg-modal-footer">
+			<div class="modal-footer">
 				<button class="button" onclick="saveEditedJSON()">OK</button>
 			</div>
 		</div>
 	</div>
 
 	<div id="cellContainer" class="modal">
-		<div class="modal-content" style="width:35%">
+		<div class="modal-content">
 			<div class="modal-header">
 				<h3>Configure Cell</h3>
 				<span class="close" onclick="closeModal(this)">&times;</span>
@@ -110,37 +113,49 @@
 			<div class="modal-body">
 				<div class="cell-form-grid">
 					<div>Text:</div>
-					<div><input type="text" id="cell-text"/></div>
+					<div>
+						<input type="text" id="cell-text" />
+					</div>
 					<div>Cloumn Start:</div>
-					<div><input type="number" min="0" id="cell-col"/></div>
+					<div>
+						<input type="number" min="0"  onlynumber id="cell-col" />
+					</div>
 					<div>Cloumn Span:</div>
-					<div><input type="number" min="0" id="cell-col-span"/></div>
+					<div>
+						<input type="number" min="0" onlynumber id="cell-col-span" />
+					</div>
 					<div>Row Start:</div>
-					<div><input type="number" min="0" id="cell-row"/></div>
+					<div>
+						<input type="number" min="0" onlynumber id="cell-row" />
+					</div>
 					<div>Row Span:</div>
-					<div><input type="number" min="0" id="cell-row-span"/></div>	
+					<div>
+						<input type="number" min="0" onlynumber id="cell-row-span" />
+					</div>
 					<div>Order:</div>
-					<div><input type="number" min="0" id="cell-order"/></div>
+					<div>
+						<input type="number" min="0" onlynumber id="cell-order" />
+					</div>
 					<div>Align:</div>
 					<div>
 						<select id="cell-align">
-								<option value="">--Select--</option>
-								<option value="stretch">Stretch</option>
-								<option value="start">Start</option>
-								<option value="center">Center</option>
-								<option value="end">End</option>
+							<option value="">--Select--</option>
+							<option value="stretch">Stretch</option>
+							<option value="start">Start</option>
+							<option value="center">Center</option>
+							<option value="end">End</option>
 						</select>
 					</div>
 					<div>Justify:</div>
 					<div>
-							<select id="cell-justify">
-									<option value="">--Select--</option>
-									<option value="stretch">Stretch</option>
-									<option value="start">Start</option>
-									<option value="center">Center</option>
-									<option value="end">End</option>
-							</select>
-					</div>				
+						<select id="cell-justify">
+							<option value="">--Select--</option>
+							<option value="stretch">Stretch</option>
+							<option value="start">Start</option>
+							<option value="center">Center</option>
+							<option value="end">End</option>
+						</select>
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -148,15 +163,15 @@
 			</div>
 		</div>
 	</div>
-	
-	<div id="sourceContainer" class="pg-modal">
+
+	<div id="sourceContainer" class="modal">
 		<!-- Modal content -->
-		<div class="pg-modal-content">
-			<div class="pg-modal-header">
+		<div class="modal-content">
+			<div class="modal-header">
 				<h3>Source</h3>
 				<span class="close" onclick="closeModal(this)">&times;</span>
 			</div>
-			<div class="pg-modal-body">
+			<div class="modal-body">
 				<div class="power-grid-tab">
 					<button class="tablinks" onclick="openSourceContent(event, 'htmlContainer')" id="defaultOpenTab">HTML</button>
 					<button class="tablinks" onclick="openSourceContent(event, 'cssContainer')">CSS</button>
@@ -193,12 +208,11 @@
 				</div>
 
 			</div>
-			<div class="pg-modal-footer">
+			<div class="modal-footer">
 				<button onclick="closeModal(this)" class="button">Close</button>
 			</div>
 		</div>
 	</div>
-
 
 	<div id="grid" class="fluid">
 		<div>1</div>
@@ -214,7 +228,7 @@
 	<div id="full-source">
 
 	</div>
-	
+
 	<div id="menu-bar" class="left-shadow-overlay">
 		<div class="handle">&#10094;</div>
 		<h3>Configuration

@@ -1,33 +1,32 @@
-
 .dialog {
-	position:absolute;
-	background: rgba(50,50,50,0.5);
-	padding:5px;
-	border:1px solid #000;
-	box-shadow:1px 1px 1px #000;
-	border-radius:5px;
-	z-index:999;
+	position: absolute;
+	background: rgba(50, 50, 50, 0.5);
+	padding: 5px;
+	border: 1px solid #000;
+	box-shadow: 1px 1px 1px #000;
+	border-radius: 5px;
+	z-index: 999;
 }
 
 .cell {
-	position:relative;
+	position: relative;
 }
 
 .dialog input, .dialog select, .dialog textarea {
-	background:transparent;
+	background: transparent;
 }
 
-#menu-bar{
+#menu-bar {
 	background-color: #BDBDBD;
 	color: #fff;
 	z-index: 1002;
 }
 
-.left-shadow-overlay{
+.left-shadow-overlay {
 	box-shadow: 10px 0 15px 10px #585858;
 }
 
-#menu-bar h3{
+#menu-bar h3 {
 	background-color: #2E2E2E;
 	font-size: 1.9em;
 	padding: 20px;
@@ -35,7 +34,7 @@
 	font-weight: 300;
 }
 
-#menu-bar a{
+#menu-bar a {
 	border-bottom: 1px solid #D8D8D8;
 	padding: 1em;
 	display: block;
@@ -45,11 +44,11 @@
 	text-decoration: none;
 }
 
-#menu-bar a:hover{
+#menu-bar a:hover {
 	background-color: #D8D8D8;
 }
 
-#menu-bar .handle{
+#menu-bar .handle {
 	background-color: #2E2E2E;
 	left: -40px;
 	padding: 10px;
@@ -63,20 +62,24 @@
 }
 
 /* Modal */
-.pg-modal {
-	display: none; /* Hidden by default */
+
+.modal {
+	display: none;
+	/* Hidden by default */
 	position: fixed;
 	z-index: 2000;
 	left: 0;
 	top: 0;
 	width: 100%;
 	height: 100%;
-	overflow: auto; /* Enable scroll if needed */
-	background-color: rgba(0,0,0,0.4);
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* Modal Content */
-.pg-modal .pg-modal-content {
+
+.modal .modal-content {
 	background-color: #fefefe;
 	padding: 10px 20px;
 	border: 1px solid #888;
@@ -85,7 +88,8 @@
 }
 
 /* The Close Button */
-.pg-modal .pg-modal-content .close {
+
+.modal .modal-content .close {
 	color: #aaaaaa;
 	float: right;
 	font-size: 28px;
@@ -96,220 +100,243 @@
 	margin-top: -16px;
 }
 
-.pg-modal .pg-modal-content .close:hover,
-.pg-modal .pg-modal-content .close:focus {
+.modal .modal-content .close:hover, .modal .modal-content .close:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
 }
 
-.pg-modal .pg-modal-body{
+.modal .modal-body {
 	margin: 1em 0;
 }
 
-.pg-modal .pg-modal-header{
+.modal .modal-header {
 	position: relative;
 }
 
-.pg-modal .pg-modal-header h3{
+.modal .modal-header h3 {
 	font-weight: bold;
 	font-size: 1.17em;
 	margin: 1em 0;
 }
 
 .button {
-    background-color: #2E2E2E; /* Green */
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1em;
-    margin: 4px 2px;
-    cursor: pointer;
+	background-color: #2E2E2E;
+	/* Green */
+	border: none;
+	color: white;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 1em;
+	margin: 4px 2px;
+	cursor: pointer;
 }
 
-.button:hover, .button:focus{
+.button:hover, .button:focus {
 	background-color: #000;
 }
 
-.btn-action{
+.btn-action {
 	background: orange;
-    border: none;
-    color: white;
-    padding: 8px 12px;
-    font-size: 14px;
-    outline: none;
-    cursor: pointer;
+	border: none;
+	color: white;
+	padding: 8px 12px;
+	font-size: 14px;
+	outline: none;
+	cursor: pointer;
 }
-.btn-action:hover{
+
+.btn-action:hover {
 	background: #ed8b00
 }
+
 /* Style the tab */
+
 .power-grid-tab {
-    overflow: hidden;
-    border: 1px solid #ccc;
-    border-bottom: none;
-    background-color: #f1f1f1;
+	overflow: hidden;
+	border: 1px solid #ccc;
+	border-bottom: none;
+	background-color: #f1f1f1;
 }
 
 /* Style the buttons inside the tab */
+
 .power-grid-tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;    
-    font-size: 17px;
+	background-color: inherit;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 14px 16px;
+	font-size: 17px;
 }
 
 /* Change background color of buttons on hover */
+
 .power-grid-tab button:hover {
 	border-bottom: 2px solid #ddd;
 	background-color: #ddd;
-	
 }
 
 /* Create an active/current tablink class */
+
 .power-grid-tab button.active {
 	background-color: #ccc;
 	border-bottom: 2px solid orange;
 }
 
 /* Style the tab content */
+
 .power-grid-tabcontent {
 	position: relative;
-    display: none;
+	display: none;
 }
 
-.copyBtn{
+.copyBtn {
 	position: absolute;
-	right:0;
+	right: 0;
 }
-
 
 .power-grid-tooltip {
-    display: inline-block;
+	display: inline-block;
 }
 
 .power-grid-tooltip .power-grid-tooltiptext {
-    visibility: hidden;
-    min-width: 150px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 150%;
-    left: 50%;
-    margin-left: -75px;
-    opacity: 0;
-    transition: opacity 0.3s;
+	visibility: hidden;
+	min-width: 150px;
+	background-color: #555;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px;
+	position: absolute;
+	z-index: 1;
+	bottom: 150%;
+	left: 50%;
+	margin-left: -75px;
+	opacity: 0;
+	transition: opacity 0.3s;
 }
 
 .power-grid-tooltip .power-grid-tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
 }
 
 .power-grid-tooltip:hover .power-grid-tooltiptext {
-    visibility: visible;
-    opacity: 1;
+	visibility: visible;
+	opacity: 1;
 }
 
-div.jsoneditor-menu{
+div.jsoneditor-menu {
 	background-color: orange;
 	border-bottom: solid 1px orange;
 }
 
-div.jsoneditor{
+div.jsoneditor {
 	border: solid 1px orange;
 }
 
-div.ace-jsoneditor{
+div.ace-jsoneditor {
 	min-height: 50vh;
 }
 
-.cell-form-grid {
-	display: grid;
-	display: -ms-grid;
-	grid-template-columns: minmax(max-content,1fr) minmax(min-content,1fr);
-	-ms-grid-columns: minmax(max-content,1fr) minmax(min-content,1fr);
-	grid-template-rows: minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr);
-	-ms-grid-rows: minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr) minmax(max-content,1fr);
-  }
-  .cell-form-grid > :nth-child(n){
-	  margin-bottom: 10px;
-  }
-  .cell-form-grid > :nth-child(2n+1) {
-	grid-column-start: 1;
-	-ms-grid-column: 1;
-  }
-  
-  .cell-form-grid > :nth-child(2n+2) {
-	grid-column-start: 2;
-	-ms-grid-column: 2;
-  }
-  
-  .cell-form-grid > :nth-child(n+1) {
-	grid-row-start: 1;
-	-ms-grid-row: 1;
-  }
-  
-  .cell-form-grid > :nth-child(n+3) {
-	grid-row-start: 2;
-	-ms-grid-row: 2;
-  }
-  
-  .cell-form-grid > :nth-child(n+5) {
-	grid-row-start: 3;
-	-ms-grid-row: 3;
-  }
-  
-  .cell-form-grid > :nth-child(n+7) {
-	grid-row-start: 4;
-	-ms-grid-row: 4;
-  }
-  
-  .cell-form-grid > :nth-child(n+9) {
-	grid-row-start: 5;
-	-ms-grid-row: 5;
-  }
-  
-  .cell-form-grid > :nth-child(n+11) {
-	grid-row-start: 6;
-	-ms-grid-row: 6;
-  }
-  
-  .cell-form-grid > :nth-child(n+13) {
-	grid-row-start: 7;
-	-ms-grid-row: 7;
-  }
-  
-  .cell-form-grid > :nth-child(n+15) {
-	grid-row-start: 8;
-	-ms-grid-row: 8;
-  }
-  
-  
-.alerts-container{
+.alerts-container {
 	position: fixed;
 	bottom: 0;
 	width: 100%;
 	z-index: 1003;
 }
 
-.alerts-container .alert{
+.alerts-container .alert {
+	margin-bottom: 0;
+	margin-top: 0.5em;
+}
+
+#cellContainer>.modal-content {
+	width: 35%;
+	min-width: 250px;
+}
+
+.cell-form-grid {
+	display: grid;
+	display: -ms-grid;
+	grid-template-columns: minmax(max-content, 1fr) minmax(min-content, 1fr);
+	-ms-grid-columns: minmax(max-content, 1fr) minmax(min-content, 1fr);
+	grid-template-rows: minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr);
+	-ms-grid-rows: minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr);
+}
+
+.cell-form-grid> :nth-child(n) {
+	margin-bottom: 10px;
+}
+
+.cell-form-grid> :nth-child(2n+1) {
+	grid-column-start: 1;
+	-ms-grid-column: 1;
+}
+
+.cell-form-grid> :nth-child(2n+2) {
+	grid-column-start: 2;
+	-ms-grid-column: 2;
+}
+
+.cell-form-grid> :nth-child(n+1) {
+	grid-row-start: 1;
+	-ms-grid-row: 1;
+}
+
+.cell-form-grid> :nth-child(n+3) {
+	grid-row-start: 2;
+	-ms-grid-row: 2;
+}
+
+.cell-form-grid> :nth-child(n+5) {
+	grid-row-start: 3;
+	-ms-grid-row: 3;
+}
+
+.cell-form-grid> :nth-child(n+7) {
+	grid-row-start: 4;
+	-ms-grid-row: 4;
+}
+
+.cell-form-grid> :nth-child(n+9) {
+	grid-row-start: 5;
+	-ms-grid-row: 5;
+}
+
+.cell-form-grid> :nth-child(n+11) {
+	grid-row-start: 6;
+	-ms-grid-row: 6;
+}
+
+.cell-form-grid> :nth-child(n+13) {
+	grid-row-start: 7;
+	-ms-grid-row: 7;
+}
+
+.cell-form-grid> :nth-child(n+15) {
+	grid-row-start: 8;
+	-ms-grid-row: 8;
+}
+
+.alerts-container {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 1003;
+}
+
+.alerts-container .alert {
 	margin-bottom: 0;
 	margin-top: 0.5em;
 }

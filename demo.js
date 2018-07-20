@@ -47,11 +47,12 @@ var config = {
 	prefix: 'pg-',
 };
 var htmlText;
+var cellIndex;
 function createGrid() {
 	htmlText = '';
 	var $grid = $('#grid');
 	$grid.attr('class', config.prefix + 'grid fluid');
-	
+
 	if (config.align) {
 		$grid.addClass(config.prefix + 'align-' + config.align);
 	}
@@ -159,7 +160,10 @@ function updateUrl(config) {
 }
 
 var closeModal = function (el) {
-	$(el).closest(".pg-modal").fadeOut();
+	$(el).closest(".modal").fadeOut();
+	if($(el).closest(".modal").attr('id') == 'cellContainer'){
+		$('#grid').find('.selected-grid').removeClass('selected-grid');
+	}
 }
 
 var showEditJSONModal = function () {
@@ -171,7 +175,7 @@ var showEditJSONModal = function () {
 		modes: ['code', 'tree']
 	};
 
-	var container = $("#jsonContainer .pg-modal-content .pg-modal-body");
+	var container = $("#jsonContainer .modal-content .modal-body");
 
 	if (typeof editor == 'undefined' && container.length) {
 		editor = new JSONEditor(container[0], options);
@@ -189,69 +193,82 @@ var saveEditedJSON = function () {
 		buildGrid();
 	}
 }
-var cellIndex;
+
+function bindCellClick() {
+	$('#grid > div ').on('click', function (event) {
+		cellIndex = 0;
+		var self = this;
+		while ((self = self.previousSibling) != null) {
+			cellIndex++;
+		}
+		if (config.cells[cellIndex].col) {
+			$("#cell-col").val(config.cells[cellIndex].col);
+		}
+		else {
+			$("#cell-col").val('');
+		}
+		if (config.cells[cellIndex].colSpan) {
+			$("#cell-col-span").val(config.cells[cellIndex].colSpan);
+		}
+		else {
+			$("#cell-col-span").val('');
+		}
+		if (config.cells[cellIndex].row) {
+			$("#cell-row").val(config.cells[cellIndex].row);
+		}
+		else {
+			$("#cell-row").val('');
+		}
+		if (config.cells[cellIndex].rowSpan) {
+			$("#cell-row-span").val(config.cells[cellIndex].rowSpan);
+		}
+		else {
+			$("#cell-row-span").val('');
+		}
+		if (config.cells[cellIndex].order) {
+			$("#cell-order").val(config.cells[cellIndex].order);
+		}
+		else {
+			$("#cell-order").val('');
+		}
+		if (config.cells[cellIndex].align) {
+			$("#cell-align").val(config.cells[cellIndex].align);
+		}
+		else {
+			$("#cell-align").val('');
+
+		}
+		if (config.cells[cellIndex].justify) {
+			$("#cell-justify").val(config.cells[cellIndex].justify);
+		}
+		else {
+			$("#cell-justify").val('');
+		}
+		
+		$("#cell-text").val(this.innerHTML);
+		$("#cellContainer").fadeIn();
+		$(this).addClass('selected-grid');
+	});
+
+	$('[onlynumber]').keypress(function (event) {
+		var keycode = event.which;
+		if (!(event.shiftKey == false && (keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+			event.preventDefault();
+		}
+	});
+}
+
 var buildGrid = function () {
 	createGrid();
 	createStyles();
-
-	$('#grid > div ').on('click', function(event) {
-		cellIndex = 0;
-		var self = this;
-		while( (self = self.previousSibling) != null ){
-			cellIndex++;
-		}
-		if(config.cells[cellIndex].col){
-			$("#cell-col").val(config.cells[cellIndex].col);
-		}
-		else{
-			$("#cell-col").val('');
-		}
-		if(config.cells[cellIndex].colSpan){
-			$("#cell-col-span").val(config.cells[cellIndex].colSpan);
-		}
-		else{
-			$("#cell-col-span").val('');
-		}
-		if(config.cells[cellIndex].row){
-			$("#cell-row").val(config.cells[cellIndex].row);
-		}
-		else{
-			$("#cell-row").val('');
-		}
-		if(config.cells[cellIndex].rowSpan){
-			$("#cell-row-span").val(config.cells[cellIndex].rowSpan);
-		}
-		else{
-			$("#cell-row-span").val('');
-		}
-		if(config.cells[cellIndex].order){
-			$("#cell-order").val(config.cells[cellIndex].order);
-		}
-		else{
-			$("#cell-order").val('');
-		}
-		if(config.cells[cellIndex].align){
-			$("#cell-align").val(config.cells[cellIndex].align);
-		}
-		else{
-			$("#cell-align").val('');
-			
-		}
-		if(config.cells[cellIndex].justify){
-			$("#cell-justify").val(config.cells[cellIndex].justify);
-		}
-		else{
-			$("#cell-justify").val('');
-		}
-		$("#cell-text").val(this.innerHTML);
-		$("#cellContainer").fadeIn();
-	});
-
-	showWarnings();
-}
 	
+	if(typeof statusWarnings!=="undefined"){
+		showWarnings();
+	}	
+	bindCellClick();
+}
 
-function saveCellOptions(){
+function saveCellOptions() {
 	var cellText = $('#cell-text').val();
 	var colStart = $('#cell-col').val();
 	var colSpan = $('#cell-col-span').val();
@@ -262,26 +279,26 @@ function saveCellOptions(){
 	var cellJustify = $('#cell-justify').val();
 
 	config.cells[cellIndex].text = cellText;
-	
-	if(!(!config.cells[cellIndex].col && (colStart == '' || !colStart))){
+
+	if (!(!config.cells[cellIndex].col && (colStart == '' || !colStart))) {
 		config.cells[cellIndex].col = colStart;
 	}
-	if(!(!config.cells[cellIndex].row && (rowStart == '' || !rowStart))){
+	if (!(!config.cells[cellIndex].row && (rowStart == '' || !rowStart))) {
 		config.cells[cellIndex].row = rowStart;
 	}
-	if(!(!config.cells[cellIndex].colSpan && (colSpan == '' || !colSpan))){
+	if (!(!config.cells[cellIndex].colSpan && (colSpan == '' || !colSpan))) {
 		config.cells[cellIndex].colSpan = colSpan;
 	}
-	if(!(!config.cells[cellIndex].rowSpan && (rowSpan == '' || !rowSpan))){
+	if (!(!config.cells[cellIndex].rowSpan && (rowSpan == '' || !rowSpan))) {
 		config.cells[cellIndex].rowSpan = rowSpan;
 	}
-	if(!(!config.cells[cellIndex].order && (cellOrder == '' || !cellOrder))){
+	if (!(!config.cells[cellIndex].order && (cellOrder == '' || !cellOrder))) {
 		config.cells[cellIndex].order = cellOrder;
 	}
-	if(!(!config.cells[cellIndex].align && (cellAlign == '' || !cellAlign))){
+	if (!(!config.cells[cellIndex].align && (cellAlign == '' || !cellAlign))) {
 		config.cells[cellIndex].align = cellAlign;
 	}
-	if(!(!config.cells[cellIndex].justify && (cellJustify == '' || !cellJustify))){
+	if (!(!config.cells[cellIndex].justify && (cellJustify == '' || !cellJustify))) {
 		config.cells[cellIndex].justify = cellJustify;
 	}
 	updateUrl(config);
@@ -292,6 +309,10 @@ function saveCellOptions(){
 function createAlert(html,$container){
 	if(!$container){
 		$container = $(".alerts-container");
+	}
+
+	if(!html){
+		html = "Some features might behave differently in older browsers. Consider re-configuring your grid."
 	}
 
 	var $alert=$($("template#alert-template").html());
@@ -307,9 +328,24 @@ function showWarnings(){
 	// Auto placement warning
 	for(var i=0;i<config.cells.length;i++){
 		if(config.cells[i].colSpan>config.cols.length){
-			createAlert("Auto-placement of grid cells is not supported on IE11. Hence, Powergrid restricts spanning of cells beyond configured number of columns. See <a target='_blank' href='https://github.com/ZS/powergrid/issues/9'>details</a>");
+			createAlert(statusWarnings["auto-placement"]);
 			break;
 		}
+	}
+	
+	// Grid template 'auto' warning
+	if(config.cols.join("").indexOf("auto")>=0 || config.rows.join("").indexOf("auto")>=0){
+		createAlert(statusWarnings["auto-grid-template"]);
+	}
+	
+	// fit-content() warning	
+	if(config.cols.join("").indexOf("fit-content")>=0){
+		createAlert(statusWarnings["fit-content"]);
+	}
+
+	// align-items warning
+	if(JSON.stringify(config).indexOf("align-items")>=0 || JSON.stringify(config).indexOf("justify-items")>=0){
+		createAlert(statusWarnings["grid-alignment"]);
 	}
 
 	//TODO:Additional warning scenarios can be added here.
@@ -322,12 +358,12 @@ function getHTML() {
 	$('#htmlEg').html(htmlExample);
 }
 
-var fullSource ="";
-function getFullSource(){
+var fullSource = "";
+function getFullSource() {
 	var demoStyle = document.querySelector('#common').innerHTML;
-	demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g,''));
-	var gridStyle =powergrid.toCss(config);
-	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n'+demoStyle+'</style>\r\n<style id="grid-css">\r\n'+gridStyle+'</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + config.prefix + 'grid fluid">\r\n' + htmlText + '</div> \r\n</body>//-->'
+	demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g, ''));
+	var gridStyle = powergrid.toCss(config);
+	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n' + demoStyle + '</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + config.prefix + 'grid fluid">\r\n' + htmlText + '</div> \r\n</body>//-->'
 	$('#full-source').html(fullSource);
 }
 
@@ -344,8 +380,8 @@ function copyContent(source) {
 		var tooltip = document.querySelector("#myTooltipCss");
 		tooltip.innerHTML = "Copied CSS";
 	}
-	else if(source == "full-source"){
-		textarea.value=  replaceAll(fullSource, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
+	else if (source == "full-source") {
+		textarea.value = replaceAll(fullSource, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
 		var tooltip = document.querySelector("#myTooltipFullSource");
 		tooltip.innerHTML = "Copied Source";
 	}
@@ -422,8 +458,31 @@ function tooltipOutFunc(src) {
 	}
 }
 
+function fetchStatusWarnings() {
+	var deferred = $.Deferred();
+	
+	$.ajax({
+		url:'./status-warnings.json',
+		dataType: 'json',
+		success: function(response){
+			deferred.resolve(response);
+		},
+		error: function(err){
+			deferred.resolve({});
+		}
+	});
+
+	return deferred.promise();
+}
+
 $(function () {
 	config = fetchConfig() || config;
+
+	fetchStatusWarnings().then(function(data){
+		statusWarnings = data.warnings || {};
+		showWarnings();
+	});
+
 	buildGrid();
 
 	$('#open-source-code').on('click', function () {
