@@ -47,11 +47,12 @@ var config = {
 	prefix: 'pg-',
 };
 var htmlText;
+var cellIndex;
 function createGrid() {
 	htmlText = '';
 	var $grid = $('#grid');
 	$grid.attr('class', config.prefix + 'grid fluid');
-	
+
 	if (config.align) {
 		$grid.addClass(config.prefix + 'align-' + config.align);
 	}
@@ -160,6 +161,9 @@ function updateUrl(config) {
 
 var closeModal = function (el) {
 	$(el).closest(".modal").fadeOut();
+	if($(el).closest(".modal").attr('id') == 'cellContainer'){
+		$('#grid').find('.selected-grid').removeClass('selected-grid');
+	}
 }
 
 var showEditJSONModal = function () {
@@ -190,14 +194,112 @@ var saveEditedJSON = function () {
 	}
 }
 
+function bindCellClick() {
+	$('#grid > div ').on('click', function (event) {
+		cellIndex = 0;
+		var self = this;
+		while ((self = self.previousSibling) != null) {
+			cellIndex++;
+		}
+		if (config.cells[cellIndex].col) {
+			$("#cell-col").val(config.cells[cellIndex].col);
+		}
+		else {
+			$("#cell-col").val('');
+		}
+		if (config.cells[cellIndex].colSpan) {
+			$("#cell-col-span").val(config.cells[cellIndex].colSpan);
+		}
+		else {
+			$("#cell-col-span").val('');
+		}
+		if (config.cells[cellIndex].row) {
+			$("#cell-row").val(config.cells[cellIndex].row);
+		}
+		else {
+			$("#cell-row").val('');
+		}
+		if (config.cells[cellIndex].rowSpan) {
+			$("#cell-row-span").val(config.cells[cellIndex].rowSpan);
+		}
+		else {
+			$("#cell-row-span").val('');
+		}
+		if (config.cells[cellIndex].order) {
+			$("#cell-order").val(config.cells[cellIndex].order);
+		}
+		else {
+			$("#cell-order").val('');
+		}
+		if (config.cells[cellIndex].align) {
+			$("#cell-align").val(config.cells[cellIndex].align);
+		}
+		else {
+			$("#cell-align").val('');
+
+		}
+		if (config.cells[cellIndex].justify) {
+			$("#cell-justify").val(config.cells[cellIndex].justify);
+		}
+		else {
+			$("#cell-justify").val('');
+		}
+		
+		$("#cell-text").val(this.innerHTML);
+		$("#cellContainer").fadeIn();
+		$(this).addClass('selected-grid');
+	});
+
+	$('[onlynumber]').keypress(function (event) {
+		var keycode = event.which;
+		if (!(event.shiftKey == false && (keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+			event.preventDefault();
+		}
+	});
+}
+
 var buildGrid = function () {
 	createGrid();
 	createStyles();
+	bindCellClick();
+}
 
+function saveCellOptions() {
+	var cellText = $('#cell-text').val();
+	var colStart = $('#cell-col').val();
+	var colSpan = $('#cell-col-span').val();
+	var rowStart = $('#cell-row').val();
+	var rowSpan = $('#cell-row-span').val();
+	var cellOrder = $('#cell-order').val();
+	var cellAlign = $('#cell-align').val();
+	var cellJustify = $('#cell-justify').val();
 
-	// $('.cell').on('click', function(event) {
-	// 	cellDialog(this, event);
-	// });
+	config.cells[cellIndex].text = cellText;
+
+	if (!(!config.cells[cellIndex].col && (colStart == '' || !colStart))) {
+		config.cells[cellIndex].col = colStart;
+	}
+	if (!(!config.cells[cellIndex].row && (rowStart == '' || !rowStart))) {
+		config.cells[cellIndex].row = rowStart;
+	}
+	if (!(!config.cells[cellIndex].colSpan && (colSpan == '' || !colSpan))) {
+		config.cells[cellIndex].colSpan = colSpan;
+	}
+	if (!(!config.cells[cellIndex].rowSpan && (rowSpan == '' || !rowSpan))) {
+		config.cells[cellIndex].rowSpan = rowSpan;
+	}
+	if (!(!config.cells[cellIndex].order && (cellOrder == '' || !cellOrder))) {
+		config.cells[cellIndex].order = cellOrder;
+	}
+	if (!(!config.cells[cellIndex].align && (cellAlign == '' || !cellAlign))) {
+		config.cells[cellIndex].align = cellAlign;
+	}
+	if (!(!config.cells[cellIndex].justify && (cellJustify == '' || !cellJustify))) {
+		config.cells[cellIndex].justify = cellJustify;
+	}
+	updateUrl(config);
+	buildGrid();
+	$('#cellContainer').fadeOut();
 }
 
 $(function () {
@@ -249,12 +351,12 @@ function getHTML() {
 	$('#htmlEg').html(htmlExample);
 }
 
-var fullSource ="";
-function getFullSource(){
+var fullSource = "";
+function getFullSource() {
 	var demoStyle = document.querySelector('#common').innerHTML;
-	demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g,''));
-	var gridStyle =powergrid.toCss(config);
-	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n'+demoStyle+'</style>\r\n<style id="grid-css">\r\n'+gridStyle+'</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + config.prefix + 'grid fluid">\r\n' + htmlText + '</div> \r\n</body>//-->'
+	demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g, ''));
+	var gridStyle = powergrid.toCss(config);
+	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n' + demoStyle + '</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + config.prefix + 'grid fluid">\r\n' + htmlText + '</div> \r\n</body>//-->'
 	$('#full-source').html(fullSource);
 }
 
@@ -271,8 +373,8 @@ function copyContent(source) {
 		var tooltip = document.querySelector("#myTooltipCss");
 		tooltip.innerHTML = "Copied CSS";
 	}
-	else if(source == "full-source"){
-		textarea.value=  replaceAll(fullSource, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
+	else if (source == "full-source") {
+		textarea.value = replaceAll(fullSource, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
 		var tooltip = document.querySelector("#myTooltipFullSource");
 		tooltip.innerHTML = "Copied Source";
 	}
@@ -296,7 +398,7 @@ function highlight() {
 		// Fix links
 		html = replaceAll(html, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
 		this.innerHTML = '<pre></pre>';
-		var preTag =this.querySelector('pre');
+		var preTag = this.querySelector('pre');
 		preTag.innerText = html;
 		hljs.highlightBlock(this);
 	})
