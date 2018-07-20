@@ -161,6 +161,9 @@ function updateUrl(config) {
 
 var closeModal = function (el) {
 	$(el).closest(".modal").fadeOut();
+	if($(el).closest(".modal").attr('id') == 'cellContainer'){
+		$('#grid').find('.selected-grid').removeClass('selected-grid');
+	}
 }
 
 var showEditJSONModal = function () {
@@ -241,8 +244,10 @@ function bindCellClick() {
 		else {
 			$("#cell-justify").val('');
 		}
+		
 		$("#cell-text").val(this.innerHTML);
 		$("#cellContainer").fadeIn();
+		$(this).addClass('selected-grid');
 	});
 
 	$('[onlynumber]').keypress(function (event) {
