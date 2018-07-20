@@ -193,7 +193,10 @@ var saveEditedJSON = function () {
 var buildGrid = function () {
 	createGrid();
 	createStyles();
-	showWarnings();
+	
+	if(typeof statusWarnings!=="undefined"){
+		showWarnings();
+	}	
 
 	// $('.cell').on('click', function(event) {
 	// 	cellDialog(this, event);
@@ -203,6 +206,10 @@ var buildGrid = function () {
 function createAlert(html,$container){
 	if(!$container){
 		$container = $(".alerts-container");
+	}
+
+	if(!html){
+		html = "Some features might behave differently in older browsers. Consider re-configuring your grid."
 	}
 
 	var $alert=$($("template#alert-template").html());
@@ -218,9 +225,24 @@ function showWarnings(){
 	// Auto placement warning
 	for(var i=0;i<config.cells.length;i++){
 		if(config.cells[i].colSpan>config.cols.length){
-			createAlert("Auto-placement of grid cells is not supported on IE11. Hence, Powergrid restricts spanning of cells beyond configured number of columns. See <a target='_blank' href='https://github.com/ZS/powergrid/issues/9'>details</a>");
+			createAlert(statusWarnings["auto-placement"]);
 			break;
 		}
+	}
+	
+	// Grid template 'auto' warning
+	if(config.cols.join("").indexOf("auto")>=0 || config.rows.join("").indexOf("auto")>=0){
+		createAlert(statusWarnings["auto-grid-template"]);
+	}
+	
+	// fit-content() warning	
+	if(config.cols.join("").indexOf("fit-content")>=0){
+		createAlert(statusWarnings["fit-content"]);
+	}
+
+	// align-items warning
+	if(JSON.stringify(config).indexOf("align-items")>=0 || JSON.stringify(config).indexOf("justify-items")>=0){
+		createAlert(statusWarnings["grid-alignment"]);
 	}
 
 	//TODO:Additional warning scenarios can be added here.
@@ -333,8 +355,31 @@ function tooltipOutFunc(src) {
 	}
 }
 
+function fetchStatusWarnings() {
+	var deferred = $.Deferred();
+	
+	$.ajax({
+		url:'./status-warnings.json',
+		dataType: 'json',
+		success: function(response){
+			deferred.resolve(response);
+		},
+		error: function(err){
+			deferred.resolve({});
+		}
+	});
+
+	return deferred.promise();
+}
+
 $(function () {
 	config = fetchConfig() || config;
+
+	fetchStatusWarnings().then(function(data){
+		statusWarnings = data.warnings || {};
+		showWarnings();
+	});
+
 	buildGrid();
 
 	$('#open-source-code').on('click', function () {
