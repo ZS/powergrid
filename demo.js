@@ -175,7 +175,7 @@ var showEditJSONModal = function () {
 		modes: ['code', 'tree']
 	};
 
-	var container = $("#jsonContainer .modal-content .modal-body");
+	var container = $("#jsonContainer .pg-modal-content .pg-modal-body");
 
 	if (typeof editor == 'undefined' && container.length) {
 		editor = new JSONEditor(container[0], options);
@@ -261,6 +261,10 @@ function bindCellClick() {
 var buildGrid = function () {
 	createGrid();
 	createStyles();
+	
+	if(typeof statusWarnings!=="undefined"){
+		showWarnings();
+	}	
 	bindCellClick();
 }
 
@@ -302,47 +306,50 @@ function saveCellOptions() {
 	$('#cellContainer').fadeOut();
 }
 
-$(function () {
-	config = fetchConfig() || config;
-	buildGrid();
+function createAlert(html,$container){
+	if(!$container){
+		$container = $(".alerts-container");
+	}
 
-	$('#open-source-code').on('click', function () {
-		getHTML();
-		getFullSource();
-		highlight();
-		$("#sourceContainer").fadeIn();
-		document.getElementById("defaultOpenTab").click();
-	});
-	//Initialize configuration panel
-	var slider = $("#menu-bar").slideReveal({
-		// width: 100,
-		push: false,
-		position: "right",
-		// speed: 600,
-		trigger: $("#menu-bar .handle"),
-		// autoEscape: false,
-		shown: function (obj) {
-			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-right"></span>');
-			obj.find(".handle").html('&#10095;');
-			obj.addClass("left-shadow-overlay");
-		},
-		hidden: function (obj) {
-			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-left"></span>');
-			obj.find(".handle").html('&#10094;');
-			obj.removeClass("left-shadow-overlay");
+	if(!html){
+		html = "Some features might behave differently in older browsers. Consider re-configuring your grid."
+	}
+
+	var $alert=$($("template#alert-template").html());
+
+	$alert.find(".message").html(html);
+
+	$container.append($alert);
+}
+
+function showWarnings(){
+	$(".alerts-container").html("");
+
+	// Auto placement warning
+	for(var i=0;i<config.cells.length;i++){
+		if(config.cells[i].colSpan>config.cols.length){
+			createAlert(statusWarnings["auto-placement"]);
+			break;
 		}
-	});
+	}
+	
+	// Grid template 'auto' warning
+	if(config.cols.join("").indexOf("auto")>=0 || config.rows.join("").indexOf("auto")>=0){
+		createAlert(statusWarnings["auto-grid-template"]);
+	}
+	
+	// fit-content() warning	
+	if(config.cols.join("").indexOf("fit-content")>=0){
+		createAlert(statusWarnings["fit-content"]);
+	}
 
-	$("#menu-bar a").on("click", function () {
-		slider.slideReveal("hide");
-	});
+	// align-items warning
+	if(JSON.stringify(config).indexOf("align-items")>=0 || JSON.stringify(config).indexOf("justify-items")>=0){
+		createAlert(statusWarnings["grid-alignment"]);
+	}
 
-	window.onpopstate = function (event) {
-		window.location.reload();
-	};
-});
-
-
+	//TODO:Additional warning scenarios can be added here.
+}
 
 var htmlExample = "";
 function getHTML() {
@@ -397,8 +404,8 @@ function highlight() {
 		var html = $source.html();
 		// Fix links
 		html = replaceAll(html, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
-		this.innerHTML = '<pre></pre>';
-		var preTag = this.querySelector('pre');
+		this.innerHTML = '<pre class="hljs"></pre>';
+		var preTag =this.querySelector('pre');
 		preTag.innerText = html;
 		hljs.highlightBlock(this);
 	})
@@ -450,3 +457,66 @@ function tooltipOutFunc(src) {
 		tooltip.innerHTML = "Copy Source to clipboard";
 	}
 }
+
+function fetchStatusWarnings() {
+	var deferred = $.Deferred();
+	
+	$.ajax({
+		url:'./status-warnings.json',
+		dataType: 'json',
+		success: function(response){
+			deferred.resolve(response);
+		},
+		error: function(err){
+			deferred.resolve({});
+		}
+	});
+
+	return deferred.promise();
+}
+
+$(function () {
+	config = fetchConfig() || config;
+
+	fetchStatusWarnings().then(function(data){
+		statusWarnings = data.warnings || {};
+		showWarnings();
+	});
+
+	buildGrid();
+
+	$('#open-source-code').on('click', function () {
+		getHTML();
+		getFullSource();
+		highlight();
+		$("#sourceContainer").fadeIn();
+		document.getElementById("defaultOpenTab").click();
+	});
+	//Initialize configuration panel
+	var slider = $("#menu-bar").slideReveal({
+		// width: 100,
+		push: false,
+		position: "right",
+		// speed: 600,
+		trigger: $("#menu-bar .handle"),
+		// autoEscape: false,
+		shown: function (obj) {
+			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-right"></span>');
+			obj.find(".handle").html('&#10095;');
+			obj.addClass("left-shadow-overlay");
+		},
+		hidden: function (obj) {
+			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-left"></span>');
+			obj.find(".handle").html('&#10094;');
+			obj.removeClass("left-shadow-overlay");
+		}
+	});
+
+	$("#menu-bar a").on("click", function () {
+		slider.slideReveal("hide");
+	});
+
+	window.onpopstate = function (event) {
+		window.location.reload();
+	};
+});
