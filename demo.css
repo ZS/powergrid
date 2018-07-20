@@ -232,7 +232,10 @@ div.jsoneditor{
 div.ace-jsoneditor{
 	min-height: 50vh;
 }
-
+#cellContainer > .modal-content{
+	width:35%; 
+	min-width:250px;
+}
 .cell-form-grid {
 	display: grid;
 	display: -ms-grid;

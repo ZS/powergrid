@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.css" />
 	<style id="common">
 		/* General styles */
+
 		body,
 		html {
 			padding: 0;
@@ -23,6 +24,7 @@
 		}
 
 		/* Decorate cells for better identification */
+
 		#grid {
 			background: transparent;
 		}
@@ -38,7 +40,7 @@
 			margin: 5px;
 			cursor: pointer;
 		}
-		
+
 		#grid>div:nth-child(n+1) {
 			background: rgba(0, 255, 0, 0.5);
 			border: 1px solid green;
@@ -79,7 +81,7 @@
 			border: 1px solid green;
 		}
 	</style>
-	<link rel="stylesheet" href="demo.css"/>	
+	<link rel="stylesheet" href="demo.css" />
 	<style id="grid-css"></style>
 </head>
 
@@ -101,7 +103,7 @@
 	</div>
 
 	<div id="cellContainer" class="modal">
-		<div class="modal-content" style="width:35%">
+		<div class="modal-content">
 			<div class="modal-header">
 				<h3>Configure Cell</h3>
 				<span class="close" onclick="closeModal(this)">&times;</span>
@@ -109,37 +111,49 @@
 			<div class="modal-body">
 				<div class="cell-form-grid">
 					<div>Text:</div>
-					<div><input type="text" id="cell-text"/></div>
+					<div>
+						<input type="text" id="cell-text" />
+					</div>
 					<div>Cloumn Start:</div>
-					<div><input type="number" min="0" id="cell-col"/></div>
+					<div>
+						<input type="number" min="0"  onlynumber id="cell-col" />
+					</div>
 					<div>Cloumn Span:</div>
-					<div><input type="number" min="0" id="cell-col-span"/></div>
+					<div>
+						<input type="number" min="0" onlynumber id="cell-col-span" />
+					</div>
 					<div>Row Start:</div>
-					<div><input type="number" min="0" id="cell-row"/></div>
+					<div>
+						<input type="number" min="0" onlynumber id="cell-row" />
+					</div>
 					<div>Row Span:</div>
-					<div><input type="number" min="0" id="cell-row-span"/></div>	
+					<div>
+						<input type="number" min="0" onlynumber id="cell-row-span" />
+					</div>
 					<div>Order:</div>
-					<div><input type="number" min="0" id="cell-order"/></div>
+					<div>
+						<input type="number" min="0" onlynumber id="cell-order" />
+					</div>
 					<div>Align:</div>
 					<div>
 						<select id="cell-align">
-								<option value="">--Select--</option>
-								<option value="stretch">Stretch</option>
-								<option value="start">Start</option>
-								<option value="center">Center</option>
-								<option value="end">End</option>
+							<option value="">--Select--</option>
+							<option value="stretch">Stretch</option>
+							<option value="start">Start</option>
+							<option value="center">Center</option>
+							<option value="end">End</option>
 						</select>
 					</div>
 					<div>Justify:</div>
 					<div>
-							<select id="cell-justify">
-									<option value="">--Select--</option>
-									<option value="stretch">Stretch</option>
-									<option value="start">Start</option>
-									<option value="center">Center</option>
-									<option value="end">End</option>
-							</select>
-					</div>				
+						<select id="cell-justify">
+							<option value="">--Select--</option>
+							<option value="stretch">Stretch</option>
+							<option value="start">Start</option>
+							<option value="center">Center</option>
+							<option value="end">End</option>
+						</select>
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -147,7 +161,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div id="sourceContainer" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
@@ -198,7 +212,6 @@
 		</div>
 	</div>
 
-
 	<div id="grid" class="fluid">
 		<div>1</div>
 		<div>2</div>
@@ -213,7 +226,7 @@
 	<div id="full-source">
 
 	</div>
-	
+
 	<div id="menu-bar" class="left-shadow-overlay">
 		<div class="handle">&#10094;</div>
 		<h3>Configuration
@@ -235,7 +248,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slideReveal/1.1.2/jquery.slidereveal.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-	<script src="powergrid.umd.js"></script>	
+	<script src="powergrid.umd.js"></script>
 	<script src="demo.js"></script>
 </body>
 
