@@ -3,8 +3,9 @@
 
 <head>
 	<title>Powergrid</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.css" />	
 	<style id="common">
 		/* General styles */
 		body,
@@ -85,16 +86,16 @@
 
 <body>
 
-	<div id="jsonContainer" class="modal">
-		<div class="modal-content">
-			<div class="modal-header">
+	<div id="jsonContainer" class="pg-modal">
+		<div class="pg-modal-content">
+			<div class="pg-modal-header">
 				<h3>Configure Grid </h3>
 				<span class="close" onclick="closeModal(this)">&times;</span>
 			</div>
-			<div class="modal-body">
+			<div class="pg-modal-body">
 				<!-- JSON editor goes here -->
 			</div>
-			<div class="modal-footer">
+			<div class="pg-modal-footer">
 				<button class="button" onclick="saveEditedJSON()">OK</button>
 			</div>
 		</div>
@@ -148,14 +149,14 @@
 		</div>
 	</div>
 	
-	<div id="sourceContainer" class="modal">
+	<div id="sourceContainer" class="pg-modal">
 		<!-- Modal content -->
-		<div class="modal-content">
-			<div class="modal-header">
+		<div class="pg-modal-content">
+			<div class="pg-modal-header">
 				<h3>Source</h3>
 				<span class="close" onclick="closeModal(this)">&times;</span>
 			</div>
-			<div class="modal-body">
+			<div class="pg-modal-body">
 				<div class="power-grid-tab">
 					<button class="tablinks" onclick="openSourceContent(event, 'htmlContainer')" id="defaultOpenTab">HTML</button>
 					<button class="tablinks" onclick="openSourceContent(event, 'cssContainer')">CSS</button>
@@ -192,7 +193,7 @@
 				</div>
 
 			</div>
-			<div class="modal-footer">
+			<div class="pg-modal-footer">
 				<button onclick="closeModal(this)" class="button">Close</button>
 			</div>
 		</div>
@@ -229,12 +230,24 @@
 	<div id="htmlEg">
 
 	</div>
+	<div class="alerts-container">
+		
+	</div>
+	<template id="alert-template">
+		<div class="alert alert-warning alert-dismissible fade show">
+			<strong>Warning!</strong> <span class="message">You should check in on some of those fields below.</span>
+			<button type="button" class="close" data-dismiss="alert">
+				<span>&times;</span>
+			</button>
+		</div>
+	</template>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	 crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@bblocks/compose@0.1.1/compose.umd.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slideReveal/1.1.2/jquery.slidereveal.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
 	<script src="powergrid.umd.js"></script>	
 	<script src="demo.js"></script>
 </body>

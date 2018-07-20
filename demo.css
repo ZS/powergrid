@@ -59,10 +59,11 @@
 	cursor: pointer;
 	font-weight: bold;
 	text-align: center;
+	box-sizing: content-box;
 }
 
 /* Modal */
-.modal {
+.pg-modal {
 	display: none; /* Hidden by default */
 	position: fixed;
 	z-index: 2000;
@@ -75,7 +76,7 @@
 }
 
 /* Modal Content */
-.modal-content {
+.pg-modal .pg-modal-content {
 	background-color: #fefefe;
 	padding: 10px 20px;
 	border: 1px solid #888;
@@ -84,7 +85,7 @@
 }
 
 /* The Close Button */
-.modal-content .close {
+.pg-modal .pg-modal-content .close {
 	color: #aaaaaa;
 	float: right;
 	font-size: 28px;
@@ -95,19 +96,25 @@
 	margin-top: -16px;
 }
 
-.modal-content .close:hover,
-.modal-content .close:focus {
+.pg-modal .pg-modal-content .close:hover,
+.pg-modal .pg-modal-content .close:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
 }
 
-.modal-body{
+.pg-modal .pg-modal-body{
 	margin: 1em 0;
 }
 
-.modal-header{
+.pg-modal .pg-modal-header{
 	position: relative;
+}
+
+.pg-modal .pg-modal-header h3{
+	font-weight: bold;
+	font-size: 1.17em;
+	margin: 1em 0;
 }
 
 .button {
@@ -295,3 +302,14 @@ div.ace-jsoneditor{
   }
   
   
+.alerts-container{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 1003;
+}
+
+.alerts-container .alert{
+	margin-bottom: 0;
+	margin-top: 0.5em;
+}
