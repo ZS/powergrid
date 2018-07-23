@@ -352,9 +352,11 @@ function showWarnings(){
 }
 
 var htmlExample = "";
+var gridContainerClasses;
 function getHTML() {
+	gridContainerClasses = $('#grid').attr('class');
 	$('#showCSS').html(powergrid.toCss(config));
-	htmlExample = '<!---<div class="' + config.prefix + 'grid">\r\n' + htmlText + '</div>//-->';
+	htmlExample = '<!---<div class="' + gridContainerClasses+ '">\r\n' + htmlText + '</div>//-->';
 	$('#htmlEg').html(htmlExample);
 }
 
@@ -363,7 +365,7 @@ function getFullSource() {
 	var demoStyle = document.querySelector('#common').innerHTML;
 	demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g, ''));
 	var gridStyle = powergrid.toCss(config);
-	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n' + demoStyle + '</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + config.prefix + 'grid fluid">\r\n' + htmlText + '</div> \r\n</body>//-->'
+	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n' + demoStyle + '</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n' + htmlText + '</div> \r\n</body>//-->'
 	$('#full-source').html(fullSource);
 }
 
