@@ -160,8 +160,8 @@ function updateUrl(config) {
 }
 
 var closeModal = function (el) {
-	$(el).closest(".modal").fadeOut();
-	if($(el).closest(".modal").attr('id') == 'cellContainer'){
+	$(el).closest(".pg-modal").fadeOut();
+	if($(el).closest(".pg-modal").attr('id') == 'cellContainer'){
 		$('#grid').find('.selected-grid').removeClass('selected-grid');
 	}
 }
@@ -175,7 +175,7 @@ var showEditJSONModal = function () {
 		modes: ['code', 'tree']
 	};
 
-	var container = $("#jsonContainer .modal-content .modal-body");
+	var container = $("#jsonContainer .pg-modal-content .pg-modal-body");
 
 	if (typeof editor == 'undefined' && container.length) {
 		editor = new JSONEditor(container[0], options);

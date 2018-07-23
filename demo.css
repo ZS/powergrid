@@ -62,24 +62,20 @@
 }
 
 /* Modal */
-
-.modal {
-	display: none;
-	/* Hidden by default */
+.pg-modal {
+	display: none; /* Hidden by default */
 	position: fixed;
 	z-index: 2000;
 	left: 0;
 	top: 0;
 	width: 100%;
 	height: 100%;
-	overflow: auto;
-	/* Enable scroll if needed */
-	background-color: rgba(0, 0, 0, 0.4);
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgba(0,0,0,0.4);
 }
 
 /* Modal Content */
-
-.modal .modal-content {
+.pg-modal .pg-modal-content {
 	background-color: #fefefe;
 	padding: 10px 20px;
 	border: 1px solid #888;
@@ -88,8 +84,7 @@
 }
 
 /* The Close Button */
-
-.modal .modal-content .close {
+.pg-modal .pg-modal-content .close {
 	color: #aaaaaa;
 	float: right;
 	font-size: 28px;
@@ -100,26 +95,26 @@
 	margin-top: -16px;
 }
 
-.modal .modal-content .close:hover, .modal .modal-content .close:focus {
+.pg-modal .pg-modal-content .close:hover,
+.pg-modal .pg-modal-content .close:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
 }
 
-.modal .modal-body {
+.pg-modal .pg-modal-body{
 	margin: 1em 0;
 }
 
-.modal .modal-header {
+.pg-modal .pg-modal-header{
 	position: relative;
 }
 
-.modal .modal-header h3 {
+.pg-modal .pg-modal-header h3{
 	font-weight: bold;
 	font-size: 1.17em;
 	margin: 1em 0;
 }
-
 .button {
 	background-color: #2E2E2E;
 	/* Green */
@@ -327,16 +322,4 @@ div.ace-jsoneditor {
 .cell-form-grid> :nth-child(n+15) {
 	grid-row-start: 8;
 	-ms-grid-row: 8;
-}
-
-.alerts-container {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	z-index: 1003;
-}
-
-.alerts-container .alert {
-	margin-bottom: 0;
-	margin-top: 0.5em;
 }

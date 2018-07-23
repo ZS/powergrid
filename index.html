@@ -89,27 +89,27 @@
 </head>
 
 <body>
-	<div id="jsonContainer" class="modal">
-		<div class="modal-content">
-			<div class="modal-header">
+	<div id="jsonContainer" class="pg-modal">
+		<div class="pg-modal-content">
+			<div class="pg-modal-header">
 				<h3>Configure Grid </h3>
 				<span class="close" onclick="closeModal(this)">&times;</span>
 			</div>
-			<div class="modal-body">
+			<div class="pg-modal-body">
 				<!-- JSON editor goes here -->
 			</div>
-			<div class="modal-footer">
+			<div class="pg-modal-footer">
 				<button class="button" onclick="saveEditedJSON()">OK</button>
 			</div>
 		</div>
 	</div>
-	<div id="cellContainer" class="modal">
-		<div class="modal-content">
-			<div class="modal-header">
+	<div id="cellContainer" class="pg-modal">
+		<div class="pg-modal-content">
+			<div class="pg-modal-header">
 				<h3>Configure Cell</h3>
 				<span class="close" onclick="closeModal(this)">&times;</span>
 			</div>
-			<div class="modal-body">
+			<div class="pg-modal-body">
 				<div class="cell-form-grid">
 					<div>Text:</div>
 					<div>
@@ -157,20 +157,20 @@
 					</div>
 				</div>
 			</div>
-			<div class="modal-footer">
+			<div class="pg-modal-footer">
 				<button class="button" onclick="saveCellOptions()">OK</button>
 			</div>
 		</div>
 	</div>
 
-	<div id="sourceContainer" class="modal">
+	<div id="sourceContainer" class="pg-modal">
 		<!-- Modal content -->
-		<div class="modal-content">
-			<div class="modal-header">
+		<div class="pg-modal-content">
+			<div class="pg-modal-header">
 				<h3>Source</h3>
 				<span class="close" onclick="closeModal(this)">&times;</span>
 			</div>
-			<div class="modal-body">
+			<div class="pg-modal-body">
 				<div class="power-grid-tab">
 					<button class="tablinks" onclick="openSourceContent(event, 'htmlContainer')" id="defaultOpenTab">HTML</button>
 					<button class="tablinks" onclick="openSourceContent(event, 'cssContainer')">CSS</button>
@@ -207,7 +207,7 @@
 				</div>
 
 			</div>
-			<div class="modal-footer">
+			<div class="pg-modal-footer">
 				<button onclick="closeModal(this)" class="button">Close</button>
 			</div>
 		</div>
