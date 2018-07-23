@@ -185,12 +185,15 @@ var showEditJSONModal = function () {
 }
 
 var saveEditedJSON = function () {
-	$("#jsonContainer").fadeOut();
-
 	if (editor) {
-		config = editor.get();
-		updateUrl(config);
-		buildGrid();
+		try {
+			config = editor.get();
+			updateUrl(config);
+			buildGrid();
+			$("#jsonContainer").fadeOut();
+		} catch (error) {
+			createAlert("Error parsing provided JSON. Please fix the error(s) marked in red below. Please see console for more details.", $('#editor-error-container'), error.name);
+		}
 	}
 }
 
@@ -306,7 +309,8 @@ function saveCellOptions() {
 	$('#cellContainer').fadeOut();
 }
 
-function createAlert(html,$container){
+function createAlert(html, $container, type){
+	var type = type || "Warning";
 	if(!$container){
 		$container = $(".alerts-container");
 	}
@@ -316,6 +320,12 @@ function createAlert(html,$container){
 	}
 
 	var $alert=$($("template#alert-template").html());
+
+	$alert.find("[alert-type]").html(type);
+
+	if (type == "Error") {
+		$alert.addClass('alert-danger');
+	}
 
 	$alert.find(".message").html(html);
 
