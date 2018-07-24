@@ -95,6 +95,7 @@
 				<h3>Configure Grid </h3>
 				<span class="close" onclick="closeModal(this)">&times;</span>
 			</div>
+			<div id="editor-error-container"></div>
 			<div class="pg-modal-body">
 				<!-- JSON editor goes here -->
 			</div>
@@ -248,7 +249,7 @@
 	</div>
 	<template id="alert-template">
 		<div class="alert alert-warning alert-dismissible fade show">
-			<strong>Warning!</strong> <span class="message">You should check in on some of those fields below.</span>
+			<strong alert-type></strong> <span class="message">You should check in on some of those fields below.</span>
 			<button type="button" class="close" data-dismiss="alert">
 				<span>&times;</span>
 			</button>
