@@ -84,7 +84,7 @@
 }
 
 /* The Close Button */
-.pg-modal .pg-modal-content .close {
+.pg-modal .pg-modal-content span.close {
 	color: #aaaaaa;
 	float: right;
 	font-size: 28px;
@@ -95,8 +95,8 @@
 	margin-top: -16px;
 }
 
-.pg-modal .pg-modal-content .close:hover,
-.pg-modal .pg-modal-content .close:focus {
+.pg-modal .pg-modal-content span.close:hover,
+.pg-modal .pg-modal-content span.close:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;

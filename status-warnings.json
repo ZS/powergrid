@@ -4,8 +4,10 @@
         
         "auto-grid-template": "'auto' value specified in grid configuration behaves differently in IE than in modern browsers. See <a target='_blank' href='https://github.com/ZS/powergrid/issues/16'>details</a>.",
         
-        "fit-content": "fit-content() isn't IE friendly. Don't worry, there's a <a href='https://css-tricks.com/css-grid-in-ie-debunking-common-ie-grid-misconceptions/#article-header-id-5'>workaround</a>.",
+        "fit-content": "fit-content() isn't IE friendly. Don't worry, there's a <a target='_blank' href='https://github.com/ZS/powergrid/issues/21'>workaround</a>.",
         
-        "grid-alignment": "IE11 doesn't support grid level alignment 'justify-items', 'align-items'. See <a target='_blank' href='https://github.com/ZS/powergrid/issues/13'>details</a>."
+        "grid-alignment": "IE11 doesn't support grid level alignment 'justify-items', 'align-items'. See <a target='_blank' href='https://github.com/ZS/powergrid/issues/13'>details</a>.",
+
+        "grid-gap": "Grid gutters are not supported in IE11. Use a <a target='_blank' href='https://github.com/ZS/powergrid/issues/18'>workaround</a>."
     }
 }

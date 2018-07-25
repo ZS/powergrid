@@ -321,7 +321,7 @@ function createAlert(html, $container, type){
 
 	var $alert=$($("template#alert-template").html());
 
-	$alert.find("[alert-type]").html(type);
+	$alert.find("[alert-type]").html(type+"!");
 
 	if (type == "Error") {
 		$alert.addClass('alert-danger');
@@ -356,6 +356,11 @@ function showWarnings(){
 	// align-items warning
 	if(JSON.stringify(config).indexOf("align-items")>=0 || JSON.stringify(config).indexOf("justify-items")>=0){
 		createAlert(statusWarnings["grid-alignment"]);
+	}
+
+	// grid-gap warning
+	if(JSON.stringify(config).indexOf("-gap")>=0){
+		createAlert(statusWarnings["grid-gap"]);
 	}
 
 	//TODO:Additional warning scenarios can be added here.
