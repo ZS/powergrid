@@ -39,7 +39,7 @@
 	padding: 1em;
 	display: block;
 	color: #424242;
-	font-size: 1.4em;
+	font-size: 1.2em;
 	font-weight: 300;
 	text-decoration: none;
 }
@@ -117,7 +117,6 @@
 }
 .button {
 	background-color: #2E2E2E;
-	/* Green */
 	border: none;
 	color: white;
 	padding: 10px 20px;
@@ -132,7 +131,12 @@
 .button:hover, .button:focus {
 	background-color: #000;
 }
-
+.button.button-delete{
+	background-color: rgba(225, 0, 0); 
+}
+.button.button-delete:hover{
+	background-color: rgba(255, 0, 0); 
+}
 .btn-action {
 	background: orange;
 	border: none;
@@ -260,14 +264,16 @@ div.ace-jsoneditor {
 	width: 35%;
 	min-width: 350px;
 }
-
+#gridUIContainer>.pg-modal-content {
+	min-width: 400px;
+}
 .cell-form-grid {
 	display: grid;
 	display: -ms-grid;
-	grid-template-columns: minmax(max-content, 1fr) minmax(min-content, 1fr);
-	-ms-grid-columns: minmax(max-content, 1fr) minmax(min-content, 1fr);
-	grid-template-rows: minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr);
-	-ms-grid-rows: minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr);
+	grid-template-columns: minmax(max-content, 200px) minmax(min-content, 1fr);
+	-ms-grid-columns: minmax(max-content, 200px) minmax(min-content, 1fr);
+	grid-template-rows: max-content max-content max-content  max-content max-content max-content max-content max-content;
+	-ms-grid-rows: max-content max-content max-content  max-content max-content max-content max-content max-content;
 }
 
 .cell-form-grid> :nth-child(n) {
@@ -322,4 +328,29 @@ div.ace-jsoneditor {
 .cell-form-grid> :nth-child(n+15) {
 	grid-row-start: 8;
 	-ms-grid-row: 8;
+}
+
+#col-container > div,#row-container> div{
+	margin-top: 10px;
+}
+
+.delete-parent.button.button-delete{
+	padding : 3px 10px;
+}
+
+#col-container {
+    counter-reset: col-counter;
+}
+
+#col-container > div::before {
+    counter-increment: col-counter;
+    content: "Column " counter(col-counter) ": ";
+}
+#row-container {
+    counter-reset: row-counter;
+}
+
+#row-container > div::before {
+    counter-increment: row-counter;
+    content: "Row " counter(row-counter) ": ";
 }

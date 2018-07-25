@@ -104,6 +104,64 @@
 			</div>
 		</div>
 	</div>
+
+	<div id="gridUIContainer" class="pg-modal">
+		<div class="pg-modal-content">
+			<div class="pg-modal-header">
+				<h3>Configure Grid </h3>
+				<span class="close" onclick="closeModal(this)">&times;</span>
+			</div>
+			<div class="pg-modal-body">
+				<div class="cell-form-grid">
+					<div>Name: </div>
+					<div><input type="text" id="grid-name"></div>
+					<div>Version:</div>
+					<div><input type="text" id="grid-version"></div>
+					<div>Class prefix:</div>
+					<div><input type="text" id="grid-prefix"></div>
+					<div>No of Grid Columns:</div>
+					<div>
+						<button class="btn-action" onclick="addColRow('col','1fr')">Add column</button>
+						<div id="col-container"></div>
+					</div>
+					<div>No of Grid Rows:</div>
+					<div>
+						<button class="btn-action" onclick="addColRow('row','1fr')">Add row</button>
+						<div id="row-container"></div>	
+					</div>
+					<div>Align</div>
+					<div>
+						<select name="" id="grid-align-select">
+							<option value="">--Select--</option>
+							<option value="stretch">Stretch</option>
+							<option value="start">Start</option>
+							<option value="center">Center</option>
+							<option value="end">End</option>
+						</select>
+					</div>
+					<div>Justify</div>
+					<div>
+						<select id="grid-justify-select">
+							<option value="">--Select--</option>
+							<option value="stretch">Stretch</option>
+							<option value="start">Start</option>
+							<option value="center">Center</option>
+							<option value="end">End</option>
+						</select>
+					</div>
+					<div>Number of cells</div>
+					<div>
+						<input type="number" id="grid-cells-no" min="0" onlynumber/>
+						<p>Note: Modifying this field will replace existing cells. To configure cells click each one of them.</p>
+					</div>
+				</div>
+			</div>
+			<div class="pg-modal-footer">
+				<button class="button" onclick="setGridData()">OK</button>
+			</div>
+		</div>
+	</div>
+
 	<div id="cellContainer" class="pg-modal">
 		<div class="pg-modal-content">
 			<div class="pg-modal-header">
@@ -118,23 +176,23 @@
 					</div>
 					<div>Cloumn Start:</div>
 					<div>
-						<input type="number" min="0"  onlynumber id="cell-col" />
+						<input type="number" min="1"  onlynumber id="cell-col" />
 					</div>
 					<div>Cloumn Span:</div>
 					<div>
-						<input type="number" min="0" onlynumber id="cell-col-span" />
+						<input type="number" min="1" onlynumber id="cell-col-span" />
 					</div>
 					<div>Row Start:</div>
 					<div>
-						<input type="number" min="0" onlynumber id="cell-row" />
+						<input type="number" min="1" onlynumber id="cell-row" />
 					</div>
 					<div>Row Span:</div>
 					<div>
-						<input type="number" min="0" onlynumber id="cell-row-span" />
+						<input type="number" min="1" onlynumber id="cell-row-span" />
 					</div>
 					<div>Order:</div>
 					<div>
-						<input type="number" min="0" onlynumber id="cell-order" />
+						<input type="number" min="1" onlynumber id="cell-order" />
 					</div>
 					<div>Align:</div>
 					<div>
@@ -159,7 +217,8 @@
 				</div>
 			</div>
 			<div class="pg-modal-footer">
-				<button class="button" onclick="saveCellOptions()">OK</button>
+				<button class="button" onclick="saveCellOptions()">SAVE</button>
+				<button class="button button-delete" onclick="deleteCell()" style="float:right">Delete Cell</button>
 			</div>
 		</div>
 	</div>
@@ -237,7 +296,8 @@
 				<!--<span class="glyphicon glyphicon-info-sign"></span>-->Press
 				<kbd>ESC</kbd> to close</small>
 		</h3>
-		<a onclick="showEditJSONModal()" href="javascript:void(0)">Configure Grid</a>
+		<a href="javascript:void(0)" id="open-ui-configuration">Configure Grid</a>
+		<a onclick="showEditJSONModal()" href="javascript:void(0)">Configure using JSON</a>
 		<a href="javascript:void(0)" id="open-source-code">View Source</a>
 	</div>
 
