@@ -270,7 +270,12 @@ var buildGrid = function () {
 	}	
 	bindCellClick();
 }
-
+function deleteCell(){
+	config.cells.splice(cellIndex,1);
+	updateUrl(config);
+	buildGrid();
+	$('#cellContainer').fadeOut();
+}
 function saveCellOptions() {
 	var cellText = $('#cell-text').val();
 	var colStart = $('#cell-col').val();
@@ -491,6 +496,126 @@ function fetchStatusWarnings() {
 
 	return deferred.promise();
 }
+//ui configuration
+var colIndex=0;
+var rowIndex= 0;
+function addColRow(field,fieldVal){
+	if (field == 'col'){
+		var col = '<div index="'+colIndex+'"><span><input type="radio" value="1fr" name="col'+colIndex+'"/></span> <span> 1fr </span><span><input type="radio" value="max-content" name="col'+colIndex+'"/></span><span> Max-content </span><span><input type="radio" value="min-content" name="col'+colIndex+'"/></span><span> Min-content </span><span><input type="radio" value="others" name="col'+colIndex+'"/></span><span> Others </span><span><input type="text" style="display:none" id="others-col-'+colIndex+'"/></span> <span><button class="delete-parent button button-delete">&#10006;</button></span></div>';
+		$('#col-container').append(col);
+		$("#col-container input[type='radio']").click(function(){
+			var otherInputId = $(this).parent().parent().attr('index');
+			if($(this).val() == "others"){
+				
+			$('input[id =others-col-'+otherInputId+']').css('display','inline');
+			}
+			else{
+				$('input[id =others-col-'+otherInputId+']').css('display','none');
+			}
+		});
+		if(fieldVal){
+			if(fieldVal == '1fr'|| fieldVal == 'min-content' || fieldVal == 'max-content'){
+				$('input[name=col'+colIndex+'][value='+fieldVal+']').prop('checked',true);
+			}
+			else{
+				$('input[name=col'+colIndex+'][value=others]').click();
+				$('#others-col-'+colIndex).val(fieldVal);
+			}
+		}
+		colIndex++;
+		
+	}
+	else if(field == 'row'){
+		var col = '<div index="'+rowIndex+'"><span><input type="radio" value="1fr" name="row'+rowIndex+'"/></span> <span> 1fr </span><span><input type="radio" value="max-content" name="row'+rowIndex+'"/></span><span> Max-content </span><span><input type="radio" value="min-content" name="row'+rowIndex+'"/></span><span> Min-content </span><span><input type="radio" value="others" name="row'+rowIndex+'"/></span><span> Others </span><span><input type="text" style="display:none" id="others-row-'+rowIndex+'"/></span> <span><button class="delete-parent button button-delete">&#10006;</button></span></div>'
+		$('#row-container').append(col);
+		$("#row-container input[type='radio']").click(function(){
+			var otherInputId = $(this).parent().parent().attr('index');
+			if($(this).val() == "others"){
+				
+			$('input[id =others-row-'+otherInputId+']').css('display','inline');
+			}
+			else{
+				$('input[id =others-row-'+otherInputId+']').css('display','none');
+			}
+		});
+		if(fieldVal){
+			if(fieldVal == '1fr'|| fieldVal == 'min-content' || fieldVal == 'max-content'){
+				$('input[name=row'+rowIndex+'][value='+fieldVal+']').prop('checked',true);
+			}
+			else{
+				$('input[name=row'+rowIndex+'][value=others]').click();
+				$('#others-row-'+rowIndex).val(fieldVal);
+			}
+		}
+		rowIndex++;
+	}
+	
+	$('.delete-parent').click(function(){
+		$(this).parent().parent().remove();
+	});
+	
+}
+function getGridData(){
+	$('#grid-name').val(config.name);
+	$('#grid-version').val(config.version);
+	$('#grid-prefix').val(config.prefix);
+	$('#grid-cells-no').val(config.cells.length);
+	$('#grid-align-select').val(config.align);
+	$('#grid-justify-select').val(config.justify);
+	var colNum = config.cols.length;
+	var rowNum =  config.rows.length;
+	$('#col-container').html('');
+	$('#row-container').html('');
+	for(var i= 0; i< colNum; i++){
+		addColRow('col',config.cols[i]);
+	}
+	for(var j = 0; j< rowNum; j++){
+		addColRow('row',config.rows[j]);
+	}
+}
+
+function setGridData(){
+	config.name = $('#grid-name').val();
+	config.version = $('#grid-version').val();
+	config.prefix = $('#grid-prefix').val();
+	config.align = $('#grid-align-select').val();
+	config.justify = $('#grid-justify-select').val();
+	var colArr = [];
+	var rowArr = [];
+	$('#col-container > div').each(function(){
+		var colVal = $(this).find('input[type= radio]:checked').val();
+		if(colVal == 'others'){
+			colArr.push($(this).find('input[type= text]').val());
+		}
+		else{
+			colArr.push($(this).find('input[type= radio]:checked').val());
+		}
+	});
+	$('#row-container > div').each(function(){
+		var rowVal = $(this).find('input[type= radio]:checked').val();
+		if(rowVal == 'others'){
+			rowArr.push($(this).find('input[type= text]').val());
+		}
+		else{
+			rowArr.push($(this).find('input[type= radio]:checked').val());
+		}
+	});
+	config.cols = colArr;
+	config.rows = rowArr;
+	var cellsNum = ''+$('#grid-cells-no').val(); 
+	var configCellNum = ''+config.cells.length;
+	if( cellsNum !== configCellNum ){
+		var cellsArr=[];
+		for(var i=0; i<cellsNum; i++){
+			var cellObj = {};
+			cellsArr.push(cellObj);
+		}
+		config.cells = cellsArr;
+	};
+	updateUrl(config);
+	buildGrid();
+	$('#gridUIContainer').fadeOut();
+}
 
 $(function () {
 	config = fetchConfig() || config;
@@ -508,6 +633,12 @@ $(function () {
 		highlight();
 		$("#sourceContainer").fadeIn();
 		document.getElementById("defaultOpenTab").click();
+	});
+	$('#open-ui-configuration').on('click', function () {
+		
+		$("#gridUIContainer").fadeIn();
+		getGridData();
+		
 	});
 	//Initialize configuration panel
 	var slider = $("#menu-bar").slideReveal({
