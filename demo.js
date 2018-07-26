@@ -566,6 +566,8 @@ function getGridData(){
 	var rowNum =  config.rows.length;
 	$('#col-container').html('');
 	$('#row-container').html('');
+	$('#col-error').css('display','none');
+	$('#row-error').css('display','none');
 	for(var i= 0; i< colNum; i++){
 		addColRow('col',config.cols[i]);
 	}
@@ -575,33 +577,51 @@ function getGridData(){
 }
 
 function setGridData(){
+	var colArr = [];
+	var rowArr = [];
+	$('#col-error').css('display','none');
+	$('#row-error').css('display','none');
+	var $colContainer = $('#col-container>div');
+	for(var i=0; i< $colContainer.length; i++){
+		var colVal= $($colContainer[i]).find('input[type= radio]:checked').val();
+		if(colVal == 'others'){
+			if($($colContainer[i]).find('input[type= text]').val()){
+				colArr.push($($colContainer[i]).find('input[type= text]').val());
+			}
+			else{
+				$('#col-error').css('display','block');
+				return false;
+			}
+		}
+		else{
+			colArr.push($($colContainer[i]).find('input[type= radio]:checked').val());
+		}
+	};
+	
+	var $rowContainer = $('#row-container>div');
+	for(var i=0; i< $rowContainer.length; i++){
+		var rowVal= $($rowContainer[i]).find('input[type= radio]:checked').val();
+		if(rowVal == 'others'){
+			if($($rowContainer[i]).find('input[type= text]').val()){
+				rowArr.push($($rowContainer[i]).find('input[type= text]').val());
+			}
+			else{
+				$('#row-error').css('display','block');
+				return false;
+			}
+		}
+		else{
+			rowArr.push($($rowContainer[i]).find('input[type= radio]:checked').val());
+		}
+	};
+
+	config.cols = colArr;
+	config.rows = rowArr;
 	config.name = $('#grid-name').val();
 	config.version = $('#grid-version').val();
 	config.prefix = $('#grid-prefix').val();
 	config.align = $('#grid-align-select').val();
 	config.justify = $('#grid-justify-select').val();
-	var colArr = [];
-	var rowArr = [];
-	$('#col-container > div').each(function(){
-		var colVal = $(this).find('input[type= radio]:checked').val();
-		if(colVal == 'others'){
-			colArr.push($(this).find('input[type= text]').val());
-		}
-		else{
-			colArr.push($(this).find('input[type= radio]:checked').val());
-		}
-	});
-	$('#row-container > div').each(function(){
-		var rowVal = $(this).find('input[type= radio]:checked').val();
-		if(rowVal == 'others'){
-			rowArr.push($(this).find('input[type= text]').val());
-		}
-		else{
-			rowArr.push($(this).find('input[type= radio]:checked').val());
-		}
-	});
-	config.cols = colArr;
-	config.rows = rowArr;
 	var cellsNum = ''+$('#grid-cells-no').val(); 
 	var configCellNum = ''+config.cells.length;
 	if( cellsNum !== configCellNum ){
