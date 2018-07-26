@@ -47,11 +47,12 @@ var config = {
 	prefix: 'pg-',
 };
 var htmlText;
+var cellIndex;
 function createGrid() {
 	htmlText = '';
 	var $grid = $('#grid');
 	$grid.attr('class', config.prefix + 'grid fluid');
-	
+
 	if (config.align) {
 		$grid.addClass(config.prefix + 'align-' + config.align);
 	}
@@ -159,7 +160,10 @@ function updateUrl(config) {
 }
 
 var closeModal = function (el) {
-	$(el).closest(".modal").fadeOut();
+	$(el).closest(".pg-modal").fadeOut();
+	if($(el).closest(".pg-modal").attr('id') == 'cellContainer'){
+		$('#grid').find('.selected-grid').removeClass('selected-grid');
+	}
 }
 
 var showEditJSONModal = function () {
@@ -171,7 +175,7 @@ var showEditJSONModal = function () {
 		modes: ['code', 'tree']
 	};
 
-	var container = $("#jsonContainer .modal-content .modal-body");
+	var container = $("#jsonContainer .pg-modal-content .pg-modal-body");
 
 	if (typeof editor == 'undefined' && container.length) {
 		editor = new JSONEditor(container[0], options);
@@ -181,66 +185,191 @@ var showEditJSONModal = function () {
 }
 
 var saveEditedJSON = function () {
-	$("#jsonContainer").fadeOut();
-
 	if (editor) {
-		config = editor.get();
-		updateUrl(config);
-		buildGrid();
+		try {
+			config = editor.get();
+			updateUrl(config);
+			buildGrid();
+			$("#jsonContainer").fadeOut();
+		} catch (error) {
+			createAlert("Error parsing provided JSON. Please fix the error(s) marked in red below. Please see console for more details.", $('#editor-error-container'), error.name);
+		}
 	}
+}
+
+function bindCellClick() {
+	$('#grid > div ').on('click', function (event) {
+		cellIndex = 0;
+		var self = this;
+		while ((self = self.previousSibling) != null) {
+			cellIndex++;
+		}
+		if (config.cells[cellIndex].col) {
+			$("#cell-col").val(config.cells[cellIndex].col);
+		}
+		else {
+			$("#cell-col").val('');
+		}
+		if (config.cells[cellIndex].colSpan) {
+			$("#cell-col-span").val(config.cells[cellIndex].colSpan);
+		}
+		else {
+			$("#cell-col-span").val('');
+		}
+		if (config.cells[cellIndex].row) {
+			$("#cell-row").val(config.cells[cellIndex].row);
+		}
+		else {
+			$("#cell-row").val('');
+		}
+		if (config.cells[cellIndex].rowSpan) {
+			$("#cell-row-span").val(config.cells[cellIndex].rowSpan);
+		}
+		else {
+			$("#cell-row-span").val('');
+		}
+		if (config.cells[cellIndex].order) {
+			$("#cell-order").val(config.cells[cellIndex].order);
+		}
+		else {
+			$("#cell-order").val('');
+		}
+		if (config.cells[cellIndex].align) {
+			$("#cell-align").val(config.cells[cellIndex].align);
+		}
+		else {
+			$("#cell-align").val('');
+
+		}
+		if (config.cells[cellIndex].justify) {
+			$("#cell-justify").val(config.cells[cellIndex].justify);
+		}
+		else {
+			$("#cell-justify").val('');
+		}
+		
+		$("#cell-text").val(this.innerHTML);
+		$("#cellContainer").fadeIn();
+		$(this).addClass('selected-grid');
+	});
+
+	$('[onlynumber]').keypress(function (event) {
+		var keycode = event.which;
+		if (!(event.shiftKey == false && (keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+			event.preventDefault();
+		}
+	});
 }
 
 var buildGrid = function () {
 	createGrid();
 	createStyles();
+	
+	if(typeof statusWarnings!=="undefined"){
+		showWarnings();
+	}	
+	bindCellClick();
+}
+function deleteCell(){
+	config.cells.splice(cellIndex,1);
+	updateUrl(config);
+	buildGrid();
+	$('#cellContainer').fadeOut();
+}
+function saveCellOptions() {
+	var cellText = $('#cell-text').val();
+	var colStart = $('#cell-col').val();
+	var colSpan = $('#cell-col-span').val();
+	var rowStart = $('#cell-row').val();
+	var rowSpan = $('#cell-row-span').val();
+	var cellOrder = $('#cell-order').val();
+	var cellAlign = $('#cell-align').val();
+	var cellJustify = $('#cell-justify').val();
 
+	config.cells[cellIndex].text = cellText;
 
-	// $('.cell').on('click', function(event) {
-	// 	cellDialog(this, event);
-	// });
+	if (!(!config.cells[cellIndex].col && (colStart == '' || !colStart))) {
+		config.cells[cellIndex].col = colStart;
+	}
+	if (!(!config.cells[cellIndex].row && (rowStart == '' || !rowStart))) {
+		config.cells[cellIndex].row = rowStart;
+	}
+	if (!(!config.cells[cellIndex].colSpan && (colSpan == '' || !colSpan))) {
+		config.cells[cellIndex].colSpan = colSpan;
+	}
+	if (!(!config.cells[cellIndex].rowSpan && (rowSpan == '' || !rowSpan))) {
+		config.cells[cellIndex].rowSpan = rowSpan;
+	}
+	if (!(!config.cells[cellIndex].order && (cellOrder == '' || !cellOrder))) {
+		config.cells[cellIndex].order = cellOrder;
+	}
+	if (!(!config.cells[cellIndex].align && (cellAlign == '' || !cellAlign))) {
+		config.cells[cellIndex].align = cellAlign;
+	}
+	if (!(!config.cells[cellIndex].justify && (cellJustify == '' || !cellJustify))) {
+		config.cells[cellIndex].justify = cellJustify;
+	}
+	updateUrl(config);
+	buildGrid();
+	$('#cellContainer').fadeOut();
 }
 
-$(function () {
-	config = fetchConfig() || config;
-	buildGrid();
+function createAlert(html, $container, type){
+	var type = type || "Warning";
+	if(!$container){
+		$container = $(".alerts-container");
+	}
 
-	$('#open-source-code').on('click', function () {
-		getHTML();
-		getFullSource();
-		highlight();
-		$("#sourceContainer").fadeIn();
-		document.getElementById("defaultOpenTab").click();
-	});
-	//Initialize configuration panel
-	var slider = $("#menu-bar").slideReveal({
-		// width: 100,
-		push: false,
-		position: "right",
-		// speed: 600,
-		trigger: $("#menu-bar .handle"),
-		// autoEscape: false,
-		shown: function (obj) {
-			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-right"></span>');
-			obj.find(".handle").html('&#10095;');
-			obj.addClass("left-shadow-overlay");
-		},
-		hidden: function (obj) {
-			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-left"></span>');
-			obj.find(".handle").html('&#10094;');
-			obj.removeClass("left-shadow-overlay");
+	if(!html){
+		html = "Some features might behave differently in older browsers. Consider re-configuring your grid."
+	}
+
+	var $alert=$($("template#alert-template").html());
+
+	$alert.find("[alert-type]").html(type+"!");
+
+	if (type == "Error") {
+		$alert.addClass('alert-danger');
+	}
+
+	$alert.find(".message").html(html);
+
+	$container.append($alert);
+}
+
+function showWarnings(){
+	$(".alerts-container").html("");
+
+	// Auto placement warning
+	for(var i=0;i<config.cells.length;i++){
+		if(config.cells[i].colSpan>config.cols.length){
+			createAlert(statusWarnings["auto-placement"]);
+			break;
 		}
-	});
+	}
+	
+	// Grid template 'auto' warning
+	if(config.cols.join("").indexOf("auto")>=0 || config.rows.join("").indexOf("auto")>=0){
+		createAlert(statusWarnings["auto-grid-template"]);
+	}
+	
+	// fit-content() warning	
+	if(config.cols.join("").indexOf("fit-content")>=0){
+		createAlert(statusWarnings["fit-content"]);
+	}
 
-	$("#menu-bar a").on("click", function () {
-		slider.slideReveal("hide");
-	});
+	// align-items warning
+	if(JSON.stringify(config).indexOf("align-items")>=0 || JSON.stringify(config).indexOf("justify-items")>=0){
+		createAlert(statusWarnings["grid-alignment"]);
+	}
 
-	window.onpopstate = function (event) {
-		window.location.reload();
-	};
-});
+	// grid-gap warning
+	if(JSON.stringify(config).indexOf("-gap")>=0){
+		createAlert(statusWarnings["grid-gap"]);
+	}
 
-
+	//TODO:Additional warning scenarios can be added here.
+}
 
 var htmlExample = "";
 var gridContainerClasses;
@@ -251,12 +380,12 @@ function getHTML() {
 	$('#htmlEg').html(htmlExample);
 }
 
-var fullSource ="";
-function getFullSource(){
+var fullSource = "";
+function getFullSource() {
 	var demoStyle = document.querySelector('#common').innerHTML;
-	demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g,''));
-	var gridStyle =powergrid.toCss(config);
-	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n'+demoStyle+'</style>\r\n<style id="grid-css">\r\n'+gridStyle+'</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n' + htmlText + '</div> \r\n</body>//-->'
+	demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g, ''));
+	var gridStyle = powergrid.toCss(config);
+	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n' + demoStyle + '</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n' + htmlText + '</div> \r\n</body>//-->'
 	$('#full-source').html(fullSource);
 }
 
@@ -273,8 +402,8 @@ function copyContent(source) {
 		var tooltip = document.querySelector("#myTooltipCss");
 		tooltip.innerHTML = "Copied CSS";
 	}
-	else if(source == "full-source"){
-		textarea.value=  replaceAll(fullSource, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
+	else if (source == "full-source") {
+		textarea.value = replaceAll(fullSource, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
 		var tooltip = document.querySelector("#myTooltipFullSource");
 		tooltip.innerHTML = "Copied Source";
 	}
@@ -297,7 +426,7 @@ function highlight() {
 		var html = $source.html();
 		// Fix links
 		html = replaceAll(html, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
-		this.innerHTML = '<pre></pre>';
+		this.innerHTML = '<pre class="hljs"></pre>';
 		var preTag =this.querySelector('pre');
 		preTag.innerText = html;
 		hljs.highlightBlock(this);
@@ -350,3 +479,212 @@ function tooltipOutFunc(src) {
 		tooltip.innerHTML = "Copy Source to clipboard";
 	}
 }
+
+function fetchStatusWarnings() {
+	var deferred = $.Deferred();
+	
+	$.ajax({
+		url:'./status-warnings.json',
+		dataType: 'json',
+		success: function(response){
+			deferred.resolve(response);
+		},
+		error: function(err){
+			deferred.resolve({});
+		}
+	});
+
+	return deferred.promise();
+}
+//ui configuration
+var colIndex=0;
+var rowIndex= 0;
+function addColRow(field,fieldVal){
+	if (field == 'col'){
+		var col = '<div index="'+colIndex+'"><span><input type="radio" value="1fr" name="col'+colIndex+'"/></span> <span> 1fr </span><span><input type="radio" value="max-content" name="col'+colIndex+'"/></span><span> Max-content </span><span><input type="radio" value="min-content" name="col'+colIndex+'"/></span><span> Min-content </span><span><input type="radio" value="others" name="col'+colIndex+'"/></span><span> Others </span><span><input type="text" style="display:none" id="others-col-'+colIndex+'"/></span> <span><button class="delete-parent button button-delete">&#10006;</button></span></div>';
+		$('#col-container').append(col);
+		$("#col-container input[type='radio']").click(function(){
+			var otherInputId = $(this).parent().parent().attr('index');
+			if($(this).val() == "others"){
+				
+			$('input[id =others-col-'+otherInputId+']').css('display','inline');
+			}
+			else{
+				$('input[id =others-col-'+otherInputId+']').css('display','none');
+			}
+		});
+		if(fieldVal){
+			if(fieldVal == '1fr'|| fieldVal == 'min-content' || fieldVal == 'max-content'){
+				$('input[name=col'+colIndex+'][value='+fieldVal+']').prop('checked',true);
+			}
+			else{
+				$('input[name=col'+colIndex+'][value=others]').click();
+				$('#others-col-'+colIndex).val(fieldVal);
+			}
+		}
+		colIndex++;
+		
+	}
+	else if(field == 'row'){
+		var col = '<div index="'+rowIndex+'"><span><input type="radio" value="1fr" name="row'+rowIndex+'"/></span> <span> 1fr </span><span><input type="radio" value="max-content" name="row'+rowIndex+'"/></span><span> Max-content </span><span><input type="radio" value="min-content" name="row'+rowIndex+'"/></span><span> Min-content </span><span><input type="radio" value="others" name="row'+rowIndex+'"/></span><span> Others </span><span><input type="text" style="display:none" id="others-row-'+rowIndex+'"/></span> <span><button class="delete-parent button button-delete">&#10006;</button></span></div>'
+		$('#row-container').append(col);
+		$("#row-container input[type='radio']").click(function(){
+			var otherInputId = $(this).parent().parent().attr('index');
+			if($(this).val() == "others"){
+				
+			$('input[id =others-row-'+otherInputId+']').css('display','inline');
+			}
+			else{
+				$('input[id =others-row-'+otherInputId+']').css('display','none');
+			}
+		});
+		if(fieldVal){
+			if(fieldVal == '1fr'|| fieldVal == 'min-content' || fieldVal == 'max-content'){
+				$('input[name=row'+rowIndex+'][value='+fieldVal+']').prop('checked',true);
+			}
+			else{
+				$('input[name=row'+rowIndex+'][value=others]').click();
+				$('#others-row-'+rowIndex).val(fieldVal);
+			}
+		}
+		rowIndex++;
+	}
+	
+	$('.delete-parent').click(function(){
+		$(this).parent().parent().remove();
+	});
+	
+}
+function getGridData(){
+	$('#grid-name').val(config.name);
+	$('#grid-version').val(config.version);
+	$('#grid-prefix').val(config.prefix);
+	$('#grid-cells-no').val(config.cells.length);
+	$('#grid-align-select').val(config.align);
+	$('#grid-justify-select').val(config.justify);
+	var colNum = config.cols.length;
+	var rowNum =  config.rows.length;
+	$('#col-container').html('');
+	$('#row-container').html('');
+	$('#col-error').css('display','none');
+	$('#row-error').css('display','none');
+	for(var i= 0; i< colNum; i++){
+		addColRow('col',config.cols[i]);
+	}
+	for(var j = 0; j< rowNum; j++){
+		addColRow('row',config.rows[j]);
+	}
+}
+
+function setGridData(){
+	var colArr = [];
+	var rowArr = [];
+	$('#col-error').css('display','none');
+	$('#row-error').css('display','none');
+	var $colContainer = $('#col-container>div');
+	for(var i=0; i< $colContainer.length; i++){
+		var colVal= $($colContainer[i]).find('input[type= radio]:checked').val();
+		if(colVal == 'others'){
+			if($($colContainer[i]).find('input[type= text]').val()){
+				colArr.push($($colContainer[i]).find('input[type= text]').val());
+			}
+			else{
+				$('#col-error').css('display','block');
+				return false;
+			}
+		}
+		else{
+			colArr.push($($colContainer[i]).find('input[type= radio]:checked').val());
+		}
+	};
+	
+	var $rowContainer = $('#row-container>div');
+	for(var i=0; i< $rowContainer.length; i++){
+		var rowVal= $($rowContainer[i]).find('input[type= radio]:checked').val();
+		if(rowVal == 'others'){
+			if($($rowContainer[i]).find('input[type= text]').val()){
+				rowArr.push($($rowContainer[i]).find('input[type= text]').val());
+			}
+			else{
+				$('#row-error').css('display','block');
+				return false;
+			}
+		}
+		else{
+			rowArr.push($($rowContainer[i]).find('input[type= radio]:checked').val());
+		}
+	};
+
+	config.cols = colArr;
+	config.rows = rowArr;
+	config.name = $('#grid-name').val();
+	config.version = $('#grid-version').val();
+	config.prefix = $('#grid-prefix').val();
+	config.align = $('#grid-align-select').val();
+	config.justify = $('#grid-justify-select').val();
+	var cellsNum = ''+$('#grid-cells-no').val(); 
+	var configCellNum = ''+config.cells.length;
+	if( cellsNum !== configCellNum ){
+		var cellsArr=[];
+		for(var i=0; i<cellsNum; i++){
+			var cellObj = {};
+			cellsArr.push(cellObj);
+		}
+		config.cells = cellsArr;
+	};
+	updateUrl(config);
+	buildGrid();
+	$('#gridUIContainer').fadeOut();
+}
+
+$(function () {
+	config = fetchConfig() || config;
+
+	fetchStatusWarnings().then(function(data){
+		statusWarnings = data.warnings || {};
+		showWarnings();
+	});
+
+	buildGrid();
+
+	$('#open-source-code').on('click', function () {
+		getHTML();
+		getFullSource();
+		highlight();
+		$("#sourceContainer").fadeIn();
+		document.getElementById("defaultOpenTab").click();
+	});
+	$('#open-ui-configuration').on('click', function () {
+		
+		$("#gridUIContainer").fadeIn();
+		getGridData();
+		
+	});
+	//Initialize configuration panel
+	var slider = $("#menu-bar").slideReveal({
+		// width: 100,
+		push: false,
+		position: "right",
+		// speed: 600,
+		trigger: $("#menu-bar .handle"),
+		// autoEscape: false,
+		shown: function (obj) {
+			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-right"></span>');
+			obj.find(".handle").html('&#10095;');
+			obj.addClass("left-shadow-overlay");
+		},
+		hidden: function (obj) {
+			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-left"></span>');
+			obj.find(".handle").html('&#10094;');
+			obj.removeClass("left-shadow-overlay");
+		}
+	});
+
+	$("#menu-bar a").on("click", function () {
+		slider.slideReveal("hide");
+	});
+
+	window.onpopstate = function (event) {
+		window.location.reload();
+	};
+});
