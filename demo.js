@@ -1,51 +1,49 @@
 var config = {
-	name: 'Power Grid',
-	version: '0.1.0',
-	url: 'https://github.com/ZS/powergrid/',
-	cols: ['minmax(max-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)', 'minmax(min-content,1fr)'],
-	rows: ['minmax(max-content,1fr)', 'minmax(max-content,1fr)', 'minmax(max-content,1fr)'],
-	align: 'stretch',
-	justify: 'stretch',
-	cells: [
-		{
-			text: '1231231231'
-		},
-		{
-		},
-		{
-			align: 'end',
-			justify: 'end'
-		},
-		{
-		},
-		{
-			col: 1,
-			colSpan: 4
-		},
-		{
-		},
-		{
-			row: 2,
-			rowSpan: 2,
-			order: 1
-		},
-		{
-		},
-		{
-			align: 'center',
-			justify: 'center'
-		},
-		{
-		},
-		{
-		},
-		{
-			align: 'start',
-			justify: 'start'
-		}
+	"name": "Power Grid",
+	"version": "0.1.0",
+	"url": "https://github.com/ZS/powergrid/",
+	"cols": [
+	  "auto",
+	  "minmax(min-content,1fr)",
+	  "auto"
 	],
-	prefix: 'pg-',
-};
+	"rows": [
+	  "auto",
+	  "minmax(min-content,1fr)",
+	  "auto"
+	],
+	"cells": [
+	  {
+		"text": "Header",
+		"colSpan": 3,
+		"col": 1,
+		"row": 1
+	  },
+	  {
+		"text": "Nav",
+		"col": 1,
+		"row": 2
+	  },
+	  {
+		"text": "Body",
+		"col": 2,
+		"row": 2
+	  },
+	  {
+		"text": "Aside",
+		"col": 3,
+		"row": 2
+	  },
+	  {
+    	"text": "Footer",
+        "col": 1,
+        "row": 3,
+        "colSpan": 3
+	  }
+	],
+	"prefix": "pg-"
+}
+
 var htmlText;
 var cellIndex;
 function createGrid() {
