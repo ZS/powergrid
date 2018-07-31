@@ -29,8 +29,15 @@ Powergrid is an easy to use yet a powerful tool to readily build a cross-browser
 ### Issues and bug reporting 
 Please feel free to add a bug / feature request / suggestions to the [issue tracker](https://github.com/ZS/powergrid/issues). 
 
+### Contributing to Powergrid
+We love your input! And, we are really glad you're reading this, because we want to take this project to the next level with the help of enthusiast like you. We want to make contributing to this project as easy and transparent as possible. Please refer to our [contribution guideline](https://github.com/ZS/powergrid/blob/master/CONTRIBUTING.md) document for more details.
+
 ### References
-Please check our [branch](https://github.com/ZS/powergrid) to get upcoming versions and features.
+Please check our [branch](https://github.com/ZS/powergrid) to get upcoming versions and features. To make you even more comfortable with Powergrid, we have created several documents for you. Please feel free to take a look,
+
+- [Examples](https://github.com/ZS/powergrid/wiki/Examples)
+- [Documentation](https://github.com/ZS/powergrid/wiki/Documentation)
+- [CSS grid layout in production](https://github.com/ZS/powergrid/wiki/CSS-grid-layout-in-production)
 
 Also check [changelog](https://github.com/ZS/powergrid/blob/master/CHANGELOG.md) for more detailed information about new features, bug fixes and releases.
 
