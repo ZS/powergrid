@@ -635,6 +635,14 @@ function setGridData(){
 	$('#gridUIContainer').fadeOut();
 }
 
+function setDecoratorStyles(){
+	var link = $("style#common").attr("href");
+
+	$.when($.ajax(link)).then(function(data,textStatus,jqXHR) {
+		$("style#common").html(data);
+	});
+}
+
 $(function () {
 	config = fetchConfig() || config;
 
@@ -642,6 +650,9 @@ $(function () {
 		statusWarnings = data.warnings || {};
 		showWarnings();
 	});
+
+	//Fetch and set common decorator styles
+	setDecoratorStyles();
 
 	buildGrid();
 
