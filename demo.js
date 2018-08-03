@@ -639,7 +639,9 @@ function setDecoratorStyles(){
 	var link = $("style#common").attr("href");
 
 	$.when($.ajax(link)).then(function(data,textStatus,jqXHR) {
-		$("style#common").html(data);
+		if(data.length){
+			$("style#common").html(data);
+		}
 	});
 }
 
