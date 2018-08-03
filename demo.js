@@ -381,9 +381,9 @@ function getHTML() {
 var fullSource = "";
 function getFullSource() {
 	var demoStyle = document.querySelector('#common').innerHTML;
-	demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g, ''));
+	//demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g, ''));
 	var gridStyle = powergrid.toCss(config);
-	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n' + demoStyle + '</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n' + htmlText + '</div> \r\n</body>//-->'
+	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n' + demoStyle + '\n</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n' + htmlText + '</div> \r\n</body>//-->'
 	$('#full-source').html(fullSource);
 }
 
