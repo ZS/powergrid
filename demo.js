@@ -395,9 +395,11 @@ function getHTML() {
 var fullSource = "";
 function getFullSource() {
 	var demoStyle = document.querySelector('#common').innerHTML;
-	demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g, ''));
+	if(typeof ajaxHasFailed!="undefined" && ajaxHasFailed==true){
+		demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g, ''));
+	}
 	var gridStyle = powergrid.toCss(config);
-	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n' + demoStyle + '</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n' + htmlText + '</div> \r\n</body>//-->'
+	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n' + demoStyle + '\n</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n' + htmlText + '</div> \r\n</body>//-->'
 	$('#full-source').html(fullSource);
 }
 
@@ -649,6 +651,18 @@ function setGridData(){
 	$('#gridUIContainer').fadeOut();
 }
 
+function setDecoratorStyles(){
+	var link = $("style#common").attr("href");
+
+	$.when($.ajax(link)).then(function(data,textStatus,jqXHR) {
+		if(data.length){
+			$("style#common").html(data);
+		}
+	},function(){
+		ajaxHasFailed=true;
+	});
+}
+
 $(function () {
 	config = fetchConfig() || config;
 
@@ -656,6 +670,9 @@ $(function () {
 		statusWarnings = data.warnings || {};
 		showWarnings();
 	});
+
+	//Fetch and set common decorator styles
+	setDecoratorStyles();
 
 	buildGrid();
 
