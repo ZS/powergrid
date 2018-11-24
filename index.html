@@ -6,85 +6,8 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.css" />	
-	<style id="common" href="decorator-styles.css">
-		/* General styles */
-		body,
-		html {
-			padding: 0;
-			margin: 0;
-			height: 100%;
-			min-height: 100%;
-			background: rgba(50, 50, 50, 0.5);
-			font-family: Roboto, Arial, Helvetica, sans-serif;
-		}
-
-		.fluid {
-			width: 100%;
-			height: 100%;
-			overflow:auto; /* this helps to stretch container */
-		}
-
-		/* Decorate cells for better identification */
-		#grid {
-			background: transparent;
-		}
-
-		#grid>div {
-			background: white;
-			padding: 10px;
-			border: 1px solid #c0c0c0;
-			box-shadow: 1px 1px 1px #000;
-			border-radius: 10px;
-			color: #000;
-			text-shadow: 1px 1px #c0c0c0;
-			margin: 5px;
-			cursor: pointer;
-		}
-
-		#grid>div:nth-child(n+1) {
-			background: rgba(0, 255, 0, 0.5);
-			border: 1px solid green;
-		}
-
-		#grid>div:nth-child(2n) {
-			background: rgba(0, 255, 255, 0.5);
-			border: 1px solid lightblue;
-		}
-
-		#grid>div:nth-child(3n) {
-			background: rgba(0, 0, 255, 0.5);
-			border: 1px solid blue;
-		}
-
-		#grid>div:nth-child(4n) {
-			background: rgba(255, 0, 255, 0.5);
-			border: 1px solid purple;
-		}
-
-		#grid>div:nth-child(5n) {
-			background: rgba(255, 0, 0, 0.5);
-			border: 1px solid red;
-		}
-
-		#grid>div:nth-child(6n) {
-			background: rgba(255, 127, 0, 0.5);
-			border: 1px solid orange;
-		}
-
-		#grid>div:nth-child(7n) {
-			background: rgba(255, 255, 0, 0.5);
-			border: 1px solid yellow;
-		}
-
-		#grid>div:nth-child(8n) {
-			background: rgba(0, 255, 0, 0.5);
-			border: 1px solid green;
-		}
-		#grid>div:nth-child(n).selected-grid{
-			border: 2px dashed black;
-		}
-	</style>
-	<link rel="stylesheet" href="demo.css" />
+	<link rel="stylesheet" href="decorate.css">
+	<link rel="stylesheet" href="demo.css">
 	<style id="grid-css"></style>
 </head>
 
@@ -317,6 +240,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
 	<script src="powergrid.umd.js"></script>	
+	<script src="defaultConfig.js"></script>
 	<script src="demo.js"></script>
 </body>
 
