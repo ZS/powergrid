@@ -2,6 +2,7 @@
  * State management behavior for components.
  * @module
  * @todo add deleteState method to support removing items from storage
+ * @todo sync state and URL
  */ 
 var state = {		
 	/**
