@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>State</title>
+</head>
+
+<body>
+
+	<script type="module">
+		import {state} from "./state.js";		
+		Object.assign(document.body,state);
+		document.body.watchLocation();
+		
+		document.body.addEventListener('statechange', function(e) {
+			console.log('state changed', e.detail.newState);
+			this.innerHTML = JSON.stringify(this.state);
+		});
+		document.body.updateUrl();
+	</script>
+</body>
+
+</html>
