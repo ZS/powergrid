@@ -100,17 +100,11 @@ function cellDialog(element, event) {
 	});
 }
 
-var getCurrentLocation = {
-	getSearchStr: function () {
-		return window.location.search;
-	}
-};
-
 /**
  * Try to fetch the config from the URL query string.
  */
 function fetchConfig() {
-	var searchStr = getCurrentLocation.getSearchStr();
+	var searchStr = window.location.search;
 	var query = searchStr.split("=")[1];
 	try {
 		return JSON.parse(window.atob(query));
