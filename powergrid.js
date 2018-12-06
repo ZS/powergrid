@@ -158,7 +158,7 @@ function gridAuto(cols, rows, prefix) {
 };
 
 /**
- * Create a rules to align cells in a grid
+ * Create rules to align cells in a grid
  * @param {string} prefix 
  * @return {array}
  */
