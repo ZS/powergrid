@@ -88,9 +88,23 @@ function createGrid() {
 		}
 		var cls = cls.join(' ').trim();
 
-		$grid.append('<div' + (cls ? ' class="' + cls + '"' : '') + '>' + (encodeURIComponent(cell.text || index)) + '</div>');
-		htmlText += "    " + '<div' + (cls ? ' class="' + cls + '"' : '') + '>' + (encodeURIComponent(cell.text || index)) + '</div>' + "\r\n";
+		$grid.append('<div' + (cls ? ' class="' + cls + '"' : '') + '>' + format(encodeURIComponent(cell.text || index)) + '</div>');
+		htmlText += "    " + '<div' + (cls ? ' class="' + cls + '"' : '') + '>' + format(encodeURIComponent(cell.text || index)) + '</div>' + "\r\n";
 	});
+}
+
+/**
+ * Formats an HTML string to convert patters like "img-250-50" into images
+ * @param {string} htmlString original HTML
+ * @return {string} Updated HTML string
+ */
+function format(htmlString) {
+	var html = htmlString;
+	var arr = html.split('-');
+	if (arr.length == 3 && arr[0] == 'img') {
+		html = '<img src="https://via.placeholder.com/' + arr[1] + 'x' + arr[2] + '">';
+	}
+	return html;
 }
 
 function createStyles() {
@@ -246,7 +260,7 @@ function bindCellClick() {
 			$("#cell-justify").val('');
 		}
 		
-		$("#cell-text").val(this.innerHTML);
+		$("#cell-text").val(config.cells[cellIndex].text || '');
 		$("#cellContainer").fadeIn();
 		$(this).addClass('selected-grid');
 	});
@@ -381,9 +395,11 @@ function getHTML() {
 var fullSource = "";
 function getFullSource() {
 	var demoStyle = document.querySelector('#common').innerHTML;
-	demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g, ''));
+	if(typeof ajaxHasFailed!="undefined" && ajaxHasFailed==true){
+		demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g, ''));
+	}
 	var gridStyle = powergrid.toCss(config);
-	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n' + demoStyle + '</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n' + htmlText + '</div> \r\n</body>//-->'
+	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n' + demoStyle + '\n</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n' + htmlText + '</div> \r\n</body>//-->'
 	$('#full-source').html(fullSource);
 }
 
@@ -635,6 +651,18 @@ function setGridData(){
 	$('#gridUIContainer').fadeOut();
 }
 
+function setDecoratorStyles(){
+	var link = $("style#common").attr("href");
+
+	$.when($.ajax(link)).then(function(data,textStatus,jqXHR) {
+		if(data.length){
+			$("style#common").html(data);
+		}
+	},function(){
+		ajaxHasFailed=true;
+	});
+}
+
 $(function () {
 	config = fetchConfig() || config;
 
@@ -642,6 +670,9 @@ $(function () {
 		statusWarnings = data.warnings || {};
 		showWarnings();
 	});
+
+	//Fetch and set common decorator styles
+	setDecoratorStyles();
 
 	buildGrid();
 
