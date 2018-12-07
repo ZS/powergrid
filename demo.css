@@ -155,16 +155,15 @@
 
 .power-grid-tab {
 	overflow: hidden;
-	border: 1px solid #ccc;
-	border-bottom: none;
+
 	background-color: #f1f1f1;
+	font-size: 0;
 }
 
 /* Style the buttons inside the tab */
 
 .power-grid-tab button {
 	background-color: inherit;
-	float: left;
 	border: none;
 	outline: none;
 	cursor: pointer;
@@ -268,6 +267,7 @@ div.ace-jsoneditor {
 	min-width: 400px;
 }
 .cell-form-grid {
+	padding-top: 14px;
 	display: grid;
 	display: -ms-grid;
 	grid-template-columns: minmax(max-content, 200px) minmax(min-content, 1fr);
