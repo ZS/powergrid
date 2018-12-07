@@ -5,6 +5,7 @@
  * @todo sync state and URL
  */ 
 var state = {		
+
 	/**
 	 * Store current URL object 
 	 * @type {object}
@@ -89,6 +90,7 @@ var state = {
 		}
 		this.state = this.state || {};
 		Object.assign(this.state, combinded);
+		this.reflectUrl();		
 		var event = new CustomEvent('statechange', { detail: { newState: this.state, changed: whatChanged } });
 		this.dispatchEvent(event);
 	},
@@ -149,7 +151,7 @@ var state = {
 		Object.assign(toSave, state || this.state);
 		
 		// Remove unwanted properties
-		exclude = exclude || ['hash', 'pathname']; // By default we want to exclude URL based parameters from saving to localStorag.
+		exclude = exclude || ['hash', 'pathname']; // By default we want to exclude URL based parameters from saving to localStorage.
 		for (var i in exclude) {
 			delete toSave[exclude[i]];
 		}
@@ -174,10 +176,11 @@ var state = {
 	 * @param {object} obj - Object to convert
 	 * @return {string} Query string
 	 */
-	serialize: function (obj) {
+	serialize: function (obj, exclude) {
 		var str = [];
 		if (!obj) { return; }
 		for (var p in obj) {
+			if (exclude || exclude[p] !== undefined) {continue;}
 			if (!obj.hasOwnProperty || obj.hasOwnProperty(p)) {
 				str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
 			}
@@ -195,8 +198,26 @@ var state = {
 		if (url.href) {return url.href};
 		var newUrl = document.createElement('a');
 		newUrl.href = location.href;
-		Object.assign(newUrl, url);			
+		Object.assign(newUrl, url);	
+		newUrl = null;		
 		return newUrl.href;
+	},
+
+	/**
+	 * Reflect state changes in the URL
+	 */
+	reflectUrl: function() {
+		var url = Object.create(this.url || {});
+		url.pathname = this.state.pathname;
+		url.hash = this.state.hash;
+		var exclude = ['hash', 'pathname'];
+		for (var p in this.state) {
+			if (exclude || exclude[p] !== undefined) {continue;}
+			if (!obj.hasOwnProperty || obj.hasOwnProperty(p)) {
+				url.query[p] = this.state[p]
+			}
+		}
+		console.log('new ulr', this.joinUrl(url));
 	},
 
 	/**
@@ -219,5 +240,19 @@ var state = {
 		}
 	}		
 };
+
+
+// Observe urlString
+Object.defineProperty('urlString', {
+	set: function(newValue)  {
+		if (newValue != this._urlString && typeof this.stateChanged == 'function') {
+			this.stateChanged();
+		}
+		this._urlString = newValue
+	},
+	get: function() {
+		return this._urlString;
+	}
+})
 
 export {state};
