@@ -31,7 +31,6 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
 	<script type="module">
 		import {state} from "./state.js";
-		document.body.updateUrl();
 
 		$(function() {
 			// Init components
@@ -43,11 +42,15 @@
 
 
 			$modal.on('hidden.bs.modal', function() {
-				//TODO: change the state back here and sync url.				
+				//TODO: change the state back here and sync url.
+				this.updateState({open: "false"});
 			});
 
 			$modal.on('statechange', function(e) {
-				if (this.state.open != null) {
+				console.log('statechange', e);
+				if (e.detail.changed !== undefined && e.detail.changed.open === undefined) {return;}
+
+				if (this.state.open && this.state.open != "false" ) {
 					$(this).modal('show');
 				} else {
 					$(this).modal('hide');

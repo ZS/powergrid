@@ -138,6 +138,10 @@ var state = {
 		window.addEventListener("hashchange", function () {
 			comp.updateUrl();
 		});
+
+		window.addEventListener("popstate", function() {
+			comp.updateUrl();
+		});
 	},
 
 	/**
@@ -180,7 +184,7 @@ var state = {
 		var str = [];
 		if (!obj) { return; }
 		for (var p in obj) {
-			if (exclude || exclude[p] !== undefined) {continue;}
+			if (exclude && exclude[p] !== undefined) {continue;}
 			if (!obj.hasOwnProperty || obj.hasOwnProperty(p)) {
 				str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
 			}
@@ -206,18 +210,22 @@ var state = {
 	/**
 	 * Reflect state changes in the URL
 	 */
-	reflectUrl: function() {
-		var url = Object.create(this.url || {});
-		url.pathname = this.state.pathname;
-		url.hash = this.state.hash;
-		var exclude = ['hash', 'pathname'];
-		for (var p in this.state) {
-			if (exclude || exclude[p] !== undefined) {continue;}
-			if (!obj.hasOwnProperty || obj.hasOwnProperty(p)) {
-				url.query[p] = this.state[p]
+	reflectUrl: function(state, exclude) {
+		var newUrl = document.createElement('a');
+		state = state || this.state;
+		newUrl.href = location.href;
+		newUrl.pathname = state.pathname;
+		newUrl.hash = state.hash;
+		exclude = exclude || ['hash', 'pathname'];
+		var query = this.query || {};
+		for (var p in state) {
+			if (exclude && exclude.indexOf(p) != -1) {continue;}
+			if (!state.hasOwnProperty || state.hasOwnProperty(p)) {				
+				query[p] = state[p].toString();
 			}
 		}
-		console.log('new ulr', this.joinUrl(url));
+		newUrl.search = this.serialize(query);
+		history.pushState(this.state, '', newUrl.href);
 	},
 
 	/**
@@ -240,19 +248,5 @@ var state = {
 		}
 	}		
 };
-
-
-// Observe urlString
-Object.defineProperty('urlString', {
-	set: function(newValue)  {
-		if (newValue != this._urlString && typeof this.stateChanged == 'function') {
-			this.stateChanged();
-		}
-		this._urlString = newValue
-	},
-	get: function() {
-		return this._urlString;
-	}
-})
 
 export {state};
