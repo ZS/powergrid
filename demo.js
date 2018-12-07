@@ -121,21 +121,17 @@ function updateUrl(config) {
 
 var closeModal = function (el) {
 	$(el).closest(".pg-modal").fadeOut();
-	if($(el).closest(".pg-modal").attr('id') == 'cellContainer'){
-		$('#grid').find('.selected-grid').removeClass('selected-grid');
-	}
+	$('#grid').find('.selected-grid').removeClass('selected-grid');	
 }
 
 var showEditJSONModal = function () {
-	$("#jsonContainer").fadeIn();
-
 	// create the editor	
 	var options = {
 		mode: 'code',
 		modes: ['code', 'tree']
 	};
 
-	var container = $("#jsonContainer .pg-modal-content .pg-modal-body");
+	var container = $("#configJSONContainer .json-editor");
 
 	if (typeof editor == 'undefined' && container.length) {
 		editor = new JSONEditor(container[0], options);
@@ -150,7 +146,7 @@ var saveEditedJSON = function () {
 			config = editor.get();
 			updateUrl(config);
 			buildGrid();
-			$("#jsonContainer").fadeOut();
+			//$("#jsonContainer").fadeOut();
 		} catch (error) {
 			createAlert("Error parsing provided JSON. Please fix the error(s) marked in red below. Please see console for more details.", $('#editor-error-container'), error.name);
 		}
@@ -158,7 +154,10 @@ var saveEditedJSON = function () {
 }
 
 function bindCellClick() {
-	$('#grid > div ').on('click', function (event) {
+	$('#grid > div').on('click', function (event) {
+	
+		// Open all settings modal
+		$("#menuContainer").fadeIn();
 		cellIndex = 0;
 		var self = this;
 		while ((self = self.previousSibling) != null) {
@@ -209,7 +208,7 @@ function bindCellClick() {
 		}
 		
 		$("#cell-text").val(config.cells[cellIndex].text || '');
-		$("#cellContainer").fadeIn();
+		//$("#cellContainer").fadeIn();
 		$(this).addClass('selected-grid');
 	});
 
@@ -234,7 +233,7 @@ function deleteCell(){
 	config.cells.splice(cellIndex,1);
 	updateUrl(config);
 	buildGrid();
-	$('#cellContainer').fadeOut();
+	// $('#cellContainer').fadeOut();
 }
 function saveCellOptions() {
 	var cellText = $('#cell-text').val();
@@ -271,7 +270,7 @@ function saveCellOptions() {
 	}
 	updateUrl(config);
 	buildGrid();
-	$('#cellContainer').fadeOut();
+	//$('#cellContainer').fadeOut();
 }
 
 function createAlert(html, $container, type){
@@ -414,11 +413,12 @@ function replaceAll(string, search, replacement) {
 
 function openSourceContent(evt, sourceName) {
 	var i, tabcontent, tablinks;
-	tabcontent = document.getElementsByClassName("power-grid-tabcontent");
+	var tabContainer = $(evt.currentTarget).closest(".power-grid-tab");
+	tabcontent = tabContainer.siblings(".power-grid-tabcontent");
 	for (i = 0; i < tabcontent.length; i++) {
 		tabcontent[i].style.display = "none";
 	}
-	tablinks = document.getElementsByClassName("tablinks");
+	tablinks = tabContainer[0].getElementsByClassName("tablinks");
 	for (i = 0; i < tablinks.length; i++) {
 		tablinks[i].className = tablinks[i].className.replace(" active", "");
 	}
@@ -596,7 +596,7 @@ function setGridData(){
 	};
 	updateUrl(config);
 	buildGrid();
-	$('#gridUIContainer').fadeOut();
+	//$('#gridUIContainer').fadeOut();
 }
 
 function setDecoratorStyles(){
@@ -624,41 +624,29 @@ $(function () {
 
 	buildGrid();
 
-	$('#open-source-code').on('click', function () {
+	$('.show-source-code').on('click', function () {
 		getHTML();
-		getFullSource();
+		//getFullSource();
 		highlight();
-		$("#sourceContainer").fadeIn();
+		// $("#sourceContainer").fadeIn();
 		document.getElementById("defaultOpenTab").click();
 	});
-	$('#open-ui-configuration').on('click', function () {
-		
-		$("#gridUIContainer").fadeIn();
+
+	$('.open-ui-configuration').on('click', function () {
 		getGridData();
-		
-	});
-	//Initialize configuration panel
-	var slider = $("#menu-bar").slideReveal({
-		// width: 100,
-		push: false,
-		position: "right",
-		// speed: 600,
-		trigger: $("#menu-bar .handle"),
-		// autoEscape: false,
-		shown: function (obj) {
-			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-right"></span>');
-			obj.find(".handle").html('&#10095;');
-			obj.addClass("left-shadow-overlay");
-		},
-		hidden: function (obj) {
-			//obj.find(".handle").html('<span class="glyphicon glyphicon-chevron-left"></span>');
-			obj.find(".handle").html('&#10094;');
-			obj.removeClass("left-shadow-overlay");
-		}
 	});
 
-	$("#menu-bar a").on("click", function () {
-		slider.slideReveal("hide");
+	$('.show-json-editor').on('click', function () {
+		showEditJSONModal();
+	});
+	
+	$(".tablinks.active").click();
+
+	// Open all settings modal when user clicks anywhere on document
+	$("#grid").on("click",function(e){
+		if(e.target == this){
+			$("#menuContainer").fadeIn();
+		}
 	});
 
 	window.onpopstate = function (event) {
