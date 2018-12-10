@@ -328,6 +328,10 @@ function showWarnings(){
 	}
 
 	//TODO:Additional warning scenarios can be added here.
+
+
+	// At last, update warnings count to be reflected in badge.
+	$('.help-tab').attr('count', $('.alerts-container .alert').length);
 }
 
 var htmlExample = "";

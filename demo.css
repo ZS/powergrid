@@ -247,9 +247,17 @@ div.ace-jsoneditor {
 	min-height: 50vh;
 }
 
+.alerts-container:empty ~ .alerts-help {
+	display: none;
+}
+
+.alerts-help {
+	position: absolute;
+    top: 0.5em;
+}
+
 .alerts-container {
-	position: fixed;
-	bottom: 0;
+	padding-top: 2em;
 	width: 100%;
 	z-index: 1003;
 }
@@ -257,6 +265,21 @@ div.ace-jsoneditor {
 .alerts-container .alert {
 	margin-bottom: 0;
 	margin-top: 0.5em;
+}
+
+.help-tab:after {
+	content: attr(count);
+    top: -0.5em;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+    background: red;
+    border-radius: 1.5em;
+    color: #fff;
+    min-width: 1.5em;
+    line-height: normal;
+    padding: 0.075em 0.5em 0.075em 0.5em;
 }
 
 #cellContainer>.pg-modal-content {
