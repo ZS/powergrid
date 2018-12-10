@@ -25,7 +25,7 @@
 						Settings</button>
 					<button class="tablinks show-json-editor" onclick="openSourceContent(event, 'configJSONContainer')">Config JSON</button>
 					<button class="tablinks show-source-code" onclick="openSourceContent(event, 'sourceCodeContainer')">Source Code</button>
-					<button class="tablinks" onclick="openSourceContent(event, 'helpContainer')">Help</button>
+					<button class="tablinks help-tab" onclick="openSourceContent(event, 'helpContainer')">Help</button>
 				</div>
 				<div id="gridSettingsContainer" class="power-grid-tabcontent active">
 					<h3>Configure Grid </h3>
@@ -175,7 +175,10 @@
 					<button onclick="closeModal(this)" class="button">Close</button>
 				</div>
 				<div id="helpContainer" class="power-grid-tabcontent">
-		
+					<section>
+						<div class="alerts-container"></div>
+						<p class="alerts-help">There are some issues with your current configuration</p>
+					</section>
 				</div>
 		
 			</div>
@@ -194,9 +197,6 @@
 
 	<div id="htmlEg">
 
-	</div>
-	<div class="alerts-container">
-		
 	</div>
 	<template id="alert-template">
 		<div class="alert alert-warning alert-dismissible fade show">
