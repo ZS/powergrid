@@ -331,7 +331,10 @@ function showWarnings(){
 
 
 	// At last, update warnings count to be reflected in badge.
-	$('.help-tab').attr('count', $('.alerts-container .alert').length);
+	var alertsCount = $('.alerts-container .alert').length;
+	if (alertsCount) {
+		$('.help-tab').attr('count', alertsCount);
+	}
 }
 
 var htmlExample = "";

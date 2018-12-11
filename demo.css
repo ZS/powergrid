@@ -282,6 +282,10 @@ div.ace-jsoneditor {
     padding: 0.075em 0.5em 0.075em 0.5em;
 }
 
+.help-tab:not([count]):after {
+	display: none;
+}
+
 #cellContainer>.pg-modal-content {
 	width: 35%;
 	min-width: 350px;
