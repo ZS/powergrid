@@ -625,7 +625,7 @@ $(function () {
 		statusWarnings = data.warnings || {};
 		showWarnings();
 	});
-
+	
 	//Fetch and set common decorator styles
 	setDecoratorStyles();
 
@@ -655,7 +655,7 @@ $(function () {
 			$("#menuContainer").fadeIn();
 		}
 	});
-
+	$("#pg-version").html(config.version);
 	window.onpopstate = function (event) {
 		window.location.reload();
 	};

@@ -190,6 +190,7 @@
 .power-grid-tabcontent {
 	position: relative;
 	display: none;
+	padding-top: 1em;
 }
 
 .copyBtn {
@@ -246,7 +247,9 @@ div.jsoneditor {
 div.ace-jsoneditor {
 	min-height: 50vh;
 }
-
+.alerts-container:empty {
+	display: none;
+}
 .alerts-container:empty ~ .alerts-help {
 	display: none;
 }
@@ -257,9 +260,10 @@ div.ace-jsoneditor {
 }
 
 .alerts-container {
-	padding-top: 2em;
+	padding-top: 1em;
 	width: 100%;
 	z-index: 1003;
+	margin-bottom: 1em;
 }
 
 .alerts-container .alert {
