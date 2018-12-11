@@ -225,7 +225,7 @@ var state = {
 			}
 		}
 		newUrl.search = this.serialize(query);
-		history.pushState(this.state, '', newUrl.href);
+		history.pushState(this.state, document.head.title, newUrl.href);
 	},
 
 	/**
@@ -236,6 +236,10 @@ var state = {
 		this.parseUrl(newUrl || location.href);
 		this.parseQuery(this.url.search);
 		this.reflectState();
+	},
+
+	test: function() {		
+		return `test${this}`;
 	},
 
 	/**

@@ -164,7 +164,7 @@
 	};
 
 	/**
-  * Auto place cells based on the order in the container
+  * Auto place grid items based on the order in the container
   * @param {array} cols 
   * @param {array} rows 
   * @param {string} prefix 
@@ -187,7 +187,7 @@
 	};
 
 	/**
-  * Create a rules to align cells in a grid
+  * Create rules to align cells in a grid
   * @param {string} prefix 
   * @return {array}
   */
@@ -251,7 +251,7 @@
   */
 	function toCss(config) {
 		// CSS Template
-		return "/********** " + config.name + " v" + config.version + " " + config.url + " **************/\n/* Grid lines template */\n" + objToCss(grid(config.cols, config.rows, config.prefix)) + "\n\n/* Auto placement of grid cells based on the order */\n" + arrayToCss(gridAuto(config.cols, config.rows, config.prefix)) + "\n\n/* Explicit placement of grid cells */\n" + arrayToCss(gridCells(config.cols, config.rows, config.prefix)) + "\n\n/* Order of layers */\n" + cellOrder(config.cells, config.prefix) + "\n\n/* Alignment */\n" + arrayToCss(cellAlign(config.prefix)) + "\n";
+		return "/********** " + config.name + " v" + config.version + " " + config.url + " **************/\n/* Grid lines template */\n" + objToCss(grid(config.cols, config.rows, config.prefix)) + "\n\n/* Auto placement of grid items based on the order */\n" + arrayToCss(gridAuto(config.cols, config.rows, config.prefix)) + "\n\n/* Explicit placement of grid cells */\n" + arrayToCss(gridCells(config.cols, config.rows, config.prefix)) + "\n\n/* Order of layers */\n" + cellOrder(config.cells, config.prefix) + "\n\n/* Alignment */\n" + arrayToCss(cellAlign(config.prefix)) + "\n";
 	}
 
 	exports.objToCss = objToCss;
