@@ -112,7 +112,7 @@ function arrayToCss(styles) {
  * @param {string} prefix 
  * @return {array}
  */
-function gridCells(cols, rows, prefix) {
+function gridCells(cols, rows, prefix, cells) {
 	var styles = [];
 	cols.forEach(function (col, index) {
 		var style = {};
@@ -130,6 +130,30 @@ function gridCells(cols, rows, prefix) {
 		}
 		styles.push(style);
 	});
+	var tmpArrCol = [];
+	var tmpArrRow = [];
+	for(var i in cells){
+	if(cells[i].row>rows.length && (tmpArrRow.indexOf(cells[i].row) == -1)){
+		tmpArrRow.push(cells[i].row);
+		var rowStart = cells[i].row;
+		var style = {};
+		style['.' + prefix + 'grid > .' + prefix + 'row-' + (rowStart) + ':nth-child(n)'] = gridCell(0, rowStart);
+			if (rowStart > 0) {
+				style['.' + prefix + 'grid > .' + prefix + 'row-span-' + (rowStart) + ':nth-child(n)'] = gridCell(0, 0, 0, rowStart);
+			}
+			styles.push(style);
+		}
+		if(cells[i].col>cols.length && (tmpArrCol.indexOf(cells[i].col) == -1)){
+			tmpArrCol.push(cells[i].col);
+			var colStart = cells[i].col;
+			var style = {};
+			style['.' + prefix + 'grid > .' + prefix + 'col-' + (colStart) + ':nth-child(n)'] = gridCell(colStart);
+			if (colStart > 0) {
+				style['.' + prefix + 'grid > .' + prefix + 'col-span-' + (colStart) + ':nth-child(n)'] = gridCell(0, 0, colStart);
+			}
+			styles.push(style);
+		}
+	}
 	return styles;
 };
 
@@ -231,7 +255,7 @@ ${objToCss(grid(config.cols, config.rows, config.prefix))}
 ${arrayToCss(gridAuto(config.cols, config.rows, config.prefix))}
 
 /* Explicit placement of grid cells */
-${arrayToCss(gridCells(config.cols, config.rows, config.prefix))}
+${arrayToCss(gridCells(config.cols, config.rows, config.prefix, config.cells))}
 
 /* Order of layers */
 ${cellOrder(config.cells, config.prefix)}
