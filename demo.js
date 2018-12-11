@@ -331,7 +331,10 @@ function showWarnings(){
 
 
 	// At last, update warnings count to be reflected in badge.
-	$('.help-tab').attr('count', $('.alerts-container .alert').length);
+	var alertsCount = $('.alerts-container .alert').length;
+	if (alertsCount) {
+		$('.help-tab').attr('count', alertsCount);
+	}
 }
 
 var htmlExample = "";
@@ -622,7 +625,7 @@ $(function () {
 		statusWarnings = data.warnings || {};
 		showWarnings();
 	});
-
+	
 	//Fetch and set common decorator styles
 	setDecoratorStyles();
 
@@ -652,8 +655,7 @@ $(function () {
 			$("#menuContainer").fadeIn();
 		}
 	});
-
-
+	$("#pg-version").html(config.version);
 	window.onpopstate = function (event) {
 		window.location.reload();
 	};
