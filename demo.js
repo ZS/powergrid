@@ -48,7 +48,7 @@ function createGrid() {
 }
 
 /**
- * Formats an HTML string to convert patters like "img-250-50" into images
+ * Formats an HTML string to convert patterns like "img-250-50" into images
  * @param {string} htmlString original HTML
  * @return {string} Updated HTML string
  */

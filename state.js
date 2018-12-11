@@ -92,7 +92,6 @@ var state = {
 		Object.assign(this.state, combinded);
 		this.reflectUrl();		
 		var event = new CustomEvent('statechange', { detail: { newState: this.state, changed: whatChanged } });
-		this.dispatchEvent(event);
 	},
 
 	/**
@@ -253,4 +252,4 @@ var state = {
 	}		
 };
 
-export {state};
+export default state;

@@ -285,5 +285,5 @@
 		}
 	};
 
-	exports.state = state;
+	exports.default = state;
 });
