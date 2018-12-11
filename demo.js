@@ -656,6 +656,19 @@ $(function () {
 		}
 	});
 	$("#pg-version").html(config.version);
+	// Open click anywhere overlay for first load
+	$("#clickAnywhereOverlay").fadeIn(500);
+
+	// Auto fadeout overlay after 10 seconds if no response from user
+	setTimeout(function(){
+		$("#clickAnywhereOverlay").fadeOut(500);
+		$("#clickAnywhereOverlay .got-it-button").off("click");
+	},10000);
+
+	$("#clickAnywhereOverlay .got-it-button").one("click",function(){
+		$("#clickAnywhereOverlay").fadeOut(500);
+	});
+
 	window.onpopstate = function (event) {
 		window.location.reload();
 	};
