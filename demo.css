@@ -16,49 +16,44 @@
 	background: transparent;
 }
 
-#menu-bar {
-	background-color: #BDBDBD;
-	color: #fff;
-	z-index: 1002;
-}
-
-.left-shadow-overlay {
-	box-shadow: 10px 0 15px 10px #585858;
-}
-
-#menu-bar h3 {
-	background-color: #2E2E2E;
-	font-size: 1.9em;
-	padding: 20px;
-	margin: 0;
-	font-weight: 300;
-}
-
-#menu-bar a {
-	border-bottom: 1px solid #D8D8D8;
-	padding: 1em;
+.button.got-it-button{
 	display: block;
-	color: #424242;
-	font-size: 1.2em;
-	font-weight: 300;
-	text-decoration: none;
+	background: transparent;
+	color: #f9f8fa;
+	border: solid 1px #f9f8fa;
+	padding: 8px 16px;
+	outline: none;
 }
 
-#menu-bar a:hover {
-	background-color: #D8D8D8;
+.button.got-it-button:hover,.button.got-it-button:focus{
+	background: rgba(0,0,0,0.1);
 }
 
-#menu-bar .handle {
-	background-color: #2E2E2E;
-	left: -40px;
-	padding: 10px;
-	position: absolute;
-	top: 0px;
-	width: 20px;
-	cursor: pointer;
-	font-weight: bold;
+#clickAnywhereOverlay{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1100;
+	background: rgba(125,125,125,0.8);
+}
+
+#clickAnywhereOverlay .clickAnywhereContent{
+	position: relative;
+	top: 45%;
 	text-align: center;
-	box-sizing: content-box;
+}
+
+#clickAnywhereOverlay .clickAnywhereContent img{
+	width: 100px;
+	height: 100px;
+}
+
+#clickAnywhereOverlay .clickAnywhereContent .clickAnywhereText{
+	display: inline-block;
+	color: #f8f9fa;
+	vertical-align: middle;
 }
 
 /* Modal */
