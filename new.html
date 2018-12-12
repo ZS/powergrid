@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title></title>
+	<link rel="stylesheet" href="general.css">
+	<link rel="stylesheet" href="decorate.css">
+	<link rel="stylesheet" href="demo.css">
+	<style id="grid-css"></style>
+</head>
+
+<body>
+	<div id="grid"></div>
+	<script src="powergrid.umd.js"></script>	
+	<script src="state.umd.js"></script>
+	<script src="defaultConfig.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/wicked-elements"></script>
+	<script src="https://cdn.jsdelivr.net/npm/custom-event-polyfill@1.0.6/polyfill.js" integrity="sha256-GgsiUYiTEQj0ldaika9Lu63JJV2XJpC7xgwuaRNpnyw=" crossorigin="anonymous"></script><!-- IE11 -->
+	<script src="https://cdn.jsdelivr.net/npm/polyfill-object-assign@1.0.0/index.js" integrity="sha256-jIKadqF3tjT2cnLiHv5vFUUA54nhCN0KSE0Fnz+jmE0=" crossorigin="anonymous"></script>
+	<script type="module">
+		import gridBuilder from './gridBuilder.js';		
+		
+		
+		var grid = Object.assign({
+			html: '',
+			dispatchEvent: function(event) {
+				if (this.el && typeof this.el.dispatchEvent == 'function') {
+					this.el.dispatchEvent(event);
+				}
+			},
+			init: function (event) {
+				console.log('init');
+				
+				this.el = event.currentTarget;
+				this.render();
+			},
+			onconnected: function() {
+				console.log('connect');
+				//this.watchLocation();
+			},
+			onstatechange: function() {
+
+				console.log('state', this.state);
+			},
+			render: function() {
+				console.log('render');
+				this.html = gridBuilder.createGrid($(this.el), config);	
+				var css = this.createStyles(config);
+				$('#grid-css').html(css);
+			}
+		}, gridBuilder, state.default);
+
+
+		wickedElements.define('#grid', grid);
+
+	</script>
+	
+</body>
+
+</html>
