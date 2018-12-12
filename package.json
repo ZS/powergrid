@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jasmine",
     "umdPowergrid": "./node_modules/.bin/babel powergrid.js --out-file powergrid.umd.js",
+    "umdBuilder": "./node_modules/.bin/babel gridBuilder.js --out-file gridBuilder.umd.js", 
     "umdState": "./node_modules/.bin/babel state.js --out-file state.umd.js",
     "umdBundle": "./node_modules/.bin/babel bundle.js --out-file bundle.umd.js",
     "umd": "npm rum umdPowergrid && npm run umdState"

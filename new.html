@@ -19,8 +19,8 @@
 	<script src="https://unpkg.com/wicked-elements"></script>
 	<script src="https://cdn.jsdelivr.net/npm/custom-event-polyfill@1.0.6/polyfill.js" integrity="sha256-GgsiUYiTEQj0ldaika9Lu63JJV2XJpC7xgwuaRNpnyw=" crossorigin="anonymous"></script><!-- IE11 -->
 	<script src="https://cdn.jsdelivr.net/npm/polyfill-object-assign@1.0.0/index.js" integrity="sha256-jIKadqF3tjT2cnLiHv5vFUUA54nhCN0KSE0Fnz+jmE0=" crossorigin="anonymous"></script>
-	<script type="module">
-		import gridBuilder from './gridBuilder.js';		
+	<script src="gridBuilder.umd.js"></script>
+	<script>
 		
 		
 		var grid = Object.assign({
@@ -46,11 +46,11 @@
 			},
 			render: function() {
 				console.log('render');
-				this.html = gridBuilder.createGrid($(this.el), config);	
+				this.html = this.createGrid($(this.el), config);	
 				var css = this.createStyles(config);
 				$('#grid-css').html(css);
 			}
-		}, gridBuilder, state.default);
+		}, gridBuilder.default, state.default);
 
 
 		wickedElements.define('#grid', grid);
