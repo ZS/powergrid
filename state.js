@@ -92,6 +92,7 @@ var state = {
 		Object.assign(this.state, combinded);
 		this.reflectUrl();		
 		var event = new CustomEvent('statechange', { detail: { newState: this.state, changed: whatChanged } });
+		this.dispatchEvent(event);
 	},
 
 	/**
@@ -135,10 +136,12 @@ var state = {
 	watchLocation: function() {
 		var comp = this;
 		window.addEventListener("hashchange", function () {
+			console.log('hashchange')
 			comp.updateUrl();
 		});
 
 		window.addEventListener("popstate", function() {
+			console.log('pop state');
 			comp.updateUrl();
 		});
 	},
