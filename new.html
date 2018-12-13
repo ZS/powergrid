@@ -12,7 +12,7 @@
 <body>
 	<div id="grid"></div>
 	<script src="powergrid.umd.js"></script>	
-	<script src="state.umd.js"></script>
+	<!--<script src="state.umd.js"></script>-->
 	<script src="defaultConfig.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/polyfill-object-assign@1.0.0/index.js" integrity="sha256-jIKadqF3tjT2cnLiHv5vFUUA54nhCN0KSE0Fnz+jmE0=" crossorigin="anonymous"></script>
 	<script type="module">
 		import gridBuilder from './gridBuilder.js';		
-		
+		import state from './state.js';		
 		
 		var grid = Object.assign({
 			html: '',
@@ -30,18 +30,21 @@
 					this.el.dispatchEvent(event);
 				}
 			},
-			init: function (event) {
-				console.log('init');
-				
+			init: function (event) {				
 				this.el = event.currentTarget;
+				this.updateUrl();
 				this.render();
 			},
-			onconnected: function() {
-				console.log('connect');
-				//this.watchLocation();
+			onhashchange: function(event) {						
+				console.log('hashchange', event);
+				this.state.hash = 1;
+			},
+			onpopstate: function(event) {
+				this.updateState(event.state);
+				console.log('popstate', event, this.state);
+				
 			},
 			onstatechange: function() {
-
 				console.log('state', this.state);
 			},
 			render: function() {
@@ -50,11 +53,16 @@
 				var css = this.createStyles(config);
 				$('#grid-css').html(css);
 			}
-		}, gridBuilder, state.default);
+		}, gridBuilder, state);
 
+		// Listen to browser state changes
+		window.addEventListener('hashchange', grid);
+		window.addEventListener('popstate', grid);
+		
 
+		// Initialize our UI
 		wickedElements.define('#grid', grid);
-
+		window.grid = grid;
 	</script>
 	
 </body>

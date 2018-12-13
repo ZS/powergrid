@@ -110,7 +110,6 @@
 			}
 			this.state = this.state || {};
 			Object.assign(this.state, combinded);
-			this.reflectUrl();
 			var event = new CustomEvent('statechange', { detail: { newState: this.state, changed: whatChanged } });
 			this.dispatchEvent(event);
 		},
@@ -152,13 +151,14 @@
 		/**
    * React on hash changes to update the state
    * @listens hashchange
+   * @deprecated 
+   * @todo It is better to watch for URL changes outside of this control
    */
 		watchLocation: function watchLocation() {
 			var comp = this;
 			window.addEventListener("hashchange", function () {
 				comp.updateUrl();
 			});
-
 			window.addEventListener("popstate", function () {
 				comp.updateUrl();
 			});
@@ -240,7 +240,7 @@
 		/**
    * Reflect state changes in the URL
    */
-		reflectUrl: function reflectUrl(state, exclude) {
+		reflectStateInUrl: function reflectStateInUrl(state, exclude) {
 			var newUrl = document.createElement('a');
 			state = state || this.state;
 			newUrl.href = location.href;
@@ -257,7 +257,7 @@
 				}
 			}
 			newUrl.search = this.serialize(query);
-			history.pushState(this.state, document.head.title, newUrl.href);
+			history.pushState(this.state, document ? document.head.title : '', newUrl.href);
 		},
 
 		/**
@@ -267,7 +267,7 @@
 		updateUrl: function updateUrl(newUrl) {
 			this.parseUrl(newUrl || location.href);
 			this.parseQuery(this.url.search);
-			this.reflectState();
+			//this.reflectStateInUrl();
 		},
 
 		test: function test() {
