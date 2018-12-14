@@ -77,10 +77,9 @@
 		function openModal() {
 			pgModal.onClose = function () {
 				console.log("%c Closing the dialog", "color:red");
-				$('#grid').find('.selected-grid').removeClass('selected-grid');
 			}
 			pgModal.onOpen = function () {
-				console.log("%c Opening the dialog", "color:red");
+				console.log("%c Opening the dialog", "color:blue");
 			}
 			document.querySelector('#menuContainer').setAttribute('open', 'true');
 		}
