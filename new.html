@@ -10,43 +10,60 @@
 </head>
 
 <body>
-	<div id="grid"></div>
-	<script src="powergrid.umd.js"></script>	
+	<div id="grid" onclick="openModal()"></div>
+
+	<div id="menuContainer" class="pg-modal" open="false">
+		<div class="pg-modal-content">
+			<div class="pg-modal-header">
+
+			</div>
+			<div class="pg-modal-body">
+
+			</div>
+			<div class="pg-modal-footer">
+
+			</div>
+		</div>
+	</div>
+
+	<script src="powergrid.umd.js"></script>
 	<script src="state.umd.js"></script>
 	<script src="defaultConfig.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-	crossorigin="anonymous"></script>
+	 crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/wicked-elements"></script>
-	<script src="https://cdn.jsdelivr.net/npm/custom-event-polyfill@1.0.6/polyfill.js" integrity="sha256-GgsiUYiTEQj0ldaika9Lu63JJV2XJpC7xgwuaRNpnyw=" crossorigin="anonymous"></script><!-- IE11 -->
-	<script src="https://cdn.jsdelivr.net/npm/polyfill-object-assign@1.0.0/index.js" integrity="sha256-jIKadqF3tjT2cnLiHv5vFUUA54nhCN0KSE0Fnz+jmE0=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/custom-event-polyfill@1.0.6/polyfill.js" integrity="sha256-GgsiUYiTEQj0ldaika9Lu63JJV2XJpC7xgwuaRNpnyw="
+	 crossorigin="anonymous"></script><!-- IE11 -->
+	<script src="https://cdn.jsdelivr.net/npm/polyfill-object-assign@1.0.0/index.js" integrity="sha256-jIKadqF3tjT2cnLiHv5vFUUA54nhCN0KSE0Fnz+jmE0="
+	 crossorigin="anonymous"></script>
 	<script src="gridBuilder.umd.js"></script>
 	<script>
-		
-		
+
+
 		var grid = Object.assign({
 			html: '',
-			dispatchEvent: function(event) {
+			dispatchEvent: function (event) {
 				if (this.el && typeof this.el.dispatchEvent == 'function') {
 					this.el.dispatchEvent(event);
 				}
 			},
 			init: function (event) {
 				console.log('init');
-				
+
 				this.el = event.currentTarget;
 				this.render();
 			},
-			onconnected: function() {
+			onconnected: function () {
 				console.log('connect');
 				//this.watchLocation();
 			},
-			onstatechange: function() {
+			onstatechange: function () {
 
 				console.log('state', this.state);
 			},
-			render: function() {
+			render: function () {
 				console.log('render');
-				this.html = this.createGrid($(this.el), config);	
+				this.html = this.createGrid($(this.el), config);
 				var css = this.createStyles(config);
 				$('#grid-css').html(css);
 			}
@@ -55,8 +72,68 @@
 
 		wickedElements.define('#grid', grid);
 
+
+
+		function openModal() {
+			pgModal.onClose = function () {
+				console.log("%c Closing the dialog", "color:red");
+				$('#grid').find('.selected-grid').removeClass('selected-grid');
+			}
+			pgModal.onOpen = function () {
+				console.log("%c Opening the dialog", "color:red");
+			}
+			document.querySelector('#menuContainer').setAttribute('open', 'true');
+		}
+		//modal component
+		var pgModal = {
+			onconnected: function () {
+				console.log('modal conneted');
+			},
+			init: function (event) {
+				this.el = event.currentTarget;
+				this.render();
+			},
+			onattributechanged: function (event) {
+				if (event.attributeName == "open") {
+					this.toggleModal();
+				}
+			},
+			onClose: function () {
+				console.log("dialog closed");
+			},
+			onOpen: function () {
+				console.log("dialog opened");
+			},
+			render: function () {
+				this.addClose();
+				this.toggleModal();
+			},
+			toggleModal: function () {
+				if (this.el.getAttribute('open') == "true") {
+					$(this.el).fadeIn();
+					this.onOpen();
+				}
+				else {
+					$(this.el).fadeOut();
+					this.onClose();
+				}
+			},
+			addClose: function () {
+				var self = this;
+				var closeEle = document.createElement('span');
+				closeEle.classList.add('close');
+				closeEle.innerHTML = "&times";
+				var modalHeader = this.el.querySelector('.pg-modal-header');
+				modalHeader.appendChild(closeEle);
+				modalHeader.addEventListener('click', function () {
+					self.el.setAttribute('open', 'false');
+				});
+			}
+		};
+		wickedElements.define('.pg-modal', pgModal);
+
 	</script>
-	
+
 </body>
 
 </html>
