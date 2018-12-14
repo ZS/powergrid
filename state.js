@@ -68,7 +68,7 @@ var state = {
 			pathname: this.url.pathname
 		};
 		Object.assign(params, this.query);
-		this.updateState(params);
+		return params;
 	},	
 	
 	/**
@@ -78,18 +78,25 @@ var state = {
 	 */
 	updateState: function (newObject) {
 		var whatChanged;
-		var combinded = Object.create(this.state);
-		Object.assign(combinded, newObject);
 		if (this.state) {
+			var combinded = Object.create(this.state);
+			Object.assign(combinded, newObject);
 			for (var i in combinded) {
-				if (this.state[i] != combinded[i]) {
+				if (this.state[i] != newObject[i]) {
 					whatChanged = whatChanged || {};
-					whatChanged[i] = combinded[i];
+					whatChanged[i] = newObject[i];
+					if (newObject[i] === undefined) {
+						delete this.state[i];
+					} else {
+						this.state[i] = newObject[i];
+					}
+				
 				}
 			}
+		} else {
+			this.state = newObject;
+			whatChanged = newObject;
 		}
-		this.state = this.state || {};
-		Object.assign(this.state, combinded);
 		var event = new CustomEvent('statechange', { detail: { newState: this.state, changed: whatChanged } });
 		this.dispatchEvent(event);
 	},
@@ -225,6 +232,7 @@ var state = {
 			}
 		}
 		newUrl.search = this.serialize(query);
+		return newUrl;
 		history.pushState(this.state, document ? document.head.title : '', newUrl.href);
 	},
 

@@ -88,7 +88,7 @@
 				pathname: this.url.pathname
 			};
 			Object.assign(params, this.query);
-			this.updateState(params);
+			return params;
 		},
 
 		/**
@@ -98,18 +98,24 @@
    */
 		updateState: function updateState(newObject) {
 			var whatChanged;
-			var combinded = Object.create(this.state);
-			Object.assign(combinded, newObject);
 			if (this.state) {
+				var combinded = Object.create(this.state);
+				Object.assign(combinded, newObject);
 				for (var i in combinded) {
-					if (this.state[i] != combinded[i]) {
+					if (this.state[i] != newObject[i]) {
 						whatChanged = whatChanged || {};
-						whatChanged[i] = combinded[i];
+						whatChanged[i] = newObject[i];
+						if (newObject[i] === undefined) {
+							delete this.state[i];
+						} else {
+							this.state[i] = newObject[i];
+						}
 					}
 				}
+			} else {
+				this.state = newObject;
+				whatChanged = newObject;
 			}
-			this.state = this.state || {};
-			Object.assign(this.state, combinded);
 			var event = new CustomEvent('statechange', { detail: { newState: this.state, changed: whatChanged } });
 			this.dispatchEvent(event);
 		},
@@ -267,11 +273,7 @@
 		updateUrl: function updateUrl(newUrl) {
 			this.parseUrl(newUrl || location.href);
 			this.parseQuery(this.url.search);
-			//this.reflectStateInUrl();
-		},
-
-		test: function test() {
-			return 'test' + this;
+			this.reflectState();
 		},
 
 		/**
