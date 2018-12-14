@@ -348,12 +348,10 @@ function getHTML() {
 
 var fullSource = "";
 function getFullSource() {
-	var demoStyle = document.querySelector('#common').innerHTML;
-	if(typeof ajaxHasFailed!="undefined" && ajaxHasFailed==true){
-		demoStyle = indentCSS(demoStyle.replace(/\n.[\s]+/g, ''));
-	}
+	var decoratorStyle = document.querySelector('style#decoratorStylesheet').innerHTML;
+
 	var gridStyle = powergrid.toCss(config);
-	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="common">\r\n' + demoStyle + '\n</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n' + htmlText + '</div> \r\n</body>//-->'
+	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="decoratorStylesheet">\r\n' + decoratorStyle + '\n</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n' + htmlText + '</div> \r\n</body>//-->'
 	$('#full-source').html(fullSource);
 }
 
@@ -396,8 +394,9 @@ function highlight() {
 		html = replaceAll(html, ['<!---', '//-->', '//--&gt;'], ['', '', '']);
 		this.innerHTML = '<pre class="hljs"></pre>';
 		var preTag =this.querySelector('pre');
-		preTag.innerText = html;
+		preTag.textContent = html;
 		hljs.highlightBlock(this);
+		$(this).removeClass("hljs");
 	})
 }
 
@@ -418,7 +417,7 @@ function replaceAll(string, search, replacement) {
 }
 
 
-function openSourceContent(evt, sourceName) {
+/*function openSourceContent(evt, sourceName) {
 	var i, tabcontent, tablinks;
 	var tabContainer = $(evt.currentTarget).closest(".power-grid-tab");
 	tabcontent = tabContainer.siblings(".power-grid-tabcontent");
@@ -431,7 +430,7 @@ function openSourceContent(evt, sourceName) {
 	}
 	document.getElementById(sourceName).style.display = "block";
 	evt.currentTarget.className += " active";
-}
+}*/
 
 
 function tooltipOutFunc(src) {
@@ -607,15 +606,14 @@ function setGridData(){
 }
 
 function setDecoratorStyles(){
-	var link = $("style#common").attr("href");
+	var styleSheet1 = $("style#decoratorStylesheet").attr("href");
 
-	$.when($.ajax(link)).then(function(data,textStatus,jqXHR) {
-		if(data.length){
-			$("style#common").html(data);
-		}
+	$.when($.ajax(styleSheet1)).then(function(data) {
+		$("style#decoratorStylesheet").html(data);
 	},function(){
-		ajaxHasFailed=true;
+		console.error("failed to load decorator stylesheet");
 	});
+
 }
 
 $(function () {
@@ -633,7 +631,7 @@ $(function () {
 
 	$('.show-source-code').on('click', function () {
 		getHTML();
-		//getFullSource();
+		getFullSource();
 		highlight();
 		// $("#sourceContainer").fadeIn();
 		document.getElementById("defaultOpenTab").click();
@@ -647,7 +645,7 @@ $(function () {
 		showEditJSONModal();
 	});
 	
-	$(".tablinks.active").click();
+	getGridData();
 
 	// Open all settings modal when user clicks anywhere on document
 	$("#grid").on("click",function(e){
@@ -669,7 +667,34 @@ $(function () {
 		$("#clickAnywhereOverlay").fadeOut(500);
 	});
 
+
+	var wickedTabsContainer =  {
+		onclick: function (e) {
+			var tab = !e.target.getAttribute("tab-id") ? "" : e.target;
+	
+			if (tab) {
+				this.toggleTabVisibility(tab);
+			}
+		},
+		onconnected: function(){
+			var activeTab = this.el.querySelector("[tab-id].active");
+
+			if(activeTab){
+				this.toggleTabVisibility(activeTab);
+			}
+		},
+		toggleTabVisibility: function(tabEl){
+			$(tabEl).siblings("[tab-id]").removeClass("active");
+			$(tabEl).addClass("active");
+			$(tabEl.parentElement).siblings("[source-id]").hide();
+			$(tabEl.parentElement).siblings("[source-id='" + tabEl.getAttribute("tab-id") + "']").show();
+		}
+	}
+
+	wickedElements.define("pg-tabs-container", wickedTabsContainer);
+
 	window.onpopstate = function (event) {
 		window.location.reload();
 	};
+
 });

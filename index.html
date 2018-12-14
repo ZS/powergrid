@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.css" />	
 	<link rel="stylesheet" href="general.css">
-	<link rel="stylesheet" href="decorate.css">
+	<style id="decoratorStylesheet" href="decorate.css"></style>
 	<link rel="stylesheet" href="demo.css">
 	<style id="grid-css"></style>
 </head>
@@ -20,14 +20,15 @@
 				<span class="close" onclick="closeModal(this)">&times;</span>
 			</div>
 			<div class="pg-modal-body">
-				<div class="power-grid-tab">
-					<button class="tablinks active open-ui-configuration" onclick="openSourceContent(event, 'gridSettingsContainer')">Grid
+				<pg-tabs-container>
+				<div class="power-grid-tab-list">
+					<button tab-id="gridSettingsContainer" class="tablinks active open-ui-configuration">Grid
 						Settings</button>
-					<button class="tablinks show-json-editor" onclick="openSourceContent(event, 'configJSONContainer')">Config JSON</button>
-					<button class="tablinks show-source-code" onclick="openSourceContent(event, 'sourceCodeContainer')">Source Code</button>
-					<button class="tablinks help-tab" onclick="openSourceContent(event, 'helpContainer')">Help</button>
+					<button tab-id="configJSONContainer" class="tablinks show-json-editor">Config JSON</button>
+					<button tab-id="sourceCodeContainer" class="tablinks show-source-code">Source Code</button>
+					<button tab-id="helpContainer" class="tablinks help-tab">Help</button>
 				</div>
-				<div id="gridSettingsContainer" class="power-grid-tabcontent active">
+				<div source-id="gridSettingsContainer" class="power-grid-tabcontent">
 					<h3>Configure Grid </h3>
 					<div class="cell-form-grid">
 						<div>Name: </div>
@@ -127,7 +128,7 @@
 						<button class="button button-delete" onclick="deleteCell()" style="float:right">Delete Cell</button>
 					</div>
 				</div>
-				<div id="configJSONContainer" class="power-grid-tabcontent">
+				<div source-id="configJSONContainer" id="configJSONContainer" class="power-grid-tabcontent">
 					<h3>Configure Grid using JSON </h3>
 					<div id="editor-error-container"></div>
 					<div class="json-editor">
@@ -135,15 +136,16 @@
 					</div>
 					<button class="button" onclick="saveEditedJSON()">OK</button>
 				</div>
-				<div id="sourceCodeContainer" class="power-grid-tabcontent">
+				<div source-id="sourceCodeContainer" id="sourceCodeContainer" class="power-grid-tabcontent">
 					<h3>Source Code</h3>
-					<div class="power-grid-tab">
-						<button class="tablinks" onclick="openSourceContent(event, 'htmlContainer')" id="defaultOpenTab">HTML</button>
-						<button class="tablinks" onclick="openSourceContent(event, 'cssContainer')">CSS</button>
-						<button class="tablinks" onclick="openSourceContent(event, 'fullSourceContainer')">Full Source</button>
+					<pg-tabs-container>
+					<div class="power-grid-tab-list">
+						<button tab-id="htmlContainer" class="tablinks" id="defaultOpenTab">HTML</button>
+						<button tab-id="cssContainer" class="tablinks">CSS</button>
+						<button tab-id="fullSourceContainer" class="tablinks">Full Source</button>
 					</div>
 		
-					<div id="htmlContainer" class="power-grid-tabcontent">
+					<div source-id="htmlContainer" class="power-grid-tabcontent">
 						<div class="power-grid-tooltip copyBtn">
 							<button onclick='copyContent("html")' class="btn-action" onmouseout='tooltipOutFunc("html")'>
 								<span class="power-grid-tooltiptext" id="myTooltipHtml">Copy HTML to clipboard</span>Copy
@@ -153,7 +155,7 @@
 						<code for="htmlEg" id="showHTML" class="hljs html"></code>
 					</div>
 		
-					<div id="cssContainer" class="power-grid-tabcontent">
+					<div source-id="cssContainer" class="power-grid-tabcontent">
 		
 						<div class="power-grid-tooltip copyBtn">
 							<button onclick='copyContent("css")' class="btn-action" onmouseout='tooltipOutFunc("css")'>
@@ -163,7 +165,7 @@
 						<code for="grid-css" class="hljs css"></code>
 					</div>
 		
-					<div id="fullSourceContainer" class="power-grid-tabcontent">
+					<div source-id="fullSourceContainer" class="power-grid-tabcontent">
 						<div class="power-grid-tooltip copyBtn">
 							<button onclick='copyContent("full-source")' class="btn-action" onmouseout='tooltipOutFunc("full-source")'>
 								<span class="power-grid-tooltiptext" id="myTooltipFullSource">Copy Source to clipboard</span>Copy
@@ -171,10 +173,10 @@
 						</div>
 						<code for="full-source" class="hljs html"></code>
 					</div>
-		
+					</pg-tabs-container>
 					<button onclick="closeModal(this)" class="button">Close</button>
 				</div>
-				<div id="helpContainer" class="power-grid-tabcontent">
+				<div source-id="helpContainer" class="power-grid-tabcontent">
 					<section>
 						<div class="alerts-container"></div>
 						<p class="alerts-help">There are some issues with your current configuration</p>
@@ -191,6 +193,7 @@
 						</ul>
 					</section>
 				</div>
+				</pg-tabs-container>
 		
 			</div>
 			<div class="pg-modal-footer">
@@ -234,6 +237,7 @@
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/slideReveal/1.1.2/jquery.slidereveal.min.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/wicked-elements"></script>
 	<script src="powergrid.umd.js"></script>	
 	<script src="defaultConfig.js"></script>
 	<script src="demo.js"></script>
