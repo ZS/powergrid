@@ -12,7 +12,7 @@
 <body>
 	<div id="grid" onclick="openModal()"></div>
 
-	<div id="menuContainer" class="pg-modal" open="false">
+	<div id="menuContainer" class="pg-modal" isopen="false">
 		<div class="pg-modal-content">
 			<div class="pg-modal-header">
 
@@ -81,7 +81,7 @@
 			pgModal.onOpen = function () {
 				console.log("%c Opening the dialog", "color:blue");
 			}
-			document.querySelector('#menuContainer').setAttribute('open', 'true');
+			document.querySelector('#menuContainer').setAttribute('isopen', 'true');
 		}
 		//modal component
 		var pgModal = {
@@ -93,7 +93,7 @@
 				this.render();
 			},
 			onattributechanged: function (event) {
-				if (event.attributeName == "open") {
+				if (event.attributeName == "isopen") {
 					this.toggleModal();
 				}
 			},
@@ -108,7 +108,7 @@
 				this.toggleModal();
 			},
 			toggleModal: function () {
-				if (this.el.getAttribute('open') == "true") {
+				if (this.el.getAttribute('isopen') == "true") {
 					$(this.el).fadeIn();
 					this.onOpen();
 				}
@@ -125,7 +125,7 @@
 				var modalHeader = this.el.querySelector('.pg-modal-header');
 				modalHeader.appendChild(closeEle);
 				modalHeader.addEventListener('click', function () {
-					self.el.setAttribute('open', 'false');
+					self.el.setAttribute('isopen', 'false');
 				});
 			}
 		};
