@@ -148,7 +148,7 @@
 
 /* Style the tab */
 
-.power-grid-tab {
+.power-grid-tab-list {
 	overflow: hidden;
 
 	background-color: #f1f1f1;
@@ -157,7 +157,7 @@
 
 /* Style the buttons inside the tab */
 
-.power-grid-tab button {
+.power-grid-tab-list button {
 	background-color: inherit;
 	border: none;
 	outline: none;
@@ -168,14 +168,14 @@
 
 /* Change background color of buttons on hover */
 
-.power-grid-tab button:hover {
+.power-grid-tab-list button:hover {
 	border-bottom: 2px solid #ddd;
 	background-color: #ddd;
 }
 
 /* Create an active/current tablink class */
 
-.power-grid-tab button.active {
+.power-grid-tab-list button.active {
 	background-color: #ccc;
 	border-bottom: 2px solid orange;
 }
@@ -186,6 +186,14 @@
 	position: relative;
 	display: none;
 	padding-top: 1em;
+}
+
+#sourceCodeContainer .power-grid-tabcontent{
+	padding-top: 0;
+}
+
+pg-tabs-container{
+	display: block;
 }
 
 .copyBtn {
