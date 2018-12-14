@@ -1,11 +1,12 @@
 /**
- * @module
  * Grid builder
+ * @module  
+ * @todo Remove jQuery. Make it work with component and use this.el
  */
 import * as powergrid from "./powergrid.js";
 var gridBuilder = {
 
-	/***
+	/**
 	 * 
 	 */
 	createGrid($grid, config) {
