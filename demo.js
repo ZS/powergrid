@@ -668,7 +668,7 @@ $(function () {
 	});
 
 
-	var wicked =  {
+	var wickedTabsContainer =  {
 		onclick: function (e) {
 			var tab = !e.target.getAttribute("tab-id") ? "" : e.target;
 	
@@ -691,7 +691,7 @@ $(function () {
 		}
 	}
 
-	wickedElements.define("pg-tabs-container", wicked);
+	wickedElements.define("pg-tabs-container", wickedTabsContainer);
 
 	window.onpopstate = function (event) {
 		window.location.reload();
