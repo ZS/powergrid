@@ -88,7 +88,7 @@
 				pathname: this.url.pathname
 			};
 			Object.assign(params, this.query);
-			this.updateState(params);
+			return params;
 		},
 
 		/**
@@ -98,19 +98,24 @@
    */
 		updateState: function updateState(newObject) {
 			var whatChanged;
-			var combinded = Object.create(this.state);
-			Object.assign(combinded, newObject);
 			if (this.state) {
+				var combinded = Object.create(this.state);
+				Object.assign(combinded, newObject);
 				for (var i in combinded) {
-					if (this.state[i] != combinded[i]) {
+					if (this.state[i] != newObject[i]) {
 						whatChanged = whatChanged || {};
-						whatChanged[i] = combinded[i];
+						whatChanged[i] = newObject[i];
+						if (newObject[i] === undefined) {
+							delete this.state[i];
+						} else {
+							this.state[i] = newObject[i];
+						}
 					}
 				}
+			} else {
+				this.state = newObject;
+				whatChanged = newObject;
 			}
-			this.state = this.state || {};
-			Object.assign(this.state, combinded);
-			this.reflectUrl();
 			var event = new CustomEvent('statechange', { detail: { newState: this.state, changed: whatChanged } });
 			this.dispatchEvent(event);
 		},
@@ -152,13 +157,14 @@
 		/**
    * React on hash changes to update the state
    * @listens hashchange
+   * @deprecated 
+   * @todo It is better to watch for URL changes outside of this control
    */
 		watchLocation: function watchLocation() {
 			var comp = this;
 			window.addEventListener("hashchange", function () {
 				comp.updateUrl();
 			});
-
 			window.addEventListener("popstate", function () {
 				comp.updateUrl();
 			});
@@ -240,7 +246,7 @@
 		/**
    * Reflect state changes in the URL
    */
-		reflectUrl: function reflectUrl(state, exclude) {
+		reflectStateInUrl: function reflectStateInUrl(state, exclude) {
 			var newUrl = document.createElement('a');
 			state = state || this.state;
 			newUrl.href = location.href;
@@ -257,7 +263,7 @@
 				}
 			}
 			newUrl.search = this.serialize(query);
-			history.pushState(this.state, document.head.title, newUrl.href);
+			history.pushState(this.state, document ? document.head.title : '', newUrl.href);
 		},
 
 		/**
@@ -268,10 +274,6 @@
 			this.parseUrl(newUrl || location.href);
 			this.parseQuery(this.url.search);
 			this.reflectState();
-		},
-
-		test: function test() {
-			return 'test' + this;
 		},
 
 		/**

@@ -97,8 +97,9 @@
 			return powergrid.toCss(config);
 		}
 	}; /**
-     * @module
      * Grid builder
+     * @module  
+     * @todo Remove jQuery. Make it work with component and use this.el
      */
 	exports.default = gridBuilder;
 });
