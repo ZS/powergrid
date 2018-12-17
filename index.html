@@ -13,11 +13,10 @@
 </head>
 
 <body>
-	<div id="menuContainer" class="pg-modal">
+	<div id="menuContainer" class="pg-modal" isopen="false">
 		<div class="pg-modal-content">
 			<div class="pg-modal-header">
 				<br>
-				<span class="close" onclick="closeModal(this)">&times;</span>
 			</div>
 			<div class="pg-modal-body">
 				<pg-tabs-container>
@@ -224,14 +223,6 @@
 			</div>
 		</div>
 	</div>
-	<template id="alert-template">
-		<div class="alert alert-warning alert-dismissible fade show">
-			<strong alert-type></strong> <span class="message">You should check in on some of those fields below.</span>
-			<button type="button" class="close" data-dismiss="alert">
-				<span>&times;</span>
-			</button>
-		</div>
-	</template>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	 crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@bblocks/compose@0.1.1/compose.umd.js"></script>
@@ -242,7 +233,9 @@
 	<script src="https://unpkg.com/wicked-elements"></script>
 	<script src="powergrid.umd.js"></script>	
 	<script src="defaultConfig.js"></script>
+	<script src="alerts.js"></script>
 	<script src="tabs.js"></script>
+	<script src="modal.js"></script>
 	<script src="demo.js"></script>
 </body>
 
