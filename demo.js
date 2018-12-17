@@ -285,15 +285,19 @@ function createAlert(html, $container, type){
 		html = "Some features might behave differently in older browsers. Consider re-configuring your grid."
 	}
 
-	var $alert=$($("template#alert-template").html());
-
-	$alert.find("[alert-type]").html(type+"!");
-
-	if (type == "Error") {
+	var $alert = $('<div>');
+	$alert.addClass('alert');
+	if (type == "Warning") {
+		$alert.addClass('alert-warning');
+	} else if (type == "Error") {
 		$alert.addClass('alert-danger');
 	}
 
-	$alert.find(".message").html(html);
+	// TODO: Remove setTimeout once https://github.com/WebReflection/wicked-elements/issues/9 is fixed.
+	setTimeout(function() {
+		$alert.attr('type', type);
+		$alert.attr('message', html);
+	}, 0);
 
 	$container.append($alert);
 }

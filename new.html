@@ -26,8 +26,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="alert alert-warning alert-dismissible fade show"></div>
-	<button onclick="createAlert()">Add more alerts</button>
+	<button onclick="createAlert()">Add alert</button>
 
 	<script src="powergrid.umd.js"></script>
 	<script src="state.umd.js"></script>
@@ -40,6 +39,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/custom-event-polyfill@1.0.6/polyfill.js" integrity="sha256-GgsiUYiTEQj0ldaika9Lu63JJV2XJpC7xgwuaRNpnyw=" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/polyfill-object-assign@1.0.0/index.js" integrity="sha256-jIKadqF3tjT2cnLiHv5vFUUA54nhCN0KSE0Fnz+jmE0=" crossorigin="anonymous"></script>
 	<script src="modal.js"></script>
+	<script src="alerts.js"></script>
 
 	<script>
 
@@ -98,44 +98,6 @@
 			}
 			document.querySelector('#menuContainer').setAttribute('isopen', 'true');
 		}
-
-		var alert = {
-			type: 'Warning',
-			message: 'You should check in on some of those fields below.',
-			dispatchEvent: function(event) {
-				if (this.el && typeof this.el.dispatchEvent == 'function') {
-					this.el.dispatchEvent(event);
-				}
-			},
-			init: function (event) {
-				console.log('init');
-				this.el = event.currentTarget;
-				this.render();
-			},
-			onconnected: function() {
-				console.log('connect');
-			},
-			onattributechanged: function(e) {
-				console.log('changed');
-				if (e.oldValue === e.newValue) {
-					return;
-				}
-				if (e.attributeName === 'type') {
-					this.type = e.newValue;
-					this.render();
-				} else if (e.attributeName === 'message') {
-					this.message = e.newValue;
-					this.render();
-				}
-			},
-			render: function() {
-				console.log('render');
-				this.el.innerHTML = '<strong alert-type>' + this.type + '</strong> <span class="message">' + this.message + '</span><button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>';
-			}
-		};
-
-
-		wickedElements.define('.alert', alert);
 
 		var alertCount = 1;
 
