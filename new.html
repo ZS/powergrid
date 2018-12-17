@@ -3,6 +3,7 @@
 
 <head>
 	<title></title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 	<link rel="stylesheet" href="general.css">
 	<link rel="stylesheet" href="decorate.css">
 	<link rel="stylesheet" href="demo.css">
@@ -25,6 +26,8 @@
 			</div>
 		</div>
 	</div>
+	<div class="alert alert-warning alert-dismissible fade show"></div>
+	<button onclick="createAlert()">Add more alerts</button>
 
 	<script src="powergrid.umd.js"></script>
 	<script src="state.umd.js"></script>
@@ -141,6 +144,60 @@
 			}
 		};
 		wickedElements.define('.pg-modal', pgModal);
+
+		var alert = {
+			type: 'Warning',
+			message: 'You should check in on some of those fields below.',
+			dispatchEvent: function(event) {
+				if (this.el && typeof this.el.dispatchEvent == 'function') {
+					this.el.dispatchEvent(event);
+				}
+			},
+			init: function (event) {
+				console.log('init');
+				this.el = event.currentTarget;
+				this.render();
+			},
+			onconnected: function() {
+				console.log('connect');
+			},
+			onattributechanged: function(e) {
+				console.log('changed');
+				if (e.oldValue === e.newValue) {
+					return;
+				}
+				if (e.attributeName === 'type') {
+					this.type = e.newValue;
+					this.render();
+				} else if (e.attributeName === 'message') {
+					this.message = e.newValue;
+					this.render();
+				}
+			},
+			render: function() {
+				console.log('render');
+				this.el.innerHTML = '<strong alert-type>' + this.type + '</strong> <span class="message">' + this.message + '</span><button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>';
+			}
+		};
+
+
+		wickedElements.define('.alert', alert);
+
+		var alertCount = 1;
+
+		function createAlert() {
+			var alert = document.createElement('div');
+			alert.classList.add('alert');
+			alert.classList.add('alert-warning');
+			document.body.appendChild(alert);
+
+			// A bug in wicked element. AttributeChange is not triggered immediately.
+			setTimeout(function() {
+				alert.setAttribute('type', 'Error');
+				alert.setAttribute('message', 'Error no.' + alertCount++);
+			}, 0);
+			
+		}
 
 	</script>
 
