@@ -14,10 +14,23 @@ var wickedTabsContainer = {
         }
     },
     toggleTabVisibility: function (tabEl) {
-        $(tabEl).siblings("[tab-id]").removeClass("active");
-        $(tabEl).addClass("active");
-        $(tabEl.parentElement).siblings("[source-id]").hide();
-        $(tabEl.parentElement).siblings("[source-id='" + tabEl.getAttribute("tab-id") + "']").show();
+        var tabSiblings = tabEl.parentNode.querySelectorAll("[tab-id]");
+        var tabContentContainer = tabEl.parentNode.parentNode.firstElementChild;
+
+        for (var i = 0; i < tabSiblings.length; i++) {
+            tabSiblings[i].classList.remove("active");
+        }
+
+        tabEl.classList.add("active");
+
+        while (tabContentContainer != null) {
+            if (tabContentContainer.getAttribute("source-id") && (tabContentContainer.getAttribute("source-id") != tabEl.getAttribute("tab-id"))) {
+                tabContentContainer.style.display = "none";
+            } else if (tabContentContainer.getAttribute("source-id") && (tabContentContainer.getAttribute("source-id") == tabEl.getAttribute("tab-id"))) {
+                tabContentContainer.style.display = "block";
+            }
+            tabContentContainer = tabContentContainer.nextElementSibling;
+        }
     }
 }
 
