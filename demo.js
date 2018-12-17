@@ -120,8 +120,7 @@ function updateUrl(config) {
 }
 
 var closeModal = function (el) {
-	$(el).closest(".pg-modal").fadeOut();
-	$('#grid').find('.selected-grid').removeClass('selected-grid');	
+	$(el).closest(".pg-modal").attr('isopen','false');
 }
 
 var showEditJSONModal = function () {
@@ -157,7 +156,10 @@ function bindCellClick() {
 	$('#grid > div').on('click', function (event) {
 	
 		// Open all settings modal
-		$("#menuContainer").fadeIn();
+		$("#menuContainer").attr('isopen','true');
+		$("#menuContainer").on('onClose',function(){
+			$('#grid').find('.selected-grid').removeClass('selected-grid');	
+		})
 		cellIndex = 0;
 		var self = this;
 		while ((self = self.previousSibling) != null) {
@@ -650,7 +652,7 @@ $(function () {
 	// Open all settings modal when user clicks anywhere on document
 	$("#grid").on("click",function(e){
 		if(e.target == this){
-			$("#menuContainer").fadeIn();
+			$("#menuContainer").attr('isOpen','true');
 		}
 	});
 	$("#pg-version").html(config.version);

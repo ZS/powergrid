@@ -33,12 +33,13 @@
 	<script src="state.umd.js"></script>
 	<script src="gridBuilder.umd.js"></script>
 	<script src="defaultConfig.js"></script>
+	
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 	<script src="https://unpkg.com/wicked-elements"></script>
 	<script src="https://cdn.jsdelivr.net/npm/custom-event-polyfill@1.0.6/polyfill.js" integrity="sha256-GgsiUYiTEQj0ldaika9Lu63JJV2XJpC7xgwuaRNpnyw=" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/polyfill-object-assign@1.0.0/index.js" integrity="sha256-jIKadqF3tjT2cnLiHv5vFUUA54nhCN0KSE0Fnz+jmE0=" crossorigin="anonymous"></script>
-
+	<script src="modal.js"></script>
 
 	<script>
 
@@ -97,53 +98,6 @@
 			}
 			document.querySelector('#menuContainer').setAttribute('isopen', 'true');
 		}
-		//modal component
-		var pgModal = {
-			onconnected: function () {
-				console.log('modal conneted');
-			},
-			init: function (event) {
-				this.el = event.currentTarget;
-				this.render();
-			},
-			onattributechanged: function (event) {
-				if (event.attributeName == "isopen") {
-					this.toggleModal();
-				}
-			},
-			onClose: function () {
-				console.log("dialog closed");
-			},
-			onOpen: function () {
-				console.log("dialog opened");
-			},
-			render: function () {
-				this.addClose();
-				this.toggleModal();
-			},
-			toggleModal: function () {
-				if (this.el.getAttribute('isopen') == "true") {
-					$(this.el).fadeIn();
-					this.onOpen();
-				}
-				else {
-					$(this.el).fadeOut();
-					this.onClose();
-				}
-			},
-			addClose: function () {
-				var self = this;
-				var closeEle = document.createElement('span');
-				closeEle.classList.add('close');
-				closeEle.innerHTML = "&times";
-				var modalHeader = this.el.querySelector('.pg-modal-header');
-				modalHeader.appendChild(closeEle);
-				modalHeader.addEventListener('click', function () {
-					self.el.setAttribute('isopen', 'false');
-				});
-			}
-		};
-		wickedElements.define('.pg-modal', pgModal);
 
 		var alert = {
 			type: 'Warning',
