@@ -14,7 +14,7 @@
 <body>
 	<div id="grid" onclick="openModal()"></div>
 
-	<div id="menuContainer" class="pg-modal" isopen="false">
+	<div id="menuContainer" class="pg-modal container" isopen="false">
 		<div class="pg-modal-content">
 			<div class="pg-modal-header">
 
@@ -29,7 +29,7 @@
 						<button tab-id="helpContainer" class="tablinks help-tab">Help</button>
 					</div>
 					<div source-id="gridSettingsContainer" class="power-grid-tabcontent">
-						<form class="container">
+						<form>
 							<legend>Size</legend><hr>
 							<fieldset class="row">
 								<div class="form-group col-4">
@@ -45,61 +45,48 @@
 									<input class="form-control" type="number" min="1" max="99" name="cells">
 								</div>
 							</fieldset>
-							<p class="form-group">
-								<label for="track">Pick a row or col or cell to edit</label>
-								<select name="track"  class="form-control"><option>...</option></select>
-							</p>
-						</form>
-						<form id="cellCroperties">
-							<div class="form-group row">
-								<label for="cellText">Text:</label>
-								<span class="col-sm-10"><input type="text" id="cell-text" class="form-control"></span>
-							</div>
-									
-
-									<div>Cloumn Start:</div>
-									<div>
-										<input type="number" min="1" onlynumber id="cell-col" />
-									</div>
-									<div>Cloumn Span:</div>
-									<div>
-										<input type="number" min="1" onlynumber id="cell-col-span" />
-									</div>
-									<div>Row Start:</div>
-									<div>
-										<input type="number" min="1" onlynumber id="cell-row" />
-									</div>
-									<div>Row Span:</div>
-									<div>
-										<input type="number" min="1" onlynumber id="cell-row-span" />
-									</div>
-									<div>Order:</div>
-									<div>
-										<input type="number" min="1" onlynumber id="cell-order" />
-									</div>
-									<div>Align:</div>
-									<div>
-										<select id="cell-align">
-											<option value="">--Select--</option>
-											<option value="stretch">Stretch</option>
-											<option value="start">Start</option>
-											<option value="center">Center</option>
-											<option value="end">End</option>
-										</select>
-									</div>
-									<div>Justify:</div>
-									<div>
-										<select id="cell-justify">
-											<option value="">--Select--</option>
-											<option value="stretch">Stretch</option>
-											<option value="start">Start</option>
-											<option value="center">Center</option>
-											<option value="end">End</option>
-										</select>
-									</div>
+							<hr>
+							<fieldset class="row">
+								<div class="form-group col-4">
+									<label for="track">Pick a row or col or cell to edit
+									<select name="track"  class="form-control"><option>...</option></select>
+									</h4></label>
 								</div>
-							</p>	
+								<div class="form-group col-4">
+									<label for="value">Track size</label>
+									<input name="value" class="form-control"></input>		
+								</div>
+							</fieldset>
+							<fieldset class="row">
+								<legend>Cell properties</legend>
+								<div class="form-group col-4">
+									<label>Text:<input type="text" id="cell-text" class="form-control"></label>
+									<label>Column:<input type="number" min="1" onlynumber id="cell-col" class="form-control"></label>
+									<label>Column Span:<input type="number" min="1" onlynumber id="cell-col-span" class="form-control"></label>
+									<label>Row Start:<input type="number" min="1" onlynumber id="cell-row" class="form-control"></label>
+									<label>Row Span:<input type="number" min="1" onlynumber id="cell-row-span" class="form-control"></label>
+									<label>Order:<input type="number" min="1" onlynumber id="cell-order" class="form-control"></label>
+									<label>Align:<select id="cell-align" class="form-control">
+										<option value="">--Select--</option>
+										<option value="stretch">Stretch</option>
+										<option value="start">Start</option>
+										<option value="center">Center</option>
+										<option value="end">End</option>
+										</select>
+									</label>	
+									<label>Justify:<select id="cell-justify" class="form-control">
+												<option value="">--Select--</option>
+												<option value="stretch">Stretch</option>
+												<option value="start">Start</option>
+												<option value="center">Center</option>
+												<option value="end">End</option>
+											</select>
+									</label>
+								</div>	
+							</fieldset>
+	
 						</form>
+						
 					</div>
 					<div source-id="configJSONContainer" id="configJSONContainer" class="power-grid-tabcontent">
 						<h3>Configure Grid using JSON </h3>
@@ -193,18 +180,16 @@
 	<script src="modal.js"></script>
 	<script src="alerts.js"></script>
 	<script src="tabs.js"></script>
+	<script src="gridEditor.js"></script>
 	<script>
-
-		var grid = Object.assign({
-			html: '',
-			dispatchEvent: function (event) {
-				if (this.el && typeof this.el.dispatchEvent == 'function') {
-					this.el.dispatchEvent(event);
-				}
-			},
-			init: function (event) {
-				console.log('init')
-				this.el = event.currentTarget;
+		// Application and state management
+		var app = Object.assign({
+			init: function() {
+				var self = this;
+				window.addEventListener('popstate', function(event) {
+					self.updateState(event.state);
+				});
+				
 				this.updateUrl();
 				var state = this.reflectState();
 
@@ -213,105 +198,44 @@
 				}
 				this.updateState(state);
 			},
-			onpopstate: function (event) {
-				this.updateState(event.state);
-				console.log('popstate', event, this.state);
+			dispatchEvent: function (event) {
+				console.log('app', 'statechange', this.state);
+				var newUrl = this.reflectStateInUrl(this.state);				
+				config = JSON.parse(window.atob(this.state.q));			
+				history.pushState(this.state, document ? document.head.title : '', newUrl.href);
+				
+				window.dispatchEvent(event);
 			},
-			onstatechange: function () {
-				this.reflectStateInUrl(this.sate);
-				config = JSON.parse(window.atob(this.state.q));				
-				console.log('state', this.state);
+		}, state.default || state);	
+		
+		
+		// Grid builder
+		var grid = Object.assign({
+			html: '',
+			init: function (event) {
+				this.el = event.currentTarget;
+			},
+			onstatechange: function() {
 				this.render();
 			},
-			update: function() {
-				
-			},
+			onconnected: function() {
+				window.addEventListener('statechange', this);
+			},			
 			render: function () {
 				console.log('render');				
 				this.html = this.createGrid($(this.el), config);
 				var css = this.createStyles(config);				
-				this.update();	
 				$('#grid-css').html(css);
 			}
-		}, gridBuilder.default || gridBuilder, state.default || state);
+		}, gridBuilder.default || gridBuilder);
 
 
-		var gridEditor = {
-			state: null,
-			init: function(event) {
-				this.el = event.target;
-			},
-			onconnected: function() {
-				document.getElementById('grid').addEventListener('statechange', this);
-			},
-			onstatechange: function(event) {
-				console.log('statechange', event);
-				this.state = event.detail.state;
-				this.render();
-			},
-			onchange: function(event) {
-				console.log('change', event.target);
-			},
-			updateField: function(name, value) {
-				if (!this.el) {return;}
-				var fieldEl = this.el.querySelector('[name="'+name+'"]')
-				if (!fieldEl) {return;}
-				fieldEl.value = value;
-			},
-			updateSelect: function(name, optionIndex, value, label) {
-				if (!this.el) {return;}
-				var fieldEl = this.el.querySelector('[name="'+name+'"]');
-				if (!fieldEl) {return;}
-				if (!fieldEl.options[optionIndex]) {fieldEl.appendChild(document.createElement('option'))}
-				fieldEl.options[optionIndex].setAttribute('value', value);
-				fieldEl.options[optionIndex].innerHTML = label;
-				return fieldEl;
-			},
-			render: function() {
-				this.updateField('rows',  config.rows.length);
-				this.updateField('cols',  config.cols.length);
-				this.updateField('cells', config.cells.length);
-				
-				var selectField;
-				// Update rows
-				for(var i=0;i<config.rows.length; i++) {
-					selectField = this.updateSelect('track', i, config.rows[i], 'row ' + (i+1));
-				}
-				if (selectField && this.state && this.state.row) {
-					selectedField.selectedIndex[1*this.state.row];
-				}
-
-				// Update cols
-				for(var j=0; j<config.cols.length; j++) {
-					selectField = this.updateSelect('track', i+j, config.cols[j], 'col ' + (j+1));
-				}
-				if (selectField && this.state && this.state.col) {
-					selectedField.selectedIndex[i-1*this.state.col];
-				}
-				
-				// Update cells
-				for(var k=0; k<config.cells.length; k++) {
-					selectField = this.updateSelect('track', i+j+k, config.cells[k], 'cell ' + (k+1));
-				}
-				if (selectField && this.state && this.state.cell) {
-					selectedField.selectedIndex[i+j-1+1*this.state.cell];
-				}
-
-
-				//this.updateField('');
-			},
-		};
-
-		wickedElements.define('[source-id="gridSettingsContainer"]', gridEditor);
 		
-
-		// Listen to browser state changes
-		window.addEventListener('hashchange', grid);
-		window.addEventListener('popstate', grid);
-
-
 		// Initialize our UI
+		
+		wickedElements.define('[source-id="gridSettingsContainer"]', gridEditor);		
 		wickedElements.define('#grid', grid);
+		app.init();
 
 
 
