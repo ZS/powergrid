@@ -105,9 +105,9 @@
 					if (this.state[i] != newObject[i]) {
 						whatChanged = whatChanged || {};
 						whatChanged[i] = newObject[i];
-						if (newObject[i] === undefined) {
+						if (newObject[i] === null) {
 							delete this.state[i];
-						} else {
+						} else if (newObject[i] !== undefined) {
 							this.state[i] = newObject[i];
 						}
 					}
@@ -263,7 +263,7 @@
 				}
 			}
 			newUrl.search = this.serialize(query);
-			history.pushState(this.state, document ? document.head.title : '', newUrl.href);
+			return newUrl;
 		},
 
 		/**

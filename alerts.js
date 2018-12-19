@@ -1,4 +1,4 @@
-var alert = {
+var pgAlert = {
 	type: '',
 	message: '',
 	onconnected: function (event) {
@@ -21,4 +21,4 @@ var alert = {
 	}
 };
 
-wickedElements.define('.alert', alert);
+wickedElements.define('.alert', pgAlert);
