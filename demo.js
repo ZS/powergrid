@@ -622,6 +622,14 @@ function setDecoratorStyles(){
 
 }
 
+function prepareViewSource(){
+	getHTML();
+	getFullSource();
+	highlight();
+	// $("#sourceContainer").fadeIn();
+	$(this).find("[tab-id].active").click();
+}
+
 $(function () {
 	config = fetchConfig() || config;
 
@@ -635,13 +643,7 @@ $(function () {
 
 	buildGrid();
 
-	$('.show-source-code').on('click', function () {
-		getHTML();
-		getFullSource();
-		highlight();
-		// $("#sourceContainer").fadeIn();
-		document.getElementById("defaultOpenTab").click();
-	});
+	$('.show-source-code').on('click', prepareViewSource);
 
 	$('.open-ui-configuration').on('click', function () {
 		getGridData();
@@ -652,6 +654,9 @@ $(function () {
 	});
 	
 	getGridData();
+
+	prepareViewSource();
+	showEditJSONModal();
 
 	// Open all settings modal when user clicks anywhere on document
 	$("#grid").on("click",function(e){
