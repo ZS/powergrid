@@ -1,33 +1,43 @@
 //modal component
 var pgModal = {
     onconnected: function () {
-        console.log('modal conneted');
-        this.render();
+        window.addEventListener('statechange', this);
+        this.addClose();
     },
     onattributechanged: function (event) {
-        if (event.attributeName == "isopen") {
+        if (event.attributeName == "isopen" && event.oldValue != event.newValue) {
             this.toggleModal();
         }
     },
-    onOpen: function(){
+    onstatechange: function (e) {
+
+        if (e.detail.newState.m) {
+            if ((e.detail.newState.m) == "open") {
+                this.el.setAttribute('isopen', 'true');
+            }
+            else {
+                this.el.setAttribute('isopen', 'false');
+            }
+        }
+    },
+    onOpen: function () {
         var openEvent = new CustomEvent('onOpen');
         this.el.dispatchEvent(openEvent);
     },
-    onClose: function(){
+    onClose: function () {
         var closeEvent = new CustomEvent('onClose');
         this.el.dispatchEvent(closeEvent);
     },
-    render: function () {
-        this.addClose();
-        this.toggleModal();
-    },
+
     toggleModal: function () {
         if (this.el.getAttribute('isopen') == "true") {
             $(this.el).fadeIn();
+            app.updateState({ m: "open" });
             this.onOpen();
         }
         else {
             $(this.el).fadeOut();
+            app.updateState({ m: "" });
             this.onClose();
         }
     },

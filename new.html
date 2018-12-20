@@ -5,19 +5,27 @@
 	<title></title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
 	 crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.css" />
 	<link rel="stylesheet" href="general.css">
-	<link rel="stylesheet" href="decorate.css">
+	<style id="decoratorStylesheet" href="decorate.css"></style>
 	<link rel="stylesheet" href="demo.css">
 	<style id="grid-css"></style>
 </head>
 
 <body>
 	<div id="grid" onclick="openModal()"></div>
-
+	<div id="full-source">
+	
+	</div>
+	
+	<div id="htmlEg">
+	
+	</div>
 	<div id="menuContainer" class="pg-modal container" isopen="false">
 		<div class="pg-modal-content">
 			<div class="pg-modal-header">
-
+				<br>
 			</div>
 			<div class="pg-modal-body">
 				<pg-tabs-container>
@@ -94,13 +102,13 @@
 						<div class="json-editor">
 
 						</div>
-						<button class="button" onclick="saveEditedJSON()">OK</button>
+						<button class="button" onclick="saveEditedJSON(this)">OK</button>
 					</div>
 					<div source-id="sourceCodeContainer" id="sourceCodeContainer" class="power-grid-tabcontent">
 						<h3>Source Code</h3>
 						<pg-tabs-container>
 							<div class="power-grid-tab-list">
-								<button tab-id="htmlContainer" class="tablinks" id="defaultOpenTab">HTML</button>
+								<button tab-id="htmlContainer" class="tablinks active">HTML</button>
 								<button tab-id="cssContainer" class="tablinks">CSS</button>
 								<button tab-id="fullSourceContainer" class="tablinks">Full Source</button>
 							</div>
@@ -172,15 +180,19 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	 crossorigin="anonymous"></script>
 
-	<script src="https://unpkg.com/wicked-elements"></script>
+	<script src="https://unpkg.com/wicked-elements@0.4.3/min.js"></script>
+	<script src="customEvent.poly.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/custom-event-polyfill@1.0.6/polyfill.js" integrity="sha256-GgsiUYiTEQj0ldaika9Lu63JJV2XJpC7xgwuaRNpnyw="
 	 crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/polyfill-object-assign@1.0.0/index.js" integrity="sha256-jIKadqF3tjT2cnLiHv5vFUUA54nhCN0KSE0Fnz+jmE0="
 	 crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 	<script src="modal.js"></script>
 	<script src="alerts.js"></script>
 	<script src="tabs.js"></script>
 	<script src="gridEditor.js"></script>
+	<script src="demo.js"></script>
 	<script>
 		// Application and state management
 		var app = Object.assign({

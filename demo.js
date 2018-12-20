@@ -115,8 +115,7 @@ function fetchConfig() {
 }
 
 function updateUrl(config) {
-	var str = JSON.stringify(config);
-	window.history.pushState({}, document.head.title, "?q=" + window.btoa(str));
+	app.updateState({q:window.btoa(JSON.stringify(config || {}))});
 }
 
 var closeModal = function (el) {
@@ -139,11 +138,12 @@ var showEditJSONModal = function () {
 	editor.set(config);
 }
 
-var saveEditedJSON = function () {
+var saveEditedJSON = function (el) {
 	if (editor) {
 		try {
 			config = editor.get();
 			updateUrl(config);
+			closeModal(el);
 			buildGrid();
 			//$("#jsonContainer").fadeOut();
 		} catch (error) {
@@ -622,6 +622,14 @@ function setDecoratorStyles(){
 
 }
 
+function prepareViewSource(){
+	getHTML();
+	getFullSource();
+	highlight();
+	// $("#sourceContainer").fadeIn();
+	$(this).find("[tab-id].active").click();
+}
+
 $(function () {
 	config = fetchConfig() || config;
 
@@ -635,13 +643,7 @@ $(function () {
 
 	buildGrid();
 
-	$('.show-source-code').on('click', function () {
-		getHTML();
-		getFullSource();
-		highlight();
-		// $("#sourceContainer").fadeIn();
-		document.getElementById("defaultOpenTab").click();
-	});
+	$('.show-source-code').on('click', prepareViewSource);
 
 	$('.open-ui-configuration').on('click', function () {
 		getGridData();
@@ -653,6 +655,9 @@ $(function () {
 	
 	getGridData();
 
+	prepareViewSource();
+	showEditJSONModal();
+
 	// Open all settings modal when user clicks anywhere on document
 	$("#grid").on("click",function(e){
 		if(e.target == this){
@@ -660,18 +665,20 @@ $(function () {
 		}
 	});
 	$("#pg-version").html(config.version);
+
 	// Open click anywhere overlay for first load
-	$("#clickAnywhereOverlay").fadeIn(500);
+	if (!(app && app.state && app.state.m=="open")) {
+		$("#clickAnywhereOverlay").fadeIn(500);
+		// Auto fadeout overlay after 10 seconds if no response from user
+		setTimeout(function () {
+			$("#clickAnywhereOverlay").fadeOut(500);
+			$("#clickAnywhereOverlay .got-it-button").off("click");
+		}, 10000);
 
-	// Auto fadeout overlay after 10 seconds if no response from user
-	setTimeout(function(){
-		$("#clickAnywhereOverlay").fadeOut(500);
-		$("#clickAnywhereOverlay .got-it-button").off("click");
-	},10000);
-
-	$("#clickAnywhereOverlay .got-it-button").one("click",function(){
-		$("#clickAnywhereOverlay").fadeOut(500);
-	});
+		$("#clickAnywhereOverlay .got-it-button").one("click", function () {
+			$("#clickAnywhereOverlay").fadeOut(500);
+		});
+	}
 
 	window.onpopstate = function (event) {
 		window.location.reload();

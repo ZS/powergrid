@@ -4,6 +4,38 @@ var wickedTabsContainer = {
 
         if (tab) {
             this.toggleTabVisibility(tab);
+            this.updateUrlHash(tab.getAttribute("tab-id"));
+        }
+    },
+    onstatechange: function (e) {
+        var hash = e.detail.newState.hash.length > 0 ? e.detail.newState.hash.split("#")[1] : null;
+        if (hash) {
+            var hashEl = this.el.querySelector("[tab-id='" + hash + "']");
+            if (hashEl) {
+
+                this.toggleTabVisibility(hashEl);
+
+                // If current tab not visible, make parent tab visible first.
+                if (!hashEl.offsetHeight && !hashEl.offsetWidth) {
+                    var parent, el = hashEl;
+                    while (el) {
+                        parent = el.parentElement;
+                        if (parent && parent.getAttribute("source-id")) {
+                            break;
+                        }
+                        el = parent;
+                    }
+
+                    if (parent) {
+                        var parentTab = parent.parentElement.querySelector("[tab-id='" + parent.getAttribute("source-id") + "'");
+                        if (parentTab) {
+                            //parentTab.dispatchEvent(new CustomEvent("click",{bubbles:true}));
+                            this.toggleTabVisibility(parentTab);
+                        }
+                    }
+                }
+                //setTimeout(function () { hashEl.dispatchEvent(new CustomEvent("click",{bubbles:false})); }, 100);
+            }
         }
     },
     onconnected: function () {
@@ -11,6 +43,13 @@ var wickedTabsContainer = {
 
         if (activeTab) {
             this.toggleTabVisibility(activeTab);
+        }
+
+        window.addEventListener('statechange', this);
+    },
+    updateUrlHash: function (hash) {
+        if (hash && app) {
+            app.updateState({ hash: "#" + hash });
         }
     },
     toggleTabVisibility: function (tabEl) {
