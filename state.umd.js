@@ -104,7 +104,9 @@
 				for (var i in combinded) {
 					if (this.state[i] != newObject[i]) {
 						whatChanged = whatChanged || {};
-						whatChanged[i] = newObject[i];
+						if (this.state[i] != newObject[i]) {
+							whatChanged[i] = newObject[i];
+						}
 						if (newObject[i] === null) {
 							delete this.state[i];
 						} else if (newObject[i] !== undefined) {
@@ -253,7 +255,7 @@
 			newUrl.pathname = state.pathname;
 			newUrl.hash = state.hash;
 			exclude = exclude || ['hash', 'pathname'];
-			var query = this.query || {};
+			var query = {};
 			for (var p in state) {
 				if (exclude && exclude.indexOf(p) != -1) {
 					continue;

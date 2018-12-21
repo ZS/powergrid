@@ -68,13 +68,13 @@
 							<fieldset class="row">
 								<legend>Cell properties</legend>
 								<div class="form-group col-4">
-									<label>Text:<input type="text" id="cell-text" class="form-control"></label>
-									<label>Column:<input type="number" min="1" onlynumber id="cell-col" class="form-control"></label>
-									<label>Column Span:<input type="number" min="1" onlynumber id="cell-col-span" class="form-control"></label>
-									<label>Row Start:<input type="number" min="1" onlynumber id="cell-row" class="form-control"></label>
-									<label>Row Span:<input type="number" min="1" onlynumber id="cell-row-span" class="form-control"></label>
-									<label>Order:<input type="number" min="1" onlynumber id="cell-order" class="form-control"></label>
-									<label>Align:<select id="cell-align" class="form-control">
+									<label>Text:<input type="text" name="cell-text" class="form-control"></label>
+									<label>Column:<input type="number" min="1" onlynumber name="cell-col" class="form-control"></label>
+									<label>Column Span:<input type="number" min="1" onlynumber name="cell-col-span" class="form-control"></label>
+									<label>Row Start:<input type="number" min="1" onlynumber name="cell-row" class="form-control"></label>
+									<label>Row Span:<input type="number" min="1" onlynumber name="cell-row-span" class="form-control"></label>
+									<label>Order:<input type="number" min="1" onlynumber name="cell-order" class="form-control"></label>
+									<label>Align:<select name="cell-align" class="form-control">
 										<option value="">--Select--</option>
 										<option value="stretch">Stretch</option>
 										<option value="start">Start</option>
@@ -82,13 +82,13 @@
 										<option value="end">End</option>
 										</select>
 									</label>	
-									<label>Justify:<select id="cell-justify" class="form-control">
-												<option value="">--Select--</option>
-												<option value="stretch">Stretch</option>
-												<option value="start">Start</option>
-												<option value="center">Center</option>
-												<option value="end">End</option>
-											</select>
+									<label>Justify:<select name="cell-justify" class="form-control">
+											<option value="">--Select--</option>
+											<option value="stretch">Stretch</option>
+											<option value="start">Start</option>
+											<option value="center">Center</option>
+											<option value="end">End</option>
+										</select>
 									</label>
 								</div>	
 							</fieldset>
@@ -192,7 +192,6 @@
 	<script src="alerts.js"></script>
 	<script src="tabs.js"></script>
 	<script src="gridEditor.js"></script>
-	<script src="demo.js"></script>
 	<script>
 		// Application and state management
 		var app = Object.assign({
@@ -212,7 +211,8 @@
 			},
 			dispatchEvent: function (event) {
 				console.log('app', 'statechange', this.state);
-				var newUrl = this.reflectStateInUrl(this.state);				
+				var newUrl = this.reflectStateInUrl(this.state);	
+				console.log(newUrl.href);
 				config = JSON.parse(window.atob(this.state.q));			
 				history.pushState(this.state, document ? document.head.title : '', newUrl.href);
 				
