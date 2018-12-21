@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest an idea for this project
 title: 'Enhancement: <short description here>'
 labels: enhancement
-assignees: ''
+assignees: 'ui-architecture-team'
 
 ---
 
