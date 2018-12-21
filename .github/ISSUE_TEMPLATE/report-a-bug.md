@@ -3,22 +3,25 @@ name: Bug Report
 about: Create a bug to help us improve
 title: 'Issue: <Short description about bug>'
 labels: bug
-assignees: ''
+assignees: 'ui-architecture-team'
 
 ---
 
 **Describe the bug**
 A clear and concise description of what the bug is.
 
-**Provided Steps To Reproduce**
+**Steps To Reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**State Expected behavior**
+**Expected behavior**
 A clear and concise description of what you expected to happen.
+
+**Actual behavior**
+A clear and concise description of what actually to happened.
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
