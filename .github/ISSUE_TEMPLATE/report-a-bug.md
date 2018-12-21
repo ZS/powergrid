@@ -3,7 +3,7 @@ name: Bug Report
 about: Create a bug to help us improve
 title: 'Issue: <Short description about bug>'
 labels: bug
-assignees: ''
+assignees: 'ui-architecture-team'
 
 ---
 
