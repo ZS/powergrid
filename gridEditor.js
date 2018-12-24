@@ -21,7 +21,7 @@ var gridEditor = {
 		}
 	},
 	onchange: function(event) {
-		console.log('onchange', event.target.name);
+		console.log('onchange', event.target.name, event.target);
 		if (event.target.name == "track") { // Switch track
 			// detect if track or grid item was selected
 			var arr = event.target.value.split("-");
@@ -41,14 +41,16 @@ var gridEditor = {
 			} else if (this.state.row) {
 				config.rows[1*this.state.row] = event.target.value;
 			} 		
-		} else if (event.target.parentNode.parentNode.id == "cellProperties") { // Update config for cell
+		} else if (event.target.name.indexOf("cell-") != -1) { // Update config for cell
 			var arr = event.target.name.split("-");
 			var cellProperty = arr[1];
+			var cellIndex = 1*this.state.cell;
 			if (arr[0] != 'cell') {return;}
-		
-			config.cells[this.state.cell][cellProperty] =  event.target.value;
+			var cell = config.cells[cellIndex]
+			if (!cell) {cell = {};}
+			cell[cellProperty] =  event.target.value;
+			console.log('here', cell, config.cells[cellIndex]);
 		} else if (event.target.name == "rows") {
-			alert(1);
 			config.rows.length = 1*event.target.value || 0;
 		} else if (event.target.name == "cols") {
 			config.cols.length = 1*event.target.value || 0;
@@ -57,7 +59,7 @@ var gridEditor = {
 		} else {
 			return;
 		}
-		console.log(config);
+
 		// Reflect config changes in the state
 		app.updateState({q: window.btoa(JSON.stringify(config || {}))});
 	},
@@ -95,7 +97,7 @@ var gridEditor = {
 
 
 		// Update rows
-		this.el.querySelector('[name="track"]').options = [];
+		this.el.querySelector('[name="track"]').innerHTML =""; // clear options
 		for(var i=0;i<config.rows.length; i++) {
 			selectField = this.updateSelect('track', i, "row-" + i, 'row ' + (i+1));
 		}
@@ -122,9 +124,13 @@ var gridEditor = {
 			value = config.cells[cellIndex];
 			selectField.selectedIndex = i+j+cellIndex;
 		}
+
+		// Default selection
+		if (value === undefined ) {
+			value = config.rows[0] || config.cols[0] || "";
+		}
 		
 		if (selectField) {
-
 			if (cellIndex !== undefined) { // Cell
 				this.el.querySelector('#cellProperties').classList.remove('d-none');
 				this.el.querySelector('[name="value"]').parentNode.classList.add('d-none');

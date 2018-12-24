@@ -221,12 +221,12 @@
 				this.updateState(state);
 			},
 			dispatchEvent: function (event) {
-				console.log('app', 'statechange', this.state);
+				
 				var newUrl = this.reflectStateInUrl(this.state);	
 				console.log(newUrl.href);
 				config = JSON.parse(window.atob(this.state.q));			
 				history.pushState(this.state, document ? document.head.title : '', newUrl.href);
-				
+				console.log('app', 'statechange', this.state, config);
 				window.dispatchEvent(event);
 			},
 		}, state.default || state);	

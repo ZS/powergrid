@@ -25,6 +25,7 @@ var gridBuilder = {
 		var htmlText = '';
 		config.cells.forEach(function (cell, index) {
 			var cls = [];
+			if (!cell) {return;}
 			if (cell.col) {
 				cls.push(config.prefix + 'col-' + cell.col);
 			}
