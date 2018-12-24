@@ -32,12 +32,16 @@ var pgModal = {
     toggleModal: function () {
         if (this.el.getAttribute('isopen') == "true") {
             $(this.el).fadeIn();
-            app.updateState({ m: "open" });
+            if (app.state.m != "open") {
+                app.updateState({ m: "open" });
+            }
             this.onOpen();
         }
         else {
             $(this.el).fadeOut();
-            app.updateState({ m: "" });
+            if (app.state.m != "") {
+                app.updateState({ m: "" });
+            }
             this.onClose();
         }
     },
