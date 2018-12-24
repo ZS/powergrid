@@ -36,7 +36,26 @@ var gridEditor = {
 			changes[type] = value;
 			console.log('changes', changes)
 			app.updateState(changes);
+			return;
+		} else if (event.target.name == "value") { // Update config for tracks
+			if (this.state.col) {
+				config.cols[1*this.state.col] = event.target.value;
+			} else if (this.state.row) {
+				config.rows[1*this.state.row] = event.target.value;
+			} 		
+		} else if (this.state.cell) { // Update cells
+			var arr = event.target.name.split("-");
+			var cellProperty = arr[1];
+			if (arr[0] != 'cell') {return;}
+		
+			config.cells[this.state.cell][cellProperty] =  event.target.value;
+		} else {
+			return;
 		}
+
+		// Reflect config changes in the state
+		console.log('config', config);
+		app.updateState({q: window.btoa(JSON.stringify(config || {}))});
 	},
 	updateField: function(name, value) {
 		if (!this.el) {return;}
