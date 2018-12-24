@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.css" />
 	<link rel="stylesheet" href="general.css">
-	<style id="decoratorStylesheet" href="decorate.css"></style>
+	<link id="decoratorStylesheet" href="decorate.css" rel="stylesheet">
 	<link rel="stylesheet" href="demo.css">
 	<style id="grid-css"></style>
 </head>
@@ -22,7 +22,7 @@
 	<div id="htmlEg">
 	
 	</div>
-	<div id="menuContainer" class="pg-modal container" isopen="false">
+	<div id="menuContainer" class="pg-modal" isopen="false">
 		<div class="pg-modal-content">
 			<div class="pg-modal-header">
 				<br>
@@ -39,41 +39,51 @@
 					<div source-id="gridSettingsContainer" class="power-grid-tabcontent">
 						<form>
 							<legend>Size</legend><hr>
-							<fieldset class="row">
+							<div class="row">
 								<div class="form-group col-4">
-									<label for="rows">Rows:</label>								
+									<label>Rows:								
 									<input class="form-control" type="number" min="1" max="99"  name="rows">
+									</label>
 								</div>
 								<div class="form-group col-4">
-									<label for="cols">Cols:</label>
-									<input type="number" min="1" max="99" class="form-control" name="cols">
+									<label>Cols:
+									<input type="number" min="1" max="99" class="form-control" name="cols"></label>
 								</div>
 								<div class="form-group col-4">
-									<label for="cells">Cells?</label>								
-									<input class="form-control" type="number" min="1" max="99" name="cells">
+									<label>Cells:								
+									<input class="form-control" type="number" min="1" max="99" name="cells"></label>
 								</div>
-							</fieldset>
+							</div>
 							<hr>
-							<fieldset class="row">
-								<div class="form-group col-4">
-									<label for="track">Pick a row or col or cell to edit
-									<select name="track"  class="form-control"><option>...</option></select>
-									</h4></label>
-								</div>
-								<div class="form-group col-4">
+							<legend>Track or item
+									<select name="track"  class="form-control" ><option></option></select>
+							</legend>
+							<div class="row">
+								<div class="form-group col-6">
 									<label for="value">Track size</label>
 									<input name="value" class="form-control"></input>		
 								</div>
-							</fieldset>
-							<fieldset class="row">
-								<legend>Cell properties</legend>
-								<div class="form-group col-4">
+							</div>
+							<div class="row"  id="cellProperties">
+								<div class="col-6 form-group">
 									<label>Text:<input type="text" name="cell-text" class="form-control"></label>
+								</div>	
+								<div class="col-6 form-group">
 									<label>Column:<input type="number" min="1" onlynumber name="cell-col" class="form-control"></label>
+								</div>	
+								<div class="col-6 form-group">
 									<label>Column Span:<input type="number" min="1" onlynumber name="cell-colSpan" class="form-control"></label>
+								</div>	
+								<div class="col-6 form-group">
 									<label>Row Start:<input type="number" min="1" onlynumber name="cell-row" class="form-control"></label>
+								</div>	
+								<div class="col-6 form-group">
 									<label>Row Span:<input type="number" min="1" onlynumber name="cell-rowSpan" class="form-control"></label>
+								</div>	
+								<div class="col-6 form-group">
 									<label>Order:<input type="number" min="1" onlynumber name="cell-order" class="form-control"></label>
+								</div>	
+								<div class="col-6 form-group">
 									<label>Align:<select name="cell-align" class="form-control">
 										<option value="">--Select--</option>
 										<option value="stretch">Stretch</option>
@@ -82,7 +92,8 @@
 										<option value="end">End</option>
 										</select>
 									</label>	
-									<label>Justify:<select name="cell-justify" class="form-control">
+								</div>	
+								<div class="col-6 form-group"><label>Justify:<select name="cell-justify" class="form-control">
 											<option value="">--Select--</option>
 											<option value="stretch">Stretch</option>
 											<option value="start">Start</option>
@@ -91,7 +102,7 @@
 										</select>
 									</label>
 								</div>	
-							</fieldset>
+							</div>
 	
 						</form>
 						

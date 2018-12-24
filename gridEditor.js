@@ -7,7 +7,6 @@ var gridEditor = {
 		window.addEventListener('statechange', this);
 	},
 	onstatechange: function(event) {
-		console.log('grid editor statechange', event);
 		var newState = event.detail.newState;
 		var changes = event.detail.changed;
 		// Smart render
@@ -22,7 +21,7 @@ var gridEditor = {
 		}
 	},
 	onchange: function(event) {
-		console.log('change', event.target);
+		console.log('onchange', event.target.name);
 		if (event.target.name == "track") { // Switch track
 			// detect if track or grid item was selected
 			var arr = event.target.value.split("-");
@@ -34,7 +33,6 @@ var gridEditor = {
 				row: null
 			}
 			changes[type] = value;
-			console.log('changes', changes)
 			app.updateState(changes);
 			return;
 		} else if (event.target.name == "value") { // Update config for tracks
@@ -43,18 +41,24 @@ var gridEditor = {
 			} else if (this.state.row) {
 				config.rows[1*this.state.row] = event.target.value;
 			} 		
-		} else if (this.state.cell) { // Update cells
+		} else if (event.target.parentNode.parentNode.id == "cellProperties") { // Update config for cell
 			var arr = event.target.name.split("-");
 			var cellProperty = arr[1];
 			if (arr[0] != 'cell') {return;}
 		
 			config.cells[this.state.cell][cellProperty] =  event.target.value;
+		} else if (event.target.name == "rows") {
+			alert(1);
+			config.rows.length = 1*event.target.value || 0;
+		} else if (event.target.name == "cols") {
+			config.cols.length = 1*event.target.value || 0;
+		} else if (event.target.name == "cells") {
+			config.cells.length = 1*event.target.value || 0;
 		} else {
 			return;
 		}
-
+		console.log(config);
 		// Reflect config changes in the state
-		console.log('config', config);
 		app.updateState({q: window.btoa(JSON.stringify(config || {}))});
 	},
 	updateField: function(name, value) {
@@ -73,7 +77,6 @@ var gridEditor = {
 		return fieldEl;
 	},
 	updateCell: function(cellProperties) {
-		console.log('updateCell', cellProperties);
 		if (!cellProperties || typeof cellProperties != "object") {return;}
 		this.updateField("cell-col", cellProperties.col || "");
 		this.updateField("cell-text", cellProperties.text || "");
@@ -84,7 +87,6 @@ var gridEditor = {
 		this.updateField("cell-justify", cellProperties.justify || "");
 	},
 	render: function() {
-		console.log('render');
 		this.updateField('rows',  config.rows.length);
 		this.updateField('cols',  config.cols.length);
 		this.updateField('cells', config.cells.length);
@@ -93,11 +95,11 @@ var gridEditor = {
 
 
 		// Update rows
+		this.el.querySelector('[name="track"]').options = [];
 		for(var i=0;i<config.rows.length; i++) {
 			selectField = this.updateSelect('track', i, "row-" + i, 'row ' + (i+1));
 		}
 		if (selectField && this.state && this.state.row >=0) {
-			alert('row' + this.state.row);
 			selectField.selectedIndex = 1*this.state.row;
 			value = config.rows[1*this.state.row];
 		}
@@ -107,7 +109,6 @@ var gridEditor = {
 			selectField = this.updateSelect('track', i+j, "col-" + j, 'col ' + (j+1));
 		}
 		if (selectField && this.state && this.state.col>=0) {
-			alert('col' + this.state.col);
 			selectField.selectedIndex = i+1*this.state.col;
 			value = config.cols[1*this.state.col];
 		}
@@ -117,23 +118,22 @@ var gridEditor = {
 			selectField = this.updateSelect('track', i+j+k, "cell-" + k, 'cell ' + (k+1));
 		}
 		if (selectField && this.state && this.state.cell>=0) {
-			alert('cell' + this.state.cell);
 			cellIndex = 1*this.state.cell;
 			value = config.cells[cellIndex];
-			selectField.selectedIndex = i+j-1+cellIndex;
+			selectField.selectedIndex = i+j+cellIndex;
 		}
 		
 		if (selectField) {
-			alert(cellIndex);
+
 			if (cellIndex !== undefined) { // Cell
+				this.el.querySelector('#cellProperties').classList.remove('d-none');
+				this.el.querySelector('[name="value"]').parentNode.classList.add('d-none');
 				this.updateCell(config.cells[cellIndex]);
 			} else { // Track				
+				this.el.querySelector('#cellProperties').classList.add('d-none');
+				this.el.querySelector('[name="value"]').parentNode.classList.remove('d-none');
 				this.updateField('value', value);
 			}
-		} else {
-			this.el.querySelector('[name="value"]').parentNode.style.display = 'none';
-			this.el.querySelector('[name="value"]').parentNode.style.display = 'none';
 		}
-		//this.updateField('');
-	},
+	}
 };
