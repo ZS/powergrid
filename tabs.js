@@ -8,16 +8,16 @@ var wickedTabsContainer = {
         }
     },
     onstatechange: function (e) {
-        var hash = e.detail.newState.hash.length > 0 ? e.detail.newState.hash.split("#")[1] : null;
-        if (hash) {
-            var hashEl = this.el.querySelector("[tab-id='" + hash + "']");
-            if (hashEl) {
+        var activeTab = (e.detail.newState.activeTab && e.detail.newState.activeTab.length) > 0 ? e.detail.newState.activeTab : null;
+        if (activeTab) {
+            var activeEl = this.el.querySelector("[tab-id='" + activeTab + "']");
+            if (activeEl) {
 
-                this.toggleTabVisibility(hashEl);
+                this.toggleTabVisibility(activeEl);
 
                 // If current tab not visible, make parent tab visible first.
-                if (!hashEl.offsetHeight && !hashEl.offsetWidth) {
-                    var parent, el = hashEl;
+                if (!activeEl.offsetHeight && !activeEl.offsetWidth) {
+                    var parent, el = activeEl;
                     while (el) {
                         parent = el.parentElement;
                         if (parent && parent.getAttribute("source-id")) {
@@ -47,9 +47,9 @@ var wickedTabsContainer = {
 
         window.addEventListener('statechange', this);
     },
-    updateUrlHash: function (hash) {
-        if (hash && app) {
-            app.updateState({ hash: "#" + hash });
+    updateUrlHash: function (activeTab) {
+        if (activeTab && app) {
+            app.updateState({ activeTab: activeTab });
         }
     },
     toggleTabVisibility: function (tabEl) {

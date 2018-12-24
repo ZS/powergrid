@@ -667,7 +667,7 @@ $(function () {
 	$("#pg-version").html(config.version);
 
 	// Open click anywhere overlay for first load
-	if (!(app && app.state && app.state.m=="open")) {
+	if (!(app && app.state && app.state.dialogOpen=="true")) {
 		$("#clickAnywhereOverlay").fadeIn(500);
 		// Auto fadeout overlay after 10 seconds if no response from user
 		setTimeout(function () {

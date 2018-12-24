@@ -11,8 +11,8 @@ var pgModal = {
     },
     onstatechange: function (e) {
 
-        if (e.detail.newState.m) {
-            if ((e.detail.newState.m) == "open") {
+        if (e.detail.newState.dialogOpen) {
+            if ((e.detail.newState.dialogOpen) == "true") {
                 this.el.setAttribute('isopen', 'true');
             }
             else {
@@ -30,17 +30,17 @@ var pgModal = {
     },
 
     toggleModal: function () {
-        if (this.el.getAttribute('isopen') == "true") {
+        if (""+this.el.getAttribute('isopen') == "true") {
             $(this.el).fadeIn();
-            if (app.state.m != "open") {
-                app.updateState({ m: "open" });
+            if (app.state.dialogOpen != "open") {
+                app.updateState({ dialogOpen: "true" });
             }
             this.onOpen();
         }
         else {
             $(this.el).fadeOut();
-            if (app.state.m != "") {
-                app.updateState({ m: "" });
+            if (app.state.dialogOpen != "") {
+                app.updateState({ dialogOpen: "false" });
             }
             this.onClose();
         }
