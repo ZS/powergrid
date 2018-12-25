@@ -1,71 +1,5 @@
 var htmlText;
 var cellIndex;
-function createGrid() {
-	htmlText = '';
-	var $grid = $('#grid');
-	$grid.attr('class', config.prefix + 'grid fluid');
-
-	if (config.align) {
-		$grid.addClass(config.prefix + 'align-' + config.align);
-	}
-
-	if (config.justify) {
-		$grid.addClass(config.prefix + 'justify-' + config.justify);
-	}
-
-	$grid.html('');
-	config.cells.forEach(function (cell, index) {
-		var cls = [];
-		if (cell.col) {
-			cls.push(config.prefix + 'col-' + cell.col);
-		}
-		if (cell.row) {
-			cls.push(config.prefix + 'row-' + cell.row);
-		}
-		if (cell.colSpan) {
-			cls.push(config.prefix + 'col-span-' + cell.colSpan);
-		}
-		if (cell.rowSpan) {
-			cls.push(config.prefix + 'row-span-' + cell.rowSpan);
-		}
-
-		if (cell.order) {
-			cls.push(config.prefix + 'order-' + cell.order);
-		}
-
-		if (cell.align) {
-			cls.push(config.prefix + 'align-self-' + cell.align)
-		}
-
-		if (cell.justify) {
-			cls.push(config.prefix + 'justify-self-' + cell.justify);
-		}
-		var cls = cls.join(' ').trim();
-
-		$grid.append('<div' + (cls ? ' class="' + cls + '"' : '') + '>' + format(encodeURIComponent(cell.text || index)) + '</div>');
-		htmlText += "    " + '<div' + (cls ? ' class="' + cls + '"' : '') + '>' + format(encodeURIComponent(cell.text || index)) + '</div>' + "\r\n";
-	});
-}
-
-/**
- * Formats an HTML string to convert patterns like "img-250-50" into images
- * @param {string} htmlString original HTML
- * @return {string} Updated HTML string
- */
-function format(htmlString) {
-	var html = htmlString;
-	var arr = html.split('-');
-	if (arr.length == 3 && arr[0] == 'img') {
-		html = '<img src="https://via.placeholder.com/' + arr[1] + 'x' + arr[2] + '">';
-	}
-	return html;
-}
-
-function createStyles() {
-	var $style = $('#grid-css');
-	var css = powergrid.toCss(config);
-	$style.html(css);
-}
 
 function indentCSS(source) {
 	source = source.replace(/\*\//gi, '*/\n');
@@ -76,7 +10,7 @@ function indentCSS(source) {
 	return source;
 }
 
-function cellDialog(element, event) {
+/*function cellDialog(element, event) {
 	var $dialog = $('.dialog');
 	var $cell = $(element);
 	function outsideClick() {
@@ -98,7 +32,7 @@ function cellDialog(element, event) {
 			$(window).on('click', outsideClick);
 		}
 	});
-}
+}*/
 
 /**
  * Try to fetch the config from the URL query string.
@@ -144,7 +78,7 @@ var saveEditedJSON = function (el) {
 			config = editor.get();
 			updateUrl(config);
 			closeModal(el);
-			buildGrid();
+			//buildGrid();
 			//$("#jsonContainer").fadeOut();
 		} catch (error) {
 			createAlert("Error parsing provided JSON. Please fix the error(s) marked in red below. Please see console for more details.", $('#editor-error-container'), error.name);
@@ -152,7 +86,7 @@ var saveEditedJSON = function (el) {
 	}
 }
 
-function bindCellClick() {
+/*function bindCellClick() {
 	$('#grid > div').on('click', function (event) {
 	
 		// Open all settings modal
@@ -273,7 +207,7 @@ function saveCellOptions() {
 	updateUrl(config);
 	buildGrid();
 	//$('#cellContainer').fadeOut();
-}
+}*/
 
 function createAlert(html, $container, type){
 	var type = type || "Warning";
@@ -348,7 +282,7 @@ var gridContainerClasses;
 function getHTML() {
 	gridContainerClasses = $('#grid').attr('class');
 	$('#showCSS').html(powergrid.toCss(config));
-	htmlExample = '<!---<div class="' + gridContainerClasses+ '">\r\n' + htmlText + '</div>//-->';
+	htmlExample = '<!---<div class="' + gridContainerClasses+ '">\r\n    ' + $("#grid").html().replace(/<\/[a-z]+>/g, "$&\r\n    ").split('    ').reverse().join("    ").replace("    ","").split("    ").reverse().join("    ") + '</div>//-->';
 	$('#htmlEg').html(htmlExample);
 }
 
@@ -357,7 +291,7 @@ function getFullSource() {
 	var decoratorStyle = document.querySelector('style#decoratorStylesheet').innerHTML;
 
 	var gridStyle = powergrid.toCss(config);
-	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="decoratorStylesheet">\r\n' + decoratorStyle + '\n</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n' + htmlText + '</div> \r\n</body>//-->'
+	fullSource = '<!---<!doctype html> \r\n<html>\r\n<head>\r\n<style id="decoratorStylesheet">\r\n' + decoratorStyle + '\n</style>\r\n<style id="grid-css">\r\n' + gridStyle + '</style>\r\n</head>\r\n<body>\r\n<div id="grid" class="' + gridContainerClasses + '">\r\n    ' + $("#grid").html().replace(/<\/[a-z]+>/g, "$&\r\n    ").split('    ').reverse().join("    ").replace("    ","").split("    ").reverse().join("    ") + '</div> \r\n</body>//-->'
 	$('#full-source').html(fullSource);
 }
 
@@ -473,7 +407,7 @@ function fetchStatusWarnings() {
 //ui configuration
 var colIndex=0;
 var rowIndex= 0;
-function addColRow(field,fieldVal){
+/*function addColRow(field,fieldVal){
 	if (field == 'col'){
 		var col = '<div index="'+colIndex+'"><span><input type="radio" value="1fr" name="col'+colIndex+'"/></span> <span> 1fr </span><span><input type="radio" value="max-content" name="col'+colIndex+'"/></span><span> Max-content </span><span><input type="radio" value="min-content" name="col'+colIndex+'"/></span><span> Min-content </span><span><input type="radio" value="others" name="col'+colIndex+'"/></span><span> Others </span><span><input type="text" style="display:none" id="others-col-'+colIndex+'"/></span> <span><button class="delete-parent button button-delete">&#10006;</button></span></div>';
 		$('#col-container').append(col);
@@ -609,13 +543,14 @@ function setGridData(){
 	updateUrl(config);
 	buildGrid();
 	//$('#gridUIContainer').fadeOut();
-}
+}*/
 
 function setDecoratorStyles(){
 	var styleSheet1 = $("style#decoratorStylesheet").attr("href");
 
 	$.when($.ajax(styleSheet1)).then(function(data) {
 		$("style#decoratorStylesheet").html(data);
+		prepareViewSource();
 	},function(){
 		console.error("failed to load decorator stylesheet");
 	});
@@ -641,29 +576,29 @@ $(function () {
 	//Fetch and set common decorator styles
 	setDecoratorStyles();
 
-	buildGrid();
+	//buildGrid();
 
 	$('.show-source-code').on('click', prepareViewSource);
 
-	$('.open-ui-configuration').on('click', function () {
-		getGridData();
-	});
+	// $('.open-ui-configuration').on('click', function () {
+	// 	getGridData();
+	// });
 
 	$('.show-json-editor').on('click', function () {
 		showEditJSONModal();
 	});
 	
-	getGridData();
+	//getGridData();
 
-	prepareViewSource();
+	
 	showEditJSONModal();
 
-	// Open all settings modal when user clicks anywhere on document
-	$("#grid").on("click",function(e){
-		if(e.target == this){
-			$("#menuContainer").attr('isOpen','true');
-		}
-	});
+	//Open all settings modal when user clicks anywhere on document
+	// $("#grid").on("click",function(e){
+	// 	if(e.target == this){
+	// 		$("#menuContainer").attr('isOpen','true');
+	// 	}
+	// });
 	$("#pg-version").html(config.version);
 
 	// Open click anywhere overlay for first load
