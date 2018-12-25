@@ -21,7 +21,6 @@ var gridEditor = {
 		}
 	},
 	onchange: function(event) {
-		console.log('onchange', event.target.name, event.target);
 		if (event.target.name == "track") { // Switch track
 			// detect if track or grid item was selected
 			var arr = event.target.value.split("-");
@@ -46,10 +45,8 @@ var gridEditor = {
 			var cellProperty = arr[1];
 			var cellIndex = 1*this.state.cell;
 			if (arr[0] != 'cell') {return;}
-			var cell = config.cells[cellIndex]
-			if (!cell) {cell = {};}
-			cell[cellProperty] =  event.target.value;
-			console.log('here', cell, config.cells[cellIndex]);
+			if (!config.cells[cellIndex]) {config.cells[cellIndex] = {};}
+			config.cells[cellIndex][cellProperty] =  event.target.value;
 		} else if (event.target.name == "rows") {
 			config.rows.length = 1*event.target.value || 0;
 		} else if (event.target.name == "cols") {

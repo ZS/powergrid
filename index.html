@@ -28,106 +28,75 @@
 					<button tab-id="helpContainer" class="tablinks help-tab">Help</button>
 				</div>
 				<div source-id="gridSettingsContainer" class="power-grid-tabcontent">
-					<h3>Configure Grid </h3>
-					<div class="cell-form-grid">
-						<div>Name: </div>
-						<div><input type="text" id="grid-name"></div>
-						<div>Version:</div>
-						<div><input type="text" id="grid-version"></div>
-						<div>Class prefix:</div>
-						<div><input type="text" id="grid-prefix"></div>
-						<div>No of Grid Columns:</div>
-						<div>
-							<button class="btn-action" onclick="addColRow('col','1fr')">Add column</button>
-							<div id="col-container"></div>
-							<p style="color: red; display: none" id="col-error">Others field cannot be left blank</p>
+					<form>
+						<legend>Size</legend><hr>
+						<div class="row">
+							<div class="form-group col-4">
+								<label>Rows:								
+								<input class="form-control" type="number" min="1" max="99"  name="rows">
+								</label>
+							</div>
+							<div class="form-group col-4">
+								<label>Cols:
+								<input type="number" min="1" max="99" class="form-control" name="cols"></label>
+							</div>
+							<div class="form-group col-4">
+								<label>Cells:								
+								<input class="form-control" type="number" min="1" max="99" name="cells"></label>
+							</div>
 						</div>
-						<div>No of Grid Rows:</div>
-						<div>
-							<button class="btn-action" onclick="addColRow('row','1fr')">Add row</button>
-							<div id="row-container"></div>
-							<div style="color: red; display: none" id="row-error">Others field cannot be left blank</div>
+						<hr>
+						<legend>Track or item
+								<select name="track"  class="form-control" ><option></option></select>
+						</legend>
+						<div class="row">
+							<div class="form-group col-6">
+								<label for="value">Track size</label>
+								<input name="value" class="form-control"></input>		
+							</div>
 						</div>
-						<div>Align</div>
-						<div>
-							<select name="" id="grid-align-select">
-								<option value="">--Select--</option>
-								<option value="stretch">Stretch</option>
-								<option value="start">Start</option>
-								<option value="center">Center</option>
-								<option value="end">End</option>
-							</select>
+						<div class="row"  id="cellProperties">
+							<div class="col-6 form-group">
+								<label>Text:<input type="text" name="cell-text" class="form-control"></label>
+							</div>	
+							<div class="col-6 form-group">
+								<label>Column:<input type="number" min="1" onlynumber name="cell-col" class="form-control"></label>
+							</div>	
+							<div class="col-6 form-group">
+								<label>Column Span:<input type="number" min="1" onlynumber name="cell-colSpan" class="form-control"></label>
+							</div>	
+							<div class="col-6 form-group">
+								<label>Row Start:<input type="number" min="1" onlynumber name="cell-row" class="form-control"></label>
+							</div>	
+							<div class="col-6 form-group">
+								<label>Row Span:<input type="number" min="1" onlynumber name="cell-rowSpan" class="form-control"></label>
+							</div>	
+							<div class="col-6 form-group">
+								<label>Order:<input type="number" min="1" onlynumber name="cell-order" class="form-control"></label>
+							</div>	
+							<div class="col-6 form-group">
+								<label>Align:<select name="cell-align" class="form-control">
+									<option value="">--Select--</option>
+									<option value="stretch">Stretch</option>
+									<option value="start">Start</option>
+									<option value="center">Center</option>
+									<option value="end">End</option>
+									</select>
+								</label>	
+							</div>	
+							<div class="col-6 form-group"><label>Justify:<select name="cell-justify" class="form-control">
+										<option value="">--Select--</option>
+										<option value="stretch">Stretch</option>
+										<option value="start">Start</option>
+										<option value="center">Center</option>
+										<option value="end">End</option>
+									</select>
+								</label>
+							</div>	
 						</div>
-						<div>Justify</div>
-						<div>
-							<select id="grid-justify-select">
-								<option value="">--Select--</option>
-								<option value="stretch">Stretch</option>
-								<option value="start">Start</option>
-								<option value="center">Center</option>
-								<option value="end">End</option>
-							</select>
-						</div>
-						<div>Number of cells</div>
-						<div>
-							<input type="number" id="grid-cells-no" min="0" onlynumber />
-							<p>Note: Modifying this field will replace existing cells. To configure cells click each one of them.</p>
-						</div>
-					</div>
-					<div>
-						<button class="button" onclick="setGridData()">Save</button>
-					</div>
-					<h3>Configure Selected Cell</h3>
-					<div class="cell-form-grid">
-						<div>Text:</div>
-						<div>
-							<input type="text" id="cell-text" />
-						</div>
-						<div>Cloumn Start:</div>
-						<div>
-							<input type="number" min="1" onlynumber id="cell-col" />
-						</div>
-						<div>Cloumn Span:</div>
-						<div>
-							<input type="number" min="1" onlynumber id="cell-col-span" />
-						</div>
-						<div>Row Start:</div>
-						<div>
-							<input type="number" min="1" onlynumber id="cell-row" />
-						</div>
-						<div>Row Span:</div>
-						<div>
-							<input type="number" min="1" onlynumber id="cell-row-span" />
-						</div>
-						<div>Order:</div>
-						<div>
-							<input type="number" min="1" onlynumber id="cell-order" />
-						</div>
-						<div>Align:</div>
-						<div>
-							<select id="cell-align">
-								<option value="">--Select--</option>
-								<option value="stretch">Stretch</option>
-								<option value="start">Start</option>
-								<option value="center">Center</option>
-								<option value="end">End</option>
-							</select>
-						</div>
-						<div>Justify:</div>
-						<div>
-							<select id="cell-justify">
-								<option value="">--Select--</option>
-								<option value="stretch">Stretch</option>
-								<option value="start">Start</option>
-								<option value="center">Center</option>
-								<option value="end">End</option>
-							</select>
-						</div>
-					</div>
-					<div class="pg-modal-footer">
-						<button class="button" onclick="saveCellOptions()">SAVE Cell</button>
-						<button class="button button-delete" onclick="deleteCell()" style="float:right">Delete Cell</button>
-					</div>
+
+					</form>
+					
 				</div>
 				<div source-id="configJSONContainer" id="configJSONContainer" class="power-grid-tabcontent">
 					<h3>Configure Grid using JSON </h3>
@@ -239,7 +208,8 @@
 	<script src="alerts.js"></script>
 	<script src="tabs.js"></script>
 	<script src="modal.js"></script>
-	
+	<script src="gridBuilder.umd.js"></script>
+	<script src="gridEditor.js"></script>
 	<script>
 		// Application and state management
 		var app = Object.assign({
@@ -258,16 +228,43 @@
 				this.updateState(state);
 			},
 			dispatchEvent: function (event) {
-				console.log('app', 'statechange', this.state);
+				
 				var newUrl = this.reflectStateInUrl(this.state);
 				config = JSON.parse(window.atob(this.state.q));
+				console.log('app', 'statechange', this.state, config);
 				history.pushState(this.state, document ? document.head.title : '', newUrl.href);
 
 				window.dispatchEvent(event);
 			},
 		}, state.default || state);
 		
+		// Initialize our UI
+		wickedElements.define('[source-id="gridSettingsContainer"]', gridEditor);		
+		wickedElements.define('#grid', gridBuilder.default || gridBuilder);
 		app.init();
+
+		$('[onlynumber]').keypress(function (event) {
+			var keycode = event.which;
+			if (!(event.shiftKey == false && (keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+				event.preventDefault();
+			}
+		});
+
+		// Handle cell click
+		document.getElementById('grid').addEventListener('click', function (event) {
+			if (event.target.parentNode == this) {
+				var cell = event.target;
+				cellIndex = 0;
+				// Figure cell index
+				var el = cell;
+				while ((el = el.previousSibling) != null) {
+					cellIndex++;
+				}
+				app.updateState({
+					cell: cellIndex
+				})
+			}
+		});
 	</script>
 </body>
 
