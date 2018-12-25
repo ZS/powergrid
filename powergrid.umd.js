@@ -163,6 +163,9 @@
 		var tmpArrCol = [];
 		var tmpArrRow = [];
 		for (var i in cells) {
+			if (!cells[i]) {
+				continue;
+			}
 			if (cells[i].row > rows.length && tmpArrRow.indexOf(cells[i].row) == -1) {
 				tmpArrRow.push(cells[i].row);
 				var rowStart = cells[i].row;

@@ -17,7 +17,8 @@ var config = {
 		"text": "Header",
 		"colSpan": 3,
 		"col": 1,
-		"row": 1
+		"row": 1,
+		"align": "stretch"
 	  },
 	  {
 		"text": "Nav",

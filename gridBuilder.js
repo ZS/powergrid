@@ -6,6 +6,22 @@
 import * as powergrid from "./powergrid.js";
 var gridBuilder = {
 
+	html: '',
+	init: function (event) {
+		this.el = event.currentTarget;
+	},
+	onstatechange: function() {
+		this.render();
+	},
+	onconnected: function() {
+		window.addEventListener('statechange', this);
+	},			
+	render: function () {			
+		this.html = this.createGrid($(this.el), config);
+		var css = this.createStyles(config);				
+		$('#grid-css').html(css);
+	},
+
 	/**
 	 * 
 	 */
@@ -25,6 +41,7 @@ var gridBuilder = {
 		var htmlText = '';
 		config.cells.forEach(function (cell, index) {
 			var cls = [];
+			if (!cell) {return;}
 			if (cell.col) {
 				cls.push(config.prefix + 'col-' + cell.col);
 			}

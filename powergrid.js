@@ -132,18 +132,19 @@ function gridCells(cols, rows, prefix, cells) {
 	});
 	var tmpArrCol = [];
 	var tmpArrRow = [];
-	for(var i in cells){
-	if(cells[i].row>rows.length && (tmpArrRow.indexOf(cells[i].row) == -1)){
-		tmpArrRow.push(cells[i].row);
-		var rowStart = cells[i].row;
-		var style = {};
-		style['.' + prefix + 'grid > .' + prefix + 'row-' + (rowStart) + ':nth-child(n)'] = gridCell(0, rowStart);
+	for (var i in cells) {
+		if (!cells[i]) { continue; }
+		if (cells[i].row > rows.length && (tmpArrRow.indexOf(cells[i].row) == -1)) {
+			tmpArrRow.push(cells[i].row);
+			var rowStart = cells[i].row;
+			var style = {};
+			style['.' + prefix + 'grid > .' + prefix + 'row-' + (rowStart) + ':nth-child(n)'] = gridCell(0, rowStart);
 			if (rowStart > 0) {
 				style['.' + prefix + 'grid > .' + prefix + 'row-span-' + (rowStart) + ':nth-child(n)'] = gridCell(0, 0, 0, rowStart);
 			}
 			styles.push(style);
 		}
-		if(cells[i].col>cols.length && (tmpArrCol.indexOf(cells[i].col) == -1)){
+		if (cells[i].col > cols.length && (tmpArrCol.indexOf(cells[i].col) == -1)) {
 			tmpArrCol.push(cells[i].col);
 			var colStart = cells[i].col;
 			var style = {};

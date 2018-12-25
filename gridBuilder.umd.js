@@ -37,6 +37,23 @@
 	}
 
 	var gridBuilder = {
+
+		html: '',
+		init: function init(event) {
+			this.el = event.currentTarget;
+		},
+		onstatechange: function onstatechange() {
+			this.render();
+		},
+		onconnected: function onconnected() {
+			window.addEventListener('statechange', this);
+		},
+		render: function render() {
+			this.html = this.createGrid($(this.el), config);
+			var css = this.createStyles(config);
+			$('#grid-css').html(css);
+		},
+
 		createGrid: function createGrid($grid, config) {
 			var self = this;
 			$grid.attr('class', config.prefix + 'grid fluid');
@@ -53,6 +70,9 @@
 			var htmlText = '';
 			config.cells.forEach(function (cell, index) {
 				var cls = [];
+				if (!cell) {
+					return;
+				}
 				if (cell.col) {
 					cls.push(config.prefix + 'col-' + cell.col);
 				}
