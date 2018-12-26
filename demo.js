@@ -90,6 +90,11 @@ function createAlert(html, $container, type){
 }
 
 function showWarnings(){
+
+	if (!this.statusWarnings) {
+		return;
+	}
+
 	$(".alerts-container").html("");
 
 	// Auto placement warning
@@ -127,6 +132,8 @@ function showWarnings(){
 	var alertsCount = $('.alerts-container .alert').length;
 	if (alertsCount) {
 		$('.help-tab').attr('count', alertsCount);
+	} else {
+		$('.help-tab').removeAttr('count');
 	}
 }
 

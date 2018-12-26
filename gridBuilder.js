@@ -20,6 +20,7 @@ var gridBuilder = {
 		this.html = this.createGrid($(this.el), config);
 		var css = this.createStyles(config);				
 		$('#grid-css').html(css);
+		showWarnings();
 	},
 
 	/**
