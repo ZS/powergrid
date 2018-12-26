@@ -5,7 +5,7 @@
 	<title>Powergrid</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.css" />	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.26.3/jsoneditor.min.css" />	
 	<link rel="stylesheet" href="general.css">
 	<style id="decoratorStylesheet" href="decorate.css"></style>
 	<link rel="stylesheet" href="demo.css">
@@ -261,8 +261,15 @@
 					cellIndex++;
 				}
 				app.updateState({
-					cell: cellIndex
-				})
+					cell: cellIndex,
+					dialogOpen: "true"
+				});
+			}
+			//Open all settings modal when user clicks anywhere on document
+			else if (event.target == this) {
+				app.updateState({
+					dialogOpen: "true"
+				});
 			}
 		});
 	</script>
