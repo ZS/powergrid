@@ -24,7 +24,7 @@ Please review the [guidelines for contributing](CONTRIBUTING.md) to this reposit
 
 - [ ] Make sure your code runs correctly without any errors on browser's console.
 - [ ] Your code should contain tests relevant for the problem you are solving.
-- [ ] Make suree all new and existing tests passed.
+- [ ] Make sure all new and existing tests passed.
 - [ ] Extend the README / documentation, if necessary.
 - [ ] Make sure you are requesting to **pull a topic/feature/bugfix branch** (right side).
 - [ ] Check the commit's or even all commits' message styles matches our requested structure.
