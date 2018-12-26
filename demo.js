@@ -159,7 +159,7 @@ function copyContent(source) {
 	var textarea = document.createElement('textarea');
 
 	if (source == "html") {
-		textarea.value = '<div class="' + config.prefix + ' fluid">\r\n' + htmlText + '</div>';
+		textarea.value = $('#htmlEg').html().replace("<!---", "").replace("//-->", "");
 		var tooltip = document.querySelector("#myTooltipHtml");
 		tooltip.innerHTML = "Copied HTML";
 	}
