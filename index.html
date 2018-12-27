@@ -232,7 +232,11 @@
 			dispatchEvent: function (event) {
 				
 				var newUrl = this.reflectStateInUrl(this.state);
-				config = JSON.parse(window.atob(this.state.q));
+				try {
+					config = JSON.parse(window.atob(this.state.q));
+				} catch (error) {
+					console.warn('Could not fetch the config based on the URL. Proceeding with default config.');
+				}
 				console.log('app', 'statechange', this.state, config);
 				history.pushState(this.state, document ? document.head.title : '', newUrl.href);
 
