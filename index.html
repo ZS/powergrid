@@ -226,6 +226,8 @@
 					state.q = window.btoa(JSON.stringify(config || {}));
 				}
 				this.updateState(state);
+
+				window.addEventListener('statechange', showWarnings);
 			},
 			dispatchEvent: function (event) {
 				

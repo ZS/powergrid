@@ -52,7 +52,6 @@
 			this.html = this.createGrid($(this.el), config);
 			var css = this.createStyles(config);
 			$('#grid-css').html(css);
-			showWarnings();
 		},
 
 		createGrid: function createGrid($grid, config) {
