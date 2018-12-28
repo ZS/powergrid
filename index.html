@@ -219,6 +219,8 @@
 					self.updateState(event.state);
 				});
 
+				window.addEventListener('statechange', stateChangeCallback);
+
 				this.updateUrl();
 				var state = this.reflectState();
 
@@ -227,7 +229,6 @@
 				}
 				this.updateState(state);
 
-				window.addEventListener('statechange', showWarnings);
 			},
 			dispatchEvent: function (event) {
 				
@@ -274,6 +275,7 @@
 			//Open all settings modal when user clicks anywhere on document
 			else if (event.target == this) {
 				app.updateState({
+					cell: null,
 					dialogOpen: "true"
 				});
 			}

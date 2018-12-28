@@ -88,7 +88,15 @@ function createAlert(html, $container, type){
 
 	$container.append($alert);
 }
+function stateChangeCallback(){
+	showWarnings();
+	var targetCellIndex = app.state.cell;
 
+	if(app.state.dialogOpen=='true' && app.state.cell !== undefined){
+
+		document.getElementById('grid').children[targetCellIndex].classList.add('selected-grid');
+	}
+}
 function showWarnings(){
 
 	if (!this.statusWarnings) {
