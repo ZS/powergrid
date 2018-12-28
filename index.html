@@ -5,272 +5,169 @@
 	<title>Powergrid</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.css" />	
-	<style id="common" href="decorator-styles.css">
-		/* General styles */
-		body,
-		html {
-			padding: 0;
-			margin: 0;
-			height: 100%;
-			min-height: 100%;
-			background: rgba(50, 50, 50, 0.5);
-			font-family: Roboto, Arial, Helvetica, sans-serif;
-		}
-
-		.fluid {
-			width: 100%;
-			height: 100%;
-			overflow:auto; /* this helps to stretch container */
-		}
-
-		/* Decorate cells for better identification */
-		#grid {
-			background: transparent;
-		}
-
-		#grid>div {
-			background: white;
-			padding: 10px;
-			border: 1px solid #c0c0c0;
-			box-shadow: 1px 1px 1px #000;
-			border-radius: 10px;
-			color: #000;
-			text-shadow: 1px 1px #c0c0c0;
-			margin: 5px;
-			cursor: pointer;
-		}
-
-		#grid>div:nth-child(n+1) {
-			background: rgba(0, 255, 0, 0.5);
-			border: 1px solid green;
-		}
-
-		#grid>div:nth-child(2n) {
-			background: rgba(0, 255, 255, 0.5);
-			border: 1px solid lightblue;
-		}
-
-		#grid>div:nth-child(3n) {
-			background: rgba(0, 0, 255, 0.5);
-			border: 1px solid blue;
-		}
-
-		#grid>div:nth-child(4n) {
-			background: rgba(255, 0, 255, 0.5);
-			border: 1px solid purple;
-		}
-
-		#grid>div:nth-child(5n) {
-			background: rgba(255, 0, 0, 0.5);
-			border: 1px solid red;
-		}
-
-		#grid>div:nth-child(6n) {
-			background: rgba(255, 127, 0, 0.5);
-			border: 1px solid orange;
-		}
-
-		#grid>div:nth-child(7n) {
-			background: rgba(255, 255, 0, 0.5);
-			border: 1px solid yellow;
-		}
-
-		#grid>div:nth-child(8n) {
-			background: rgba(0, 255, 0, 0.5);
-			border: 1px solid green;
-		}
-		#grid>div:nth-child(n).selected-grid{
-			border: 2px dashed black;
-		}
-	</style>
-	<link rel="stylesheet" href="demo.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.26.3/jsoneditor.min.css" />	
+	<link rel="stylesheet" href="general.css">
+	<style id="decoratorStylesheet" href="decorate.css"></style>
+	<link rel="stylesheet" href="demo.css">
 	<style id="grid-css"></style>
 </head>
 
 <body>
-	<div id="jsonContainer" class="pg-modal">
+	<div id="menuContainer" class="pg-modal" isopen="false">
 		<div class="pg-modal-content">
 			<div class="pg-modal-header">
-				<h3>Configure Grid </h3>
-				<span class="close" onclick="closeModal(this)">&times;</span>
-			</div>
-			<div id="editor-error-container"></div>
-			<div class="pg-modal-body">
-				<!-- JSON editor goes here -->
-			</div>
-			<div class="pg-modal-footer">
-				<button class="button" onclick="saveEditedJSON()">OK</button>
-			</div>
-		</div>
-	</div>
-
-	<div id="gridUIContainer" class="pg-modal">
-		<div class="pg-modal-content">
-			<div class="pg-modal-header">
-				<h3>Configure Grid </h3>
-				<span class="close" onclick="closeModal(this)">&times;</span>
+				<br>
 			</div>
 			<div class="pg-modal-body">
-				<div class="cell-form-grid">
-					<div>Name: </div>
-					<div><input type="text" id="grid-name"></div>
-					<div>Version:</div>
-					<div><input type="text" id="grid-version"></div>
-					<div>Class prefix:</div>
-					<div><input type="text" id="grid-prefix"></div>
-					<div>No of Grid Columns:</div>
-					<div>
-						<button class="btn-action" onclick="addColRow('col','1fr')">Add column</button>
-						<div id="col-container"></div>
-						<p style="color: red; display: none" id="col-error">Others field cannot be left blank</p>
-					</div>
-					<div>No of Grid Rows:</div>
-					<div>
-						<button class="btn-action" onclick="addColRow('row','1fr')">Add row</button>
-						<div id="row-container"></div>	
-						<div style="color: red; display: none" id="row-error">Others field cannot be left blank</div>
-					</div>
-					<div>Align</div>
-					<div>
-						<select name="" id="grid-align-select">
-							<option value="">--Select--</option>
-							<option value="stretch">Stretch</option>
-							<option value="start">Start</option>
-							<option value="center">Center</option>
-							<option value="end">End</option>
-						</select>
-					</div>
-					<div>Justify</div>
-					<div>
-						<select id="grid-justify-select">
-							<option value="">--Select--</option>
-							<option value="stretch">Stretch</option>
-							<option value="start">Start</option>
-							<option value="center">Center</option>
-							<option value="end">End</option>
-						</select>
-					</div>
-					<div>Number of cells</div>
-					<div>
-						<input type="number" id="grid-cells-no" min="0" onlynumber/>
-						<p>Note: Modifying this field will replace existing cells. To configure cells click each one of them.</p>
-					</div>
+				<pg-tabs-container>
+				<div class="power-grid-tab-list">
+					<button tab-id="gridSettingsContainer" class="tablinks active open-ui-configuration">Grid
+						Settings</button>
+					<button tab-id="configJSONContainer" class="tablinks show-json-editor">Config JSON</button>
+					<button tab-id="sourceCodeContainer" class="tablinks show-source-code">Source Code</button>
+					<button tab-id="helpContainer" class="tablinks help-tab">Help</button>
 				</div>
+				<div source-id="gridSettingsContainer" class="power-grid-tabcontent">
+					<form>
+						<legend>Size</legend><hr>
+						<div class="row">
+							<div class="form-group col-4">
+								<label>Rows:								
+								<input class="form-control" type="number" min="1" max="99"  name="rows">
+								</label>
+							</div>
+							<div class="form-group col-4">
+								<label>Cols:
+								<input type="number" min="1" max="99" class="form-control" name="cols"></label>
+							</div>
+							<div class="form-group col-4">
+								<label>Cells:								
+								<input class="form-control" type="number" min="1" max="99" name="cells"></label>
+							</div>
+						</div>
+						<hr>
+						<legend>Track or item
+								<select name="track"  class="form-control" ><option></option></select>
+						</legend>
+						<div class="row">
+							<div class="form-group col-6">
+								<label for="value">Track size</label>
+								<input name="value" class="form-control"></input>		
+							</div>
+						</div>
+						<div class="row"  id="cellProperties">
+							<div class="col-6 form-group">
+								<label>Text:<input type="text" name="cell-text" class="form-control"></label>
+							</div>	
+							<div class="col-6 form-group">
+								<label>Column Start:<input type="number" min="1" onlynumber name="cell-col" class="form-control"></label>
+							</div>	
+							<div class="col-6 form-group">
+								<label>Column Span:<input type="number" min="1" onlynumber name="cell-colSpan" class="form-control"></label>
+							</div>	
+							<div class="col-6 form-group">
+								<label>Row Start:<input type="number" min="1" onlynumber name="cell-row" class="form-control"></label>
+							</div>	
+							<div class="col-6 form-group">
+								<label>Row Span:<input type="number" min="1" onlynumber name="cell-rowSpan" class="form-control"></label>
+							</div>	
+							<div class="col-6 form-group">
+								<label>Order:<input type="number" min="1" onlynumber name="cell-order" class="form-control"></label>
+							</div>	
+							<div class="col-6 form-group">
+								<label>Align:<select name="cell-align" class="form-control">
+									<option value="">--Select--</option>
+									<option value="stretch">Stretch</option>
+									<option value="start">Start</option>
+									<option value="center">Center</option>
+									<option value="end">End</option>
+									</select>
+								</label>	
+							</div>	
+							<div class="col-6 form-group"><label>Justify:<select name="cell-justify" class="form-control">
+										<option value="">--Select--</option>
+										<option value="stretch">Stretch</option>
+										<option value="start">Start</option>
+										<option value="center">Center</option>
+										<option value="end">End</option>
+									</select>
+								</label>
+							</div>	
+						</div>
+
+					</form>
+					
+				</div>
+				<div source-id="configJSONContainer" id="configJSONContainer" class="power-grid-tabcontent">
+					<h3>Configure Grid using JSON </h3>
+					<div id="editor-error-container"></div>
+					<div class="json-editor">
+		
+					</div>
+					<button class="button" onclick="saveEditedJSON(this)">OK</button>
+				</div>
+				<div source-id="sourceCodeContainer" id="sourceCodeContainer" class="power-grid-tabcontent">
+					<h3>Source Code</h3>
+					<pg-tabs-container>
+					<div class="power-grid-tab-list">
+						<button tab-id="htmlContainer" class="tablinks active">HTML</button>
+						<button tab-id="cssContainer" class="tablinks">CSS</button>
+						<button tab-id="fullSourceContainer" class="tablinks">Full Source</button>
+					</div>
+		
+					<div source-id="htmlContainer" class="power-grid-tabcontent">
+						<div class="power-grid-tooltip copyBtn">
+							<button onclick='copyContent("html")' class="btn-action" onmouseout='tooltipOutFunc("html")'>
+								<span class="power-grid-tooltiptext" id="myTooltipHtml">Copy HTML to clipboard</span>Copy
+							</button>
+						</div>
+		
+						<code for="htmlEg" id="showHTML" class="hljs html"></code>
+					</div>
+		
+					<div source-id="cssContainer" class="power-grid-tabcontent">
+		
+						<div class="power-grid-tooltip copyBtn">
+							<button onclick='copyContent("css")' class="btn-action" onmouseout='tooltipOutFunc("css")'>
+								<span class="power-grid-tooltiptext" id="myTooltipCss">Copy CSS to clipboard</span>Copy
+							</button>
+						</div>
+						<code for="grid-css" class="hljs css"></code>
+					</div>
+		
+					<div source-id="fullSourceContainer" class="power-grid-tabcontent">
+						<div class="power-grid-tooltip copyBtn">
+							<button onclick='copyContent("full-source")' class="btn-action" onmouseout='tooltipOutFunc("full-source")'>
+								<span class="power-grid-tooltiptext" id="myTooltipFullSource">Copy Source to clipboard</span>Copy
+							</button>
+						</div>
+						<code for="full-source" class="hljs html"></code>
+					</div>
+					</pg-tabs-container>
+					<button onclick="closeModal(this)" class="button">Close</button>
+				</div>
+				<div source-id="helpContainer" class="power-grid-tabcontent">
+					<section>
+						<div class="alerts-container"></div>
+						<p class="alerts-help">There are some issues with your current configuration</p>
+					</section>
+					<section>
+						<h3>About Powergrid</h3>
+						<ul>
+							<li>Version : <span id="pg-version"></span></li>
+							<li><a href="https://github.com/ZS/powergrid#powergrid" target="_blank">What is Powergrid?</a></li>
+							<li><a href="https://github.com/ZS/powergrid/wiki#welcome-to-the-powergrid-wiki" target="_blank">Welcome</a></li>
+							<li><a href="https://github.com/ZS/powergrid/wiki/Documentation" target="_blank">Documentation</a></li>
+							<li><a href="https://github.com/ZS/powergrid/issues" target="_blank">Report Issue</a></li>
+							<li><a href="https://github.com/ZS/powergrid/blob/master/LICENSE" target="_blank">View License</a></li>
+						</ul>
+					</section>
+				</div>
+				</pg-tabs-container>
+		
 			</div>
 			<div class="pg-modal-footer">
-				<button class="button" onclick="setGridData()">OK</button>
-			</div>
-		</div>
-	</div>
-
-	<div id="cellContainer" class="pg-modal">
-		<div class="pg-modal-content">
-			<div class="pg-modal-header">
-				<h3>Configure Cell</h3>
-				<span class="close" onclick="closeModal(this)">&times;</span>
-			</div>
-			<div class="pg-modal-body">
-				<div class="cell-form-grid">
-					<div>Text:</div>
-					<div>
-						<input type="text" id="cell-text" />
-					</div>
-					<div>Cloumn Start:</div>
-					<div>
-						<input type="number" min="1"  onlynumber id="cell-col" />
-					</div>
-					<div>Cloumn Span:</div>
-					<div>
-						<input type="number" min="1" onlynumber id="cell-col-span" />
-					</div>
-					<div>Row Start:</div>
-					<div>
-						<input type="number" min="1" onlynumber id="cell-row" />
-					</div>
-					<div>Row Span:</div>
-					<div>
-						<input type="number" min="1" onlynumber id="cell-row-span" />
-					</div>
-					<div>Order:</div>
-					<div>
-						<input type="number" min="1" onlynumber id="cell-order" />
-					</div>
-					<div>Align:</div>
-					<div>
-						<select id="cell-align">
-							<option value="">--Select--</option>
-							<option value="stretch">Stretch</option>
-							<option value="start">Start</option>
-							<option value="center">Center</option>
-							<option value="end">End</option>
-						</select>
-					</div>
-					<div>Justify:</div>
-					<div>
-						<select id="cell-justify">
-							<option value="">--Select--</option>
-							<option value="stretch">Stretch</option>
-							<option value="start">Start</option>
-							<option value="center">Center</option>
-							<option value="end">End</option>
-						</select>
-					</div>
-				</div>
-			</div>
-			<div class="pg-modal-footer">
-				<button class="button" onclick="saveCellOptions()">SAVE</button>
-				<button class="button button-delete" onclick="deleteCell()" style="float:right">Delete Cell</button>
-			</div>
-		</div>
-	</div>
-
-	<div id="sourceContainer" class="pg-modal">
-		<!-- Modal content -->
-		<div class="pg-modal-content">
-			<div class="pg-modal-header">
-				<h3>Source</h3>
-				<span class="close" onclick="closeModal(this)">&times;</span>
-			</div>
-			<div class="pg-modal-body">
-				<div class="power-grid-tab">
-					<button class="tablinks" onclick="openSourceContent(event, 'htmlContainer')" id="defaultOpenTab">HTML</button>
-					<button class="tablinks" onclick="openSourceContent(event, 'cssContainer')">CSS</button>
-					<button class="tablinks" onclick="openSourceContent(event, 'fullSourceContainer')">Full Source</button>
-				</div>
-
-				<div id="htmlContainer" class="power-grid-tabcontent">
-					<div class="power-grid-tooltip copyBtn">
-						<button onclick='copyContent("html")' class="btn-action" onmouseout='tooltipOutFunc("html")'>
-							<span class="power-grid-tooltiptext" id="myTooltipHtml">Copy HTML to clipboard</span>Copy
-						</button>
-					</div>
-
-					<code for="htmlEg" id="showHTML" class="hljs html"></code>
-				</div>
-
-				<div id="cssContainer" class="power-grid-tabcontent">
-
-					<div class="power-grid-tooltip copyBtn">
-						<button onclick='copyContent("css")' class="btn-action" onmouseout='tooltipOutFunc("css")'>
-							<span class="power-grid-tooltiptext" id="myTooltipCss">Copy CSS to clipboard</span>Copy
-						</button>
-					</div>
-					<code for="grid-css" class="hljs css"></code>
-				</div>
-
-				<div id="fullSourceContainer" class="power-grid-tabcontent">
-					<div class="power-grid-tooltip copyBtn">
-						<button onclick='copyContent("full-source")' class="btn-action" onmouseout='tooltipOutFunc("full-source")'>
-							<span class="power-grid-tooltiptext" id="myTooltipFullSource">Copy Source to clipboard</span>Copy
-						</button>
-					</div>
-					<code for="full-source" class="hljs html"></code>
-				</div>
-
-			</div>
-			<div class="pg-modal-footer">
-				<button onclick="closeModal(this)" class="button">Close</button>
+		
 			</div>
 		</div>
 	</div>
@@ -282,42 +179,108 @@
 
 	</div>
 
-	<div id="menu-bar" class="left-shadow-overlay">
-		<div class="handle">&#10094;</div>
-		<h3>Configuration
-			<br>
-			<small>
-				<!--<span class="glyphicon glyphicon-info-sign"></span>-->Press
-				<kbd>ESC</kbd> to close</small>
-		</h3>
-		<a href="javascript:void(0)" id="open-ui-configuration">Configure Grid</a>
-		<a onclick="showEditJSONModal()" href="javascript:void(0)">Configure using JSON</a>
-		<a href="javascript:void(0)" id="open-source-code">View Source</a>
-	</div>
-
 	<div id="htmlEg">
 
 	</div>
-	<div class="alerts-container">
-		
-	</div>
-	<template id="alert-template">
-		<div class="alert alert-warning alert-dismissible fade show">
-			<strong alert-type></strong> <span class="message">You should check in on some of those fields below.</span>
-			<button type="button" class="close" data-dismiss="alert">
-				<span>&times;</span>
-			</button>
+
+	<div id="clickAnywhereOverlay" style="display:none;">
+		<div class="clickAnywhereContent">
+			<img src="clickAnywhere.png" />
+			<div class="clickAnywhereText">
+				Click anywhere on the page to open configuration settings.
+				<button class="button got-it-button">Got it</button>
+			</div>
 		</div>
-	</template>
+	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	 crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@bblocks/compose@0.1.1/compose.umd.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/slideReveal/1.1.2/jquery.slidereveal.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/slideReveal/1.1.2/jquery.slidereveal.min.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
-	<script src="powergrid.umd.js"></script>	
+	<script src="https://unpkg.com/wicked-elements@0.4.3/min.js"></script>
+	<script src="customEvent.poly.js"></script>
+	<script src="powergrid.umd.js"></script>
 	<script src="demo.js"></script>
+	<script src="state.umd.js"></script>	
+	<script src="defaultConfig.js"></script>
+	<script src="alerts.js"></script>
+	<script src="tabs.js"></script>
+	<script src="modal.js"></script>
+	<script src="gridBuilder.umd.js"></script>
+	<script src="gridEditor.js"></script>
+	<script>
+		// Application and state management
+		var app = Object.assign({
+			init: function () {
+				var self = this;
+				window.addEventListener('popstate', function (event) {
+					self.updateState(event.state);
+				});
+
+				window.addEventListener('statechange', stateChangeCallback);
+
+				this.updateUrl();
+				var state = this.reflectState();
+
+				if (!state.q) {
+					state.q = window.btoa(JSON.stringify(config || {}));
+				}
+				this.updateState(state);
+
+			},
+			dispatchEvent: function (event) {
+				
+				var newUrl = this.reflectStateInUrl(this.state);
+				try {
+					config = JSON.parse(window.atob(this.state.q));
+				} catch (error) {
+					console.warn('Could not fetch the config based on the URL. Proceeding with default config.');
+				}
+				console.log('app', 'statechange', this.state, config);
+				history.pushState(this.state, document ? document.head.title : '', newUrl.href);
+
+				window.dispatchEvent(event);
+			},
+		}, state.default || state);
+		
+		// Initialize our UI
+		wickedElements.define('[source-id="gridSettingsContainer"]', gridEditor);		
+		wickedElements.define('#grid', gridBuilder.default || gridBuilder);
+		app.init();
+
+		$('[onlynumber]').keypress(function (event) {
+			var keycode = event.which;
+			if (!(event.shiftKey == false && (keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+				event.preventDefault();
+			}
+		});
+
+		// Handle cell click
+		document.getElementById('grid').addEventListener('click', function (event) {
+			if (event.target.parentNode == this) {
+				var cell = event.target;
+				cellIndex = 0;
+				// Figure cell index
+				var el = cell;
+				while ((el = el.previousSibling) != null) {
+					cellIndex++;
+				}
+				app.updateState({
+					cell: cellIndex,
+					dialogOpen: "true"
+				});
+			}
+			//Open all settings modal when user clicks anywhere on document
+			else if (event.target == this) {
+				app.updateState({
+					cell: null,
+					dialogOpen: "true"
+				});
+			}
+		});
+	</script>
 </body>
 
 </html>

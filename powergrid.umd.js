@@ -142,7 +142,7 @@
   * @param {string} prefix 
   * @return {array}
   */
-	function gridCells(cols, rows, prefix) {
+	function gridCells(cols, rows, prefix, cells) {
 		var styles = [];
 		cols.forEach(function (col, index) {
 			var style = {};
@@ -160,11 +160,38 @@
 			}
 			styles.push(style);
 		});
+		var tmpArrCol = [];
+		var tmpArrRow = [];
+		for (var i in cells) {
+			if (!cells[i]) {
+				continue;
+			}
+			if (cells[i].row > rows.length && tmpArrRow.indexOf(cells[i].row) == -1) {
+				tmpArrRow.push(cells[i].row);
+				var rowStart = cells[i].row;
+				var style = {};
+				style['.' + prefix + 'grid > .' + prefix + 'row-' + rowStart + ':nth-child(n)'] = gridCell(0, rowStart);
+				if (rowStart > 0) {
+					style['.' + prefix + 'grid > .' + prefix + 'row-span-' + rowStart + ':nth-child(n)'] = gridCell(0, 0, 0, rowStart);
+				}
+				styles.push(style);
+			}
+			if (cells[i].col > cols.length && tmpArrCol.indexOf(cells[i].col) == -1) {
+				tmpArrCol.push(cells[i].col);
+				var colStart = cells[i].col;
+				var style = {};
+				style['.' + prefix + 'grid > .' + prefix + 'col-' + colStart + ':nth-child(n)'] = gridCell(colStart);
+				if (colStart > 0) {
+					style['.' + prefix + 'grid > .' + prefix + 'col-span-' + colStart + ':nth-child(n)'] = gridCell(0, 0, colStart);
+				}
+				styles.push(style);
+			}
+		}
 		return styles;
 	};
 
 	/**
-  * Auto place cells based on the order in the container
+  * Auto place grid items based on the order in the container
   * @param {array} cols 
   * @param {array} rows 
   * @param {string} prefix 
@@ -187,7 +214,7 @@
 	};
 
 	/**
-  * Create a rules to align cells in a grid
+  * Create rules to align cells in a grid
   * @param {string} prefix 
   * @return {array}
   */
@@ -251,7 +278,7 @@
   */
 	function toCss(config) {
 		// CSS Template
-		return "/********** " + config.name + " v" + config.version + " " + config.url + " **************/\n/* Grid lines template */\n" + objToCss(grid(config.cols, config.rows, config.prefix)) + "\n\n/* Auto placement of grid cells based on the order */\n" + arrayToCss(gridAuto(config.cols, config.rows, config.prefix)) + "\n\n/* Explicit placement of grid cells */\n" + arrayToCss(gridCells(config.cols, config.rows, config.prefix)) + "\n\n/* Order of layers */\n" + cellOrder(config.cells, config.prefix) + "\n\n/* Alignment */\n" + arrayToCss(cellAlign(config.prefix)) + "\n";
+		return "/********** " + config.name + " v" + config.version + " " + config.url + " **************/\n/* Grid lines template */\n" + objToCss(grid(config.cols, config.rows, config.prefix)) + "\n\n/* Auto placement of grid items based on the order */\n" + arrayToCss(gridAuto(config.cols, config.rows, config.prefix)) + "\n\n/* Explicit placement of grid cells */\n" + arrayToCss(gridCells(config.cols, config.rows, config.prefix, config.cells)) + "\n\n/* Order of layers */\n" + cellOrder(config.cells, config.prefix) + "\n\n/* Alignment */\n" + arrayToCss(cellAlign(config.prefix)) + "\n";
 	}
 
 	exports.objToCss = objToCss;

@@ -5,7 +5,11 @@
   "main": "powergrid.js",
   "scripts": {
     "test": "jasmine",
-    "umd": "./node_modules/.bin/babel powergrid.js --out-file powergrid.umd.js"
+    "umdPowergrid": "./node_modules/.bin/babel powergrid.js --out-file powergrid.umd.js",
+    "umdBuilder": "./node_modules/.bin/babel gridBuilder.js --out-file gridBuilder.umd.js",
+    "umdState": "./node_modules/.bin/babel state.js --out-file state.umd.js",
+    "umdGridbuilder": "./node_modules/.bin/babel gridBuilder.js --out-file gridBuilder.umd.js",
+    "umd": "npm rum umdPowergrid && npm run umdState && npm run umdGridbuilder"
   },
   "repository": {
     "type": "git",
@@ -17,9 +21,7 @@
     "url": "https://github.com/bBlocks/powergrid/issues"
   },
   "homepage": "https://github.com/bBlocks/powergrid#readme",
-  "dependencies": {
-    "@bblocks/compose": "^0.1.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
