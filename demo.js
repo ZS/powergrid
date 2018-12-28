@@ -93,8 +93,10 @@ function stateChangeCallback(){
 	var targetCellIndex = app.state.cell;
 
 	if(app.state.dialogOpen=='true' && app.state.cell !== undefined){
-
-		document.getElementById('grid').children[targetCellIndex].classList.add('selected-grid');
+		var targetCell = document.getElementById('grid').children[targetCellIndex];
+		if(targetCell){
+			targetCell.classList.add('selected-grid');
+		}
 	}
 }
 function showWarnings(){
@@ -107,7 +109,7 @@ function showWarnings(){
 
 	// Auto placement warning
 	for(var i=0;i<config.cells.length;i++){
-		if(config.cells[i].colSpan>config.cols.length){
+		if((config.cells[i])&&(config.cells[i].colSpan>config.cols.length)){
 			createAlert(statusWarnings["auto-placement"]);
 			break;
 		}
