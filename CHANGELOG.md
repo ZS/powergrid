@@ -1,4 +1,21 @@
 # Changelog
+## [v0.4](https://github.com/ZS/powergrid/compare/v0.2...master) (2018-28-12)
+
+### Added
+- Improved overall UI of the demo.
+- There is no side configuration panel now. We can open a configuration modal by clicking anywhere on the grid.
+- All the configurations (Grid settings, JSON Editor, Source code) have been accomodated in one modal only.
+- User interface for the Grid settings has been improved.
+- Added a help section in the modal where we can see all the warnings and some important web links.
+- UI is now driven through URL parameters, so you can easily share your configuration.
+- Enabled use of images instead of text in the configuration.
+- Used [wicked-elements](https://github.com/WebReflection/wicked-elements) library to make our code more modular.
+
+### Fixes
+- Fixed: Let explicitly position items in rows or columns we don't define in the grid.
+- Moved warnings inside configuration modal.
+- Filled some gaps in community checklist.
+- Various minor fixes and enhancements. 
 
 ## [v0.2](https://github.com/ZS/powergrid/compare/v0.1...v0.2) (2018-26-07)
 
