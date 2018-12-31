@@ -10,11 +10,11 @@
 - UI is now driven through URL parameters, so you can easily share your configuration.
 - Enabled use of images instead of text in the configuration.
 - Used [wicked-elements](https://github.com/WebReflection/wicked-elements) library to make our code more modular.
+- Improved community checklist.
 
 ### Fixes
 - Fixed: Let explicitly position items in rows or columns we don't define in the grid.
 - Moved warnings inside configuration modal.
-- Filled some gaps in community checklist.
 - Various minor fixes and enhancements. 
 
 ## [v0.2](https://github.com/ZS/powergrid/compare/v0.1...v0.2) (2018-26-07)
