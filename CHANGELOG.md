@@ -4,7 +4,7 @@
 ### Added
 - Improved overall UI of the demo.
 - There is no side configuration panel now. We can open a configuration modal by clicking anywhere on the grid.
-- All the configurations (Grid settings, JSON Editor, Source code) have been accomodated in one modal only.
+- All the configurations (Grid settings, JSON Editor, Source code) have been accommodated in one modal only.
 - User interface for the Grid settings has been improved.
 - Added a help section in the modal where we can see all the warnings and some important web links.
 - UI is now driven through URL parameters, so you can easily share your configuration.
@@ -28,7 +28,7 @@
 ### Fixed
 - Fixed a bug in functionality that allows setting Grid and Cell level align/justify properties.
 - Fixed: Saving a config with invalid JSON shouldn't reset it to default.
-- Fixed: Classes for grid aligment are missing in the resulting code.
+- Fixed: Classes for grid alignment are missing in the resulting code.
 - Various minor fixes.
 
 ## [v0.1](https://github.com/ZS/powergrid/compare/v0.1...master) (2018-16-07)

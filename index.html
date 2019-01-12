@@ -227,7 +227,7 @@
 				if (!state.q) {
 					state.q = window.btoa(JSON.stringify(config || {}));
 				}
-				this.updateState(state);
+				this.updateState(state,true);
 
 			},
 			dispatchEvent: function (event) {
@@ -239,7 +239,9 @@
 					console.warn('Could not fetch the config based on the URL. Proceeding with default config.');
 				}
 				console.log('app', 'statechange', this.state, config);
-				history.pushState(this.state, document ? document.head.title : '', newUrl.href);
+				if (!event.detail.dontPush) {
+					history.pushState(this.state, document ? document.head.title : '', newUrl.href);
+				}
 
 				window.dispatchEvent(event);
 			},
