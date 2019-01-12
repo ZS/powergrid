@@ -3,6 +3,24 @@ var gridEditor = {
 	init: function(event) {
 		this.el = event.target;
 	},
+	onclick: function(event) {
+		if (event.target.name != "deleteItem") {return;}
+		var select = this.el.querySelector('[name="track"]');
+		if (select.selectedIndex == -1) {return;}
+		var option = select.options[select.selectedIndex];
+		var arr = option.value.split("-");
+		var itemType = arr[0]; // tack or cell
+		var itemIndex = arr[1]*1;	
+		if (itemType == 'cell') {
+			config.cells.splice(itemIndex, 1);
+		} else if (itemType == 'col') {
+			config.cols.splice(itemIndex, 1);
+		} else if (itemType == 'row') {
+			config.rows.splice(itemIndex, 1);
+		}
+		// Reflect config changes in the state
+		app.updateState({q: window.btoa(JSON.stringify(config || {})), row: null, col: null, cell: null});
+	},
 	onconnected: function() {
 		window.addEventListener('statechange', this);
 	},
@@ -144,5 +162,6 @@ var gridEditor = {
 				this.updateField('value', value);
 			}
 		}
+
 	}
 };

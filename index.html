@@ -45,10 +45,10 @@
 								<input class="form-control" type="number" min="1" max="99" name="cells"></label>
 							</div>
 						</div>
-						<legend>Grid alignment</legend><hr>
+						<legend>Alignment</legend><hr>
 						<div class="row">
 							<div class="form-group col-6">
-								<label>Align:<select name="align" class="form-control">
+								<label>Align items:<select name="align" class="form-control">
 									<option value="">--Select--</option>
 									<option value="stretch">Stretch</option>
 									<option value="start">Start</option>
@@ -58,7 +58,7 @@
 								</label>	
 							</div>
 							<div class="from-group col-6">
-								<label>Justify:<select name="justify" class="form-control">
+								<label>Justify items:<select name="justify" class="form-control">
 									<option value="">--Select--</option>
 									<option value="stretch">Stretch</option>
 									<option value="start">Start</option>
@@ -72,14 +72,14 @@
 								<select name="track"  class="form-control" ><option></option></select>
 						</legend>
 						<div class="row">
-							<div class="form-group col-6">
+							<div class="form-group col-12">
 								<label for="value">Track size</label>
-								<input name="value" class="form-control"></input>		
+								<input name="value" class="form-control" placeholder="length percentage fraction max-content min-content minmax(min, max) auto" title="200px 20% 1fr max-content min-content minmax(min-content, 1fr) auto"></input>		
 							</div>
 						</div>
 						<div class="row"  id="cellProperties">
 							<div class="col-6 form-group">
-								<label>Text:<input type="text" name="cell-text" class="form-control"></label>
+								<label>Text:<input type="text" name="cell-text" class="form-control" placeholder="" title=""></label>
 							</div>	
 							<div class="col-6 form-group">
 								<label>Column Start:<input type="number" min="1" onlynumber name="cell-col" class="form-control"></label>
@@ -114,9 +114,14 @@
 										<option value="end">End</option>
 									</select>
 								</label>
-							</div>	
+							</div>
+							
 						</div>
-
+						<div class="row">
+							<div class="col-6 form-group">
+								<button type="button" class="btn btn-danger" name="deleteItem">Delete</button>
+							</div>
+						</div>
 					</form>
 					
 				</div>
