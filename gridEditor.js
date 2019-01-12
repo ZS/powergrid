@@ -34,6 +34,10 @@ var gridEditor = {
 			changes[type] = value;
 			app.updateState(changes);
 			return;
+		} else if (event.target.name == "align") {
+			config.align = event.target.value;
+		} else if (event.target.name == "justify") {
+			config.justify = event.target.value;
 		} else if (event.target.name == "value") { // Update config for tracks
 			if (this.state.col) {
 				config.cols[1*this.state.col] = event.target.value;
@@ -89,6 +93,8 @@ var gridEditor = {
 		this.updateField('rows',  config.rows.length);
 		this.updateField('cols',  config.cols.length);
 		this.updateField('cells', config.cells.length);
+		this.updateField("align", config.align || "");
+		this.updateField("justify", config.justify || "");
 		
 		var selectField, value, cellIndex;
 
