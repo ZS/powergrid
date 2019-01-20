@@ -45,19 +45,41 @@
 								<input class="form-control" type="number" min="1" max="99" name="cells"></label>
 							</div>
 						</div>
+						<legend>Alignment</legend><hr>
+						<div class="row">
+							<div class="form-group col-6">
+								<label>Align items:<select name="align" class="form-control">
+									<option value="">--Select--</option>
+									<option value="stretch">Stretch</option>
+									<option value="start">Start</option>
+									<option value="center">Center</option>
+									<option value="end">End</option>
+									</select>
+								</label>	
+							</div>
+							<div class="from-group col-6">
+								<label>Justify items:<select name="justify" class="form-control">
+									<option value="">--Select--</option>
+									<option value="stretch">Stretch</option>
+									<option value="start">Start</option>
+									<option value="center">Center</option>
+									<option value="end">End</option>
+								</select>
+							</div>
+						</div>
 						<hr>
 						<legend>Track or item
 								<select name="track"  class="form-control" ><option></option></select>
 						</legend>
 						<div class="row">
-							<div class="form-group col-6">
+							<div class="form-group col-12">
 								<label for="value">Track size</label>
-								<input name="value" class="form-control"></input>		
+								<input name="value" class="form-control" placeholder="length percentage fraction max-content min-content minmax(min, max) auto" title="200px 20% 1fr max-content min-content minmax(min-content, 1fr) auto"></input>		
 							</div>
 						</div>
 						<div class="row"  id="cellProperties">
 							<div class="col-6 form-group">
-								<label>Text:<input type="text" name="cell-text" class="form-control"></label>
+								<label>Text:<input type="text" name="cell-text" class="form-control" placeholder="" title=""></label>
 							</div>	
 							<div class="col-6 form-group">
 								<label>Column Start:<input type="number" min="1" onlynumber name="cell-col" class="form-control"></label>
@@ -92,9 +114,14 @@
 										<option value="end">End</option>
 									</select>
 								</label>
-							</div>	
+							</div>
+							
 						</div>
-
+						<div class="row">
+							<div class="col-6 form-group">
+								<button type="button" class="btn btn-danger" name="deleteItem">Delete</button>
+							</div>
+						</div>
 					</form>
 					
 				</div>
@@ -196,7 +223,6 @@
 	 crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@bblocks/compose@0.1.1/compose.umd.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.19.0/jsoneditor.min.js"></script>
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/slideReveal/1.1.2/jquery.slidereveal.min.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/wicked-elements@0.4.3/min.js"></script>
@@ -227,7 +253,7 @@
 				if (!state.q) {
 					state.q = window.btoa(JSON.stringify(config || {}));
 				}
-				this.updateState(state);
+				this.updateState(state,true);
 
 			},
 			dispatchEvent: function (event) {
@@ -239,7 +265,9 @@
 					console.warn('Could not fetch the config based on the URL. Proceeding with default config.');
 				}
 				console.log('app', 'statechange', this.state, config);
-				history.pushState(this.state, document ? document.head.title : '', newUrl.href);
+				if (!event.detail.dontPush) {
+					history.pushState(this.state, document ? document.head.title : '', newUrl.href);
+				}
 
 				window.dispatchEvent(event);
 			},

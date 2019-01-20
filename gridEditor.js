@@ -3,6 +3,24 @@ var gridEditor = {
 	init: function(event) {
 		this.el = event.target;
 	},
+	onclick: function(event) {
+		if (event.target.name != "deleteItem") {return;}
+		var select = this.el.querySelector('[name="track"]');
+		if (select.selectedIndex == -1) {return;}
+		var option = select.options[select.selectedIndex];
+		var arr = option.value.split("-");
+		var itemType = arr[0]; // tack or cell
+		var itemIndex = arr[1]*1;	
+		if (itemType == 'cell') {
+			config.cells.splice(itemIndex, 1);
+		} else if (itemType == 'col') {
+			config.cols.splice(itemIndex, 1);
+		} else if (itemType == 'row') {
+			config.rows.splice(itemIndex, 1);
+		}
+		// Reflect config changes in the state
+		app.updateState({q: window.btoa(JSON.stringify(config || {})), row: null, col: null, cell: null});
+	},
 	onconnected: function() {
 		window.addEventListener('statechange', this);
 	},
@@ -34,6 +52,10 @@ var gridEditor = {
 			changes[type] = value;
 			app.updateState(changes);
 			return;
+		} else if (event.target.name == "align") {
+			config.align = event.target.value;
+		} else if (event.target.name == "justify") {
+			config.justify = event.target.value;
 		} else if (event.target.name == "value") { // Update config for tracks
 			if (this.state.col) {
 				config.cols[1*this.state.col] = event.target.value;
@@ -89,6 +111,8 @@ var gridEditor = {
 		this.updateField('rows',  config.rows.length);
 		this.updateField('cols',  config.cols.length);
 		this.updateField('cells', config.cells.length);
+		this.updateField("align", config.align || "");
+		this.updateField("justify", config.justify || "");
 		
 		var selectField, value, cellIndex;
 
@@ -138,5 +162,6 @@ var gridEditor = {
 				this.updateField('value', value);
 			}
 		}
+
 	}
 };

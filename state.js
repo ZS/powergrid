@@ -76,7 +76,7 @@ var state = {
 	 * @param {object} newObject - Object with changes in the state to apply
 	 * @fires statechange
 	 */
-	updateState: function (newObject) {
+	updateState: function (newObject,dontPush) {
 		var whatChanged;
 		if (this.state) {
 			var combinded = Object.create(this.state);
@@ -99,7 +99,7 @@ var state = {
 			this.state = newObject;
 			whatChanged = newObject;
 		}
-		var event = new CustomEvent('statechange', { detail: { newState: this.state, changed: whatChanged } });
+		var event = new CustomEvent('statechange', { detail: { newState: this.state, changed: whatChanged, dontPush: dontPush } });
 		this.dispatchEvent(event);
 	},
 
