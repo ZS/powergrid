@@ -1,6 +1,6 @@
 var config = {
 	"name": "Power Grid",
-	"version": "0.4.0",
+	"version": "0.5.1",
 	"url": "https://github.com/ZS/powergrid/",
 	"cols": [
 	  "auto",

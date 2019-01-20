@@ -39,6 +39,7 @@ Also check [changelog](https://github.com/ZS/powergrid/blob/master/CHANGELOG.md)
 
 # Credits
 
+- [JQuery](https://github.com/jquery/jquery) Copyright JS Foundation and other contributors, https://js.foundation/
 - [Wicked Elements](https://github.com/WebReflection/wicked-elements/) Copyright (c) 2018, Andrea Giammarchi, @WebReflection under ISC
 - [Bootstrap](https://github.com/twbs/bootstrap) Copyright (c) 2011-2019 Twitter, Inc. Copyright (c) 2011-2019 The Bootstrap Authors under MIT
 - [Highlight.js](https://github.com/highlightjs/highlight.js/) Copyright (c) 2006, [Ivan Sagalaev](https://github.com/highlightjs/highlight.js/blob/master/LICENSE)

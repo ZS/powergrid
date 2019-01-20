@@ -1,6 +1,6 @@
 {
   "name": "powergrid",
-  "version": "0.1.0",
+  "version": "0.5.1",
   "description": "Powerful grid system with CSS grid layout. Works in all modern browsers and IE11.",
   "main": "powergrid.js",
   "scripts": {
