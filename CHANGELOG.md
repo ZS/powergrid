@@ -1,4 +1,15 @@
 # Changelog
+
+## [v0.5](https://github.com/ZS/powergrid/releases/tag/v0.5)
+
+### New
+- #54 Add UI to delete selected cell or track.
+- #53 Add UI to control grid level alignment. enhancement
+- Added credits
+
+### Fixes
+- #52 It is impossible to go back in browser.
+
 ## [v0.4](https://github.com/ZS/powergrid/compare/v0.2...master) (2018-28-12)
 
 ### Added
